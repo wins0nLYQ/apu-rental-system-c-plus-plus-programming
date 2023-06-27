@@ -4,7 +4,8 @@
 
 #include "Asia_Pacific_Home.cpp"
 
-main() {
-    homePage();
+int main() {
+    Asia_Pacific_Home APH;
+    APH.homePage();
     return 0;
 }
