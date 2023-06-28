@@ -6,8 +6,14 @@
 #include <regex>
 #include "DataValidation.cpp"
 #include "Asia_Pacific_Home.h"
+#include "UserAccount_Manager.cpp"
+#include "Manager.cpp"
+#include "Tenant.cpp"
 
 using namespace std;
+
+UserAccount_Manager<Manager> managerList;
+UserAccount_Manager<Tenant> tenantList;
 
 Asia_Pacific_Home::Asia_Pacific_Home() {}
 
@@ -73,7 +79,7 @@ void Asia_Pacific_Home::loginPage() {
         if(dv.handleUserLogin("Admin") == false) {
             loginPage();
         } else {
-            cout << "Welcome Admin!" << endl;
+            admin_HomePage();
         }
 
     } else {
@@ -83,3 +89,142 @@ void Asia_Pacific_Home::loginPage() {
     }
 }
 
+
+void Asia_Pacific_Home::admin_HomePage() {
+    cout << "-------------------------------------------------------------" << endl;
+    cout << "-------------------------------------------------------------" << endl;
+    cout << "                            ADMIN                            " << endl;
+    cout << "-------------------------------------------------------------" << endl;
+    cout << "-------------------------------------------------------------" << endl;
+    cout << endl;
+    cout << endl;
+
+    cout << "Please select an option (1-3):" << endl;
+    cout << "1. Manage Manager Account" << endl;
+    cout << "2. View Information" << endl;
+    cout << "3. Logout" << endl;
+    cout << ">> ";
+
+    string userInput;
+    cin >> userInput;
+    cout << endl;
+
+    if(userInput == "1") {
+        admin_ManageManagerPage();
+    } else if(userInput == "2") {
+        cout << "Option 2";
+    } else if(userInput == "3") {
+        homePage();
+    } else {
+        cout << endl << "Invalid input! Please try again." << endl;
+        cout << endl;
+        admin_HomePage();
+    }
+}    
+
+
+void Asia_Pacific_Home::admin_ManageManagerPage() {
+    cout << "[MANAGER MANAGEMENT PAGE]" << endl;
+    cout << "Please select an option (1-2):" << endl;
+    cout << "1. Add New Manager" << endl;
+    cout << "2. Mofify Account Status" << endl;
+    cout << ">> ";
+
+    string userInput;
+    cin >> userInput;
+    cout << endl;
+
+    if(userInput == "1") {
+        admin_AddNewManagerPage();
+    } else if(userInput == "2") {
+        cout << "Option 2";
+    } else {
+        cout << endl << "Invalid input! Please try again." << endl;
+        cout << endl;
+        admin_HomePage();
+    }
+}
+
+
+void Asia_Pacific_Home::admin_AddNewManagerPage() {
+    DataValidation dv;
+    string name, email, phoneNo, identificationNo, gender, dateOfBirth, status;
+    cout << "[ADD NEW MANAGER ACCOUNT]" << endl;
+
+    cout << "Name: ";
+    getline(cin >> ws, name);
+    cout << endl;
+
+    cout << "Email: ";
+    cin >> email;
+    cout << endl;
+    while(dv.validateEmail(email) == false) {
+        cout << "Invalid email! Please try again: ";
+        cin >> email;
+        cout << endl;
+    }
+
+    while(managerList.isEmailExists(email) == true) {
+        cout << "Email exist! Please try another one: ";
+        cin >> email;
+        cout << endl;
+    }
+
+    cout << "Phone Number: ";
+    cin >> phoneNo;
+    cout << endl;
+    while(dv.isValidPhoneNumber(phoneNo) == false) {
+        cout << "Phone number should be 10-11 digits! Please try again: ";
+        cin >> phoneNo;
+        cout << endl;
+    }
+
+    cout << "Identification No: ";
+    cin >> identificationNo;
+    cout << endl;
+
+    cout << "Gender (1 - MALE; 2 - FEMALE): ";
+    cin >> gender;
+    cout << endl;
+    while(gender!="1" && gender!="2") {
+        cout << "Invalid input! Please try again (1 - MALE; 2 - FEMALE): ";
+        cin >> gender;
+        cout << endl;
+    }
+    if(gender == "1") {
+        gender == "Male";
+    } else {
+        gender == "Female";
+    }
+
+    cout << "Date of Birth (YYYY-MM-DD): ";
+    cin >> dateOfBirth;
+    cout << endl;
+    while(dv.isValidDateOfBirth(dateOfBirth) == false) {
+        cout << "Invalid date of birth! Please try again (YYYY-MM-DD): ";
+        cin >> dateOfBirth;
+        cout << endl;
+    }
+
+    cout << "Status (0 - INACTIVE; 1 - ACTIVE): ";
+    cin >> status;
+    cout << endl;
+    while(status!="0" && status!="1") {
+        cout << "Invalid input! Please try again (0 - INACTIVE; 1 - ACTIVE): ";
+        cin >> status;
+        cout << endl;
+    }
+    if(status == "0") {
+        status == "Inactive";
+    } else {
+        status == "Active";
+    }
+
+    Manager newManager(name, email, phoneNo, identificationNo, gender, dateOfBirth, status);
+    managerList.add(newManager);
+
+    cout << "User account created successfully!" << endl;
+    managerList.display("MANAGER");
+    cout << "Default login password: abc@1234" << endl;
+    cout << endl;
+}

@@ -4,28 +4,21 @@
 
 #include "User.h"
 
-string User::getUserID() const {
-    return userID;
+User::User(){}
+
+User::User(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
+         const std::string& _identificationNo, const std::string& _gender,const std::string& _password,
+         const std::string& _dateOfBirth)
+        : name(_name), email(_email), password(_password), phoneNo(_phoneNo),
+          identificationNo(_identificationNo), gender(_gender), dateOfBirth(_dateOfBirth) {
+    }
+
+string User::getName() const {
+    return name;
 }
 
-void User::setUserID(const string& userID) {
-    this->userID = userID;
-}
-
-string User::getFirstName() const {
-    return firstName;
-}
-
-void User::setFirstName(const string& firstName) {
-    this->firstName = firstName;
-}
-
-string User::getLastName() const {
-    return lastName;
-}
-
-void User::setLastName(const string& lastName) {
-    this->lastName = lastName;
+void User::setName(const string& name) {
+    this->name = name;
 }
 
 string User::getEmail() const {
@@ -68,12 +61,12 @@ void User::setGender(const string& gender) {
     this->gender = gender;
 }
 
-tm User::getBirthOfDate() const {
-    return birthOfDate;
+string User::getDateOfBirth() const {
+    return dateOfBirth;
 }
 
-void User::setBirthOfDate(const tm& birthOfDate) {
-    this->birthOfDate = birthOfDate;
+void User::setDateOfBirth(const string& dateOfBirth) {
+    this->dateOfBirth = dateOfBirth;
 }
 
 void User::login() {

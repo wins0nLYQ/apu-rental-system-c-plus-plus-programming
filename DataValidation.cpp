@@ -90,3 +90,49 @@ bool DataValidation::handleUserLogin(const string& userRole) {
     }
     return true;
 }
+
+bool DataValidation::isValidPhoneNumber(const std::string& phoneNumber) {
+    // Regular expression pattern to match a valid phone number
+    std::regex pattern(R"(\d{10,11})");
+
+    return std::regex_match(phoneNumber, pattern);
+}
+
+bool DataValidation::isValidDateOfBirth(const std::string& dateOfBirth) {
+    // Regular expression pattern to match a valid date in the format "YYYY-MM-DD"
+    std::regex pattern(R"(\d{4}-\d{2}-\d{2})");
+
+    // Check if the date format is valid
+    if (!std::regex_match(dateOfBirth, pattern)) {
+        return false;
+    }
+
+    // Parse the date components
+    std::istringstream iss(dateOfBirth);
+    int year, month, day;
+    char delimiter;
+    iss >> year >> delimiter >> month >> delimiter >> day;
+
+    // Check if the parsed values are within the valid range
+    if (month < 1 || month > 12 || day < 1 || day > 31) {
+        return false;
+    }
+
+    // Check if the date is a valid date
+    std::tm time = {};
+    time.tm_year = year - 1900;
+    time.tm_mon = month - 1;
+    time.tm_mday = day;
+
+    std::time_t currentTime = std::time(nullptr);
+    std::tm* currentDate = std::localtime(&currentTime);
+
+    // Check if the date is in the future
+    if (time.tm_year > currentDate->tm_year ||
+        (time.tm_year == currentDate->tm_year && time.tm_mon > currentDate->tm_mon) ||
+        (time.tm_year == currentDate->tm_year && time.tm_mon == currentDate->tm_mon && time.tm_mday > currentDate->tm_mday)) {
+        return false;
+    }
+
+    return true;
+}

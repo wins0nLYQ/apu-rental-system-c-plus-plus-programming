@@ -1,35 +1,28 @@
-/**
- * FILENAME: User.h
-*/
+#ifndef USER_H
+#define USER_H
 
 #include <string>
-#include <iostream>
-#include <ctime>
-#include <vector>
 
 using namespace std;
 
 class User {
 private:
-    string userID;
-    string firstName;
-    string lastName;
+    string name;
     string email;
     string password;
     string phoneNo;
     string identificationNo;
     string gender;
-    tm birthOfDate;
+    string dateOfBirth;
 
 public:
-    string getUserID() const;
-    void setUserID(const string& userID);
+    User();
+    User(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
+         const std::string& _identificationNo, const std::string& _gender, const std::string& _password,
+         const std::string& _dateOfBirth);
 
-    string getFirstName() const;
-    void setFirstName(const string& firstName);
-
-    string getLastName() const;
-    void setLastName(const string& lastName);
+    string getName() const;
+    void setName(const string& name);
 
     string getEmail() const;
     void setEmail(const string& email);
@@ -46,10 +39,12 @@ public:
     string getGender() const;
     void setGender(const string& gender);
 
-    tm getBirthOfDate() const;
-    void setBirthOfDate(const tm& birthOfDate);
+    string getDateOfBirth() const;
+    void setDateOfBirth(const string& dateOfBirth);
 
     void login();
     void logout();
     void resetPassword();
 };
+
+#endif
