@@ -1,4 +1,5 @@
 #include "Admin.h"
+#include "UserAccount_Manager.h"
 
 using namespace std;
 
@@ -6,6 +7,7 @@ Admin::Admin() {
     email = "admin@gmail.com";
     password = "Admin@1234";
 }
+
 
 string Admin::getEmail() const {
     return email;
@@ -19,7 +21,7 @@ void Admin::addManager() {
     // Implementation for adding a manager
 }
 
-void Admin::updateManagerDetails() {
+void Admin::updateManagerStatus(UserAccount_Manager<Manager>& managerList) {
     // Implementation for updating manager details
 }
 

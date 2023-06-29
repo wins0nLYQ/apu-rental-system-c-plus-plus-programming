@@ -1,3 +1,6 @@
+#ifndef ADMIN_H
+#define ADMIN_H
+
 /**
  * FILENAME: Admin.h
 */
@@ -15,10 +18,13 @@ public:
     std::string getEmail() const;
     std::string getPassword() const;
     void addManager();
-    void updateManagerDetails();
+    void updateManagerStatus(UserAccount_Manager<Manager>& managerList);
     void deleteManager();
     void displayTenants(const std::string& propertyID);
     void displayTenants();
     void displayPropertyInformation(const std::string& tenantID);
     void displayPropertyInformation();
 };
+
+
+#endif

@@ -137,7 +137,7 @@ void Asia_Pacific_Home::admin_ManageManagerPage() {
     if(userInput == "1") {
         admin_AddNewManagerPage();
     } else if(userInput == "2") {
-        cout << "Option 2";
+        admin_ModifyManagerStatusPage();
     } else {
         cout << endl << "Invalid input! Please try again." << endl;
         cout << endl;
@@ -231,4 +231,15 @@ void Asia_Pacific_Home::admin_AddNewManagerPage() {
     managerList.display("MANAGER");
     cout << "Default login password: abc@1234" << endl;
     cout << endl;
+}
+
+void Asia_Pacific_Home::admin_ModifyManagerStatusPage() {
+    cout << "Existing Manager Account Status:" << endl;
+    cout << endl;
+    int size = managerList.getSize();
+    
+    for (int i = 0; i < size; ++i) {
+        Manager& manager = managerList.getManager(i);
+        cout << i << ".\t" << manager.getName() << "\t-" << manager.getStatus() << endl;
+    }
 }
