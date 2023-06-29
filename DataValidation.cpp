@@ -25,7 +25,7 @@ bool DataValidation::loginValidation(string email, string password, string userR
     return false;
 }
 
-bool DataValidation::validateEmail(const string& email) {
+bool DataValidation::isEmailValid(const string& email) {
     // Regular expression pattern for email validation
     regex emailRegex(R"(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)");
 
@@ -38,14 +38,14 @@ bool DataValidation::handleUserLogin(const string& userRole) {
     string password;
 
     cout << "Please enter the email address (-1 to back): ";
-    cin >> email;
+    getline(cin >> ws, email);
     cout << endl;
     if(email == "-1") {
         return false;
     }
-    while (!validateEmail(email)) {
+    while (!isEmailValid(email)) {
         cout << "Invalid email, please try again (-1 to back): ";
-        cin >> email;
+        getline(cin >> ws, email);
         cout << endl;
         if(email == "-1") {
             return false;
@@ -53,7 +53,7 @@ bool DataValidation::handleUserLogin(const string& userRole) {
     }
 
     cout << "Please enter the password (-1 to back): ";
-    cin >> password;
+    getline(cin >> ws, password);
     cout << endl;
     if(password == "-1") {
         return false;
@@ -63,16 +63,16 @@ bool DataValidation::handleUserLogin(const string& userRole) {
         cout << "Invalid credentials, please try again!" << endl;
         cout << endl;
         cout << "Please enter the email address (-1 to back): ";
-        cin >> email;
+        getline(cin >> ws, email);
         cout << endl;
 
         if(email == "-1") {
             return false;
         }
 
-        while (!validateEmail(email)) {
+        while (!isEmailValid(email)) {
             cout << "Invalid email, please try again (-1 to back): ";
-            cin >> email;
+            getline(cin >> ws, email);
             cout << endl;
 
             if(email == "-1") {
@@ -81,7 +81,7 @@ bool DataValidation::handleUserLogin(const string& userRole) {
         }
 
         cout << "Please enter the password (-1 to back): ";
-        cin >> password;
+        getline(cin >> ws, password);
         cout << endl;
 
         if(password == "-1") {

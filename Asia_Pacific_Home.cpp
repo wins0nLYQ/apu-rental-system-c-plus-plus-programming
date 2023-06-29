@@ -33,7 +33,7 @@ void Asia_Pacific_Home::homePage() {
     cout << ">> ";
 
     string userInput;
-    cin >> userInput;
+    getline(cin >> ws, userInput);
     cout << endl;
 
     if(userInput == "1") {
@@ -58,7 +58,7 @@ void Asia_Pacific_Home::loginPage() {
     cout << ">> ";
 
     string userInput;
-    cin >> userInput;
+    getline(cin >> ws, userInput);
     cout << endl;
 
     if(userInput == "1") {
@@ -106,7 +106,7 @@ void Asia_Pacific_Home::admin_HomePage() {
     cout << ">> ";
 
     string userInput;
-    cin >> userInput;
+    getline(cin >> ws, userInput);
     cout << endl;
 
     if(userInput == "1") {
@@ -131,7 +131,7 @@ void Asia_Pacific_Home::admin_ManageManagerPage() {
     cout << ">> ";
 
     string userInput;
-    cin >> userInput;
+    getline(cin >> ws, userInput);
     cout << endl;
 
     if(userInput == "1") {
@@ -156,68 +156,72 @@ void Asia_Pacific_Home::admin_AddNewManagerPage() {
     cout << endl;
 
     cout << "Email: ";
-    cin >> email;
+    getline(cin >> ws, email);
     cout << endl;
-    while(dv.validateEmail(email) == false) {
+    while(dv.isEmailValid(email) == false) {
         cout << "Invalid email! Please try again: ";
-        cin >> email;
+        getline(cin >> ws, email);
         cout << endl;
     }
-
     while(managerList.isEmailExists(email) == true) {
         cout << "Email exist! Please try another one: ";
-        cin >> email;
+        getline(cin >> ws, email);
+        cout << endl;
+    }
+    while(tenantList.isEmailExists(email) == true) {
+        cout << "Email exist! Please try another one: ";
+        getline(cin >> ws, email);
         cout << endl;
     }
 
     cout << "Phone Number: ";
-    cin >> phoneNo;
+    getline(cin >> ws, phoneNo);
     cout << endl;
     while(dv.isValidPhoneNumber(phoneNo) == false) {
         cout << "Phone number should be 10-11 digits! Please try again: ";
-        cin >> phoneNo;
+        getline(cin >> ws, phoneNo);
         cout << endl;
     }
 
     cout << "Identification No: ";
-    cin >> identificationNo;
+    getline(cin >> ws, identificationNo);
     cout << endl;
 
     cout << "Gender (1 - MALE; 2 - FEMALE): ";
-    cin >> gender;
+    getline(cin >> ws, gender);
     cout << endl;
     while(gender!="1" && gender!="2") {
         cout << "Invalid input! Please try again (1 - MALE; 2 - FEMALE): ";
-        cin >> gender;
+        getline(cin >> ws, gender);
         cout << endl;
     }
     if(gender == "1") {
-        gender == "Male";
+        gender = "Male";
     } else {
-        gender == "Female";
+        gender = "Female";
     }
 
     cout << "Date of Birth (YYYY-MM-DD): ";
-    cin >> dateOfBirth;
+    getline(cin >> ws, dateOfBirth);
     cout << endl;
     while(dv.isValidDateOfBirth(dateOfBirth) == false) {
         cout << "Invalid date of birth! Please try again (YYYY-MM-DD): ";
-        cin >> dateOfBirth;
+        getline(cin >> ws, dateOfBirth);
         cout << endl;
     }
 
     cout << "Status (0 - INACTIVE; 1 - ACTIVE): ";
-    cin >> status;
+    getline(cin >> ws, status);
     cout << endl;
     while(status!="0" && status!="1") {
         cout << "Invalid input! Please try again (0 - INACTIVE; 1 - ACTIVE): ";
-        cin >> status;
+        getline(cin >> ws, status);
         cout << endl;
     }
     if(status == "0") {
-        status == "Inactive";
+        status = "Inactive";
     } else {
-        status == "Active";
+        status = "Active";
     }
 
     Manager newManager(name, email, phoneNo, identificationNo, gender, dateOfBirth, status);
