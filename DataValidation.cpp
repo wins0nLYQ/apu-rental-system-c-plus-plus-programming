@@ -136,3 +136,12 @@ bool DataValidation::isValidDateOfBirth(const std::string& dateOfBirth) {
 
     return true;
 }
+
+bool DataValidation::isNumber(const std::string& input) {
+    for (char c : input) {
+        if (!std::isdigit(c)) {
+            return false; // Non-digit character found, input is not a number
+        }
+    }
+    return true; // All characters are digits, input is a number
+}

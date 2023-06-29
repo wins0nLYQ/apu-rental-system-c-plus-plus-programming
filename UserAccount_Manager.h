@@ -17,6 +17,7 @@ public:
     void add(const T& object);
     bool isEmailExists(const std::string& email);
     void display(const std::string& userRole);
+    void displayLatest(const std::string& userRole);
     int getSize() const;
     T& getManager(int index);
 };

@@ -6,6 +6,8 @@
 */
 
 #include <string>
+#include "UserAccount_Manager.cpp"
+#include "Manager.cpp"
 
 class Admin {
 private:
@@ -18,7 +20,7 @@ public:
     std::string getEmail() const;
     std::string getPassword() const;
     void addManager();
-    void updateManagerStatus(UserAccount_Manager<Manager>& managerList);
+    bool updateManagerStatus(UserAccount_Manager<Manager>& managerList);
     void deleteManager();
     void displayTenants(const std::string& propertyID);
     void displayTenants();

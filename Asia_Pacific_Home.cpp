@@ -6,8 +6,6 @@
 #include <regex>
 #include "DataValidation.cpp"
 #include "Asia_Pacific_Home.h"
-#include "UserAccount_Manager.cpp"
-#include "Manager.cpp"
 #include "Tenant.cpp"
 
 using namespace std;
@@ -128,6 +126,7 @@ void Asia_Pacific_Home::admin_ManageManagerPage() {
     cout << "Please select an option (1-2):" << endl;
     cout << "1. Add New Manager" << endl;
     cout << "2. Mofify Account Status" << endl;
+    cout << "3. Back" << endl;
     cout << ">> ";
 
     string userInput;
@@ -138,6 +137,8 @@ void Asia_Pacific_Home::admin_ManageManagerPage() {
         admin_AddNewManagerPage();
     } else if(userInput == "2") {
         admin_ModifyManagerStatusPage();
+    } else if(userInput == "3") {
+        admin_HomePage();
     } else {
         cout << endl << "Invalid input! Please try again." << endl;
         cout << endl;
@@ -228,18 +229,31 @@ void Asia_Pacific_Home::admin_AddNewManagerPage() {
     managerList.add(newManager);
 
     cout << "User account created successfully!" << endl;
-    managerList.display("MANAGER");
+    managerList.displayLatest("MANAGER");
     cout << "Default login password: abc@1234" << endl;
     cout << endl;
+
+    cout << "Input any key to back >> ";
+    string userInput;
+    getline(cin >> ws, userInput);
+    cout << endl;
+    admin_ManageManagerPage();
 }
 
 void Asia_Pacific_Home::admin_ModifyManagerStatusPage() {
-    cout << "Existing Manager Account Status:" << endl;
-    cout << endl;
-    int size = managerList.getSize();
-    
-    for (int i = 0; i < size; ++i) {
-        Manager& manager = managerList.getManager(i);
-        cout << i << ".\t" << manager.getName() << "\t-" << manager.getStatus() << endl;
+    Admin admin;
+    if(admin.updateManagerStatus(managerList) == true) {
+        cout << "Status has been changed successfully!" << endl;
+
+        cout << endl;
+        cout << "Input any key to back >> ";
+        string userInput;
+        getline(cin >> ws, userInput);
+        cout << endl;
+        admin_ManageManagerPage();
+
+    } else {
+        cout << endl;
+        admin_ManageManagerPage();
     }
 }

@@ -56,6 +56,27 @@ void UserAccount_Manager<T>::display(const std::string& userRole) {
 }
 
 template<class T>
+void UserAccount_Manager<T>::displayLatest(const std::string& userRole) {
+    std::cout << std::endl;
+
+    if (size > 0) {
+        int lastIndex = size - 1;
+        std::cout << "[" << userRole << " " << size << "]\n";
+        std::cout << "Name: " << objectArray[lastIndex].getName() << std::endl;
+        std::cout << "Email: " << objectArray[lastIndex].getEmail() << std::endl;
+        std::cout << "Phone Number: " << objectArray[lastIndex].getPhoneNo() << std::endl;
+        std::cout << "Identification No: " << objectArray[lastIndex].getIdentificationNo() << std::endl;
+        std::cout << "Gender: " << objectArray[lastIndex].getGender() << std::endl;
+        std::cout << "Date of Birth: " << objectArray[lastIndex].getDateOfBirth() << std::endl;
+
+        if (userRole == "MANAGER") {
+            std::cout << "Status: " << objectArray[lastIndex].getStatus() << std::endl;
+        }
+        std::cout << "---------------------------\n";
+    }
+}
+
+template<class T>
 int UserAccount_Manager<T>::getSize() const {
     return size;
 }

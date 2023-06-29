@@ -12,4 +12,5 @@ public:
     bool handleUserLogin(const std::string& userRole);
     bool isValidPhoneNumber(const std::string& phoneNumber);
     bool isValidDateOfBirth(const std::string& dateOfBirth);
+    bool isNumber(const std::string& input);
 };
