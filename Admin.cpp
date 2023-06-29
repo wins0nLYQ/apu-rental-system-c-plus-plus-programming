@@ -1,5 +1,6 @@
 #include "Admin.h"
 #include "UserAccount_Manager.h"
+#include "Manager.h"
 
 using namespace std;
 
