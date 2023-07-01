@@ -6,7 +6,7 @@
 */
 
 #include <string>
-#include "UserAccount_Manager.h"
+#include "DynamicArray.h"
 #include "Manager.h"
 #include "Tenant.h"
 #include "User.h"
@@ -22,10 +22,11 @@ public:
 
     std::string getEmail() const;
     std::string getPassword() const;
-    void addManager();
-    bool updateManagerStatus(UserAccount_Manager<Manager>& managerList);
+    void addManager(DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList);
+    bool updateManagerStatus(DynamicArray<Manager>& managerList);
     void deleteManager();
-    void filterTenants(UserAccount_Manager<Tenant>& tenantList);
+    bool filterTenants(DynamicArray<Tenant>& tenantList);
+    DynamicArray<Tenant> tenantFilteringProcess(DynamicArray<Tenant>& tenantList, const string& filterBy, const string& search);
     void displayPropertyInformation(const std::string& tenantID);
     void displayPropertyInformation();
 };

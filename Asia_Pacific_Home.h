@@ -16,7 +16,7 @@ public:
     void homePage();
     void admin_HomePage();
     void admin_ManageManagerPage();
-    // void admin_AddNewManagerPage();
+    void admin_AddNewManagerPage();
     void admin_ModifyManagerStatusPage();
     void admin_ViewTenantInfoPage();
 };

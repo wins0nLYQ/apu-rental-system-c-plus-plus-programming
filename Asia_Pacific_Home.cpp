@@ -5,7 +5,7 @@
 #include <iostream>
 #include <regex>
 #include "Asia_Pacific_Home.h"
-#include "UserAccount_Manager.h"
+#include "DynamicArray.h"
 #include "Manager.h"
 #include "Tenant.h"
 #include "DataValidation.h"
@@ -13,11 +13,19 @@
 
 using namespace std;
 
-UserAccount_Manager<Manager> managerList;
-UserAccount_Manager<Tenant> tenantList;
+DynamicArray<Manager> managerList;
+DynamicArray<Tenant> tenantList;
 
-void Asia_Pacific_Home::homePage()
-{
+
+
+void Asia_Pacific_Home::homePage() {
+    Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "1234");
+    tenantList.insertAtEnd(newTenant);
+
+    Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "4324234");
+    tenantList.insertAtEnd(newTenant2);
+    cout << tenantList.getSize() << endl;
+
     cout << "-------------------------------------------------------------" << endl;
     cout << "-------------------------------------------------------------" << endl;
     cout << "                      ASIA PACIFIC HOME                      " << endl;
@@ -134,13 +142,9 @@ void Asia_Pacific_Home::admin_HomePage()
     if (userInput == "1")
     {
         admin_ManageManagerPage();
-    }
-    else if (userInput == "2")
-    {
-        cout << "Option 2";
-    }
-    else if (userInput == "3")
-    {
+    } else if(userInput == "2") {
+        admin_ViewTenantInfoPage();
+    } else if(userInput == "3") {
         homePage();
     }
     else if (userInput == "4")
@@ -195,96 +199,18 @@ void Asia_Pacific_Home::admin_ManageManagerPage()
 //     string name, email, phoneNo, identificationNo, gender, dateOfBirth, status;
 //     cout << "[ADD NEW MANAGER ACCOUNT]" << endl;
 
-//     cout << "Name: ";
-//     getline(cin >> ws, name);
-//     cout << endl;
+void Asia_Pacific_Home::admin_AddNewManagerPage() {
+    Admin admin;
+    admin.addManager(managerList, tenantList);
 
-//     cout << "Email: ";
-//     getline(cin >> ws, email);
-//     cout << endl;
-//     while(dv.isEmailValid(email) == false) {
-//         cout << "Invalid email! Please try again: ";
-//         getline(cin >> ws, email);
-//         cout << endl;
-//     }
-//     while(managerList.isEmailExists(email) == true) {
-//         cout << "Email exist! Please try another one: ";
-//         getline(cin >> ws, email);
-//         cout << endl;
-//     }
-//     while(tenantList.isEmailExists(email) == true) {
-//         cout << "Email exist! Please try another one: ";
-//         getline(cin >> ws, email);
-//         cout << endl;
-//     }
+    cout << "Input any key to back >> ";
+    string userInput;
+    getline(cin >> ws, userInput);
+    cout << endl;
+    admin_ManageManagerPage();
+}
 
-//     cout << "Phone Number: ";
-//     getline(cin >> ws, phoneNo);
-//     cout << endl;
-//     while(dv.isValidPhoneNumber(phoneNo) == false) {
-//         cout << "Phone number should be 10-11 digits! Please try again: ";
-//         getline(cin >> ws, phoneNo);
-//         cout << endl;
-//     }
-
-//     cout << "Identification No: ";
-//     getline(cin >> ws, identificationNo);
-//     cout << endl;
-
-//     cout << "Gender (1 - MALE; 2 - FEMALE): ";
-//     getline(cin >> ws, gender);
-//     cout << endl;
-//     while(gender!="1" && gender!="2") {
-//         cout << "Invalid input! Please try again (1 - MALE; 2 - FEMALE): ";
-//         getline(cin >> ws, gender);
-//         cout << endl;
-//     }
-//     if(gender == "1") {
-//         gender = "Male";
-//     } else {
-//         gender = "Female";
-//     }
-
-//     cout << "Date of Birth (YYYY-MM-DD): ";
-//     getline(cin >> ws, dateOfBirth);
-//     cout << endl;
-//     while(dv.isValidDateOfBirth(dateOfBirth) == false) {
-//         cout << "Invalid date of birth! Please try again (YYYY-MM-DD): ";
-//         getline(cin >> ws, dateOfBirth);
-//         cout << endl;
-//     }
-
-//     cout << "Status (0 - INACTIVE; 1 - ACTIVE): ";
-//     getline(cin >> ws, status);
-//     cout << endl;
-//     while(status!="0" && status!="1") {
-//         cout << "Invalid input! Please try again (0 - INACTIVE; 1 - ACTIVE): ";
-//         getline(cin >> ws, status);
-//         cout << endl;
-//     }
-//     if(status == "0") {
-//         status = "Inactive";
-//     } else {
-//         status = "Active";
-//     }
-
-//     Manager newManager(name, email, phoneNo, identificationNo, gender, dateOfBirth, status);
-//     managerList.add(newManager);
-
-//     cout << "User account created successfully!" << endl;
-//     managerList.displayLatest("MANAGER");
-//     cout << "Default login password: abc@1234" << endl;
-//     cout << endl;
-
-//     cout << "Input any key to back >> ";
-//     string userInput;
-//     getline(cin >> ws, userInput);
-//     cout << endl;
-//     admin_ManageManagerPage();
-// }
-
-void Asia_Pacific_Home::admin_ModifyManagerStatusPage()
-{
+void Asia_Pacific_Home::admin_ModifyManagerStatusPage() {
     Admin admin;
     if (admin.updateManagerStatus(managerList) == true)
     {
@@ -307,24 +233,18 @@ void Asia_Pacific_Home::admin_ModifyManagerStatusPage()
 void Asia_Pacific_Home::admin_ViewTenantInfoPage()
 {
     cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
-    cout << "Available Tenant: " << managerList.getSize() << endl;
+    cout << "Available Tenant: " << tenantList.getSize() << endl;
     cout << endl;
 
-    if (managerList.getSize() == 0)
-    {
+    if(tenantList.getSize() == 0) {
         cout << "Tenant information not available...." << endl;
+    } else {
+        Admin admin;
+        admin.filterTenants(tenantList);
     }
-    else
-    {
-        cout << "Filtering Options (Filter By) [1-7]:" << endl;
-        cout << "1. Name" << endl;
-        cout << "2. Email" << endl;
-        cout << "3. Phone Number" << endl;
-        cout << "4. Identification Number" << endl;
-        cout << "5. Gender" << endl;
-        cout << "6. Date of Birth" << endl;
-        cout << "7. DISPLAY ALL" << endl;
-
-        cout << ">>> " << endl;
-    }
+    cout << "Input any key to back >> ";
+    string userInput;
+    getline(cin >> ws, userInput);
+    cout << endl;
+    admin_HomePage();
 }
