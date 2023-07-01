@@ -10,15 +10,15 @@ Tenant::Tenant(const std::string& _name, const std::string& _email, const std::s
             const std::string& _identificationNo, const std::string& _gender,
             const std::string& _dateOfBirth, const std::string& _activityStatus)
         : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth),
-          activityStatus(_activityStatus) {
+          registerDate(registerDate) {
     }
 
-string Tenant::getActivityStatus() const {
-    return activityStatus;
+string Tenant::getRegisterDate() const {
+    return registerDate;
 }
 
-void Tenant::setActivityStatus(const string& activityStatus) {
-    this->activityStatus = activityStatus;
+void Tenant::setRegisterDate(const string& registerDate) {
+    this->registerDate = registerDate;
 }
 
 void Tenant::registerTenant() {
