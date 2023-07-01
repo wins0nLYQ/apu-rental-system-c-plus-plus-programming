@@ -8,17 +8,17 @@ Tenant::Tenant(){}
 
 Tenant::Tenant(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
             const std::string& _identificationNo, const std::string& _gender,
-            const std::string& _dateOfBirth, const std::string& _activityStatus)
+            const std::string& _dateOfBirth, const std::string& _lastLoginDate)
         : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth),
-          registerDate(registerDate) {
+          lastLoginDate(lastLoginDate) {
     }
 
-string Tenant::getRegisterDate() const {
-    return registerDate;
+string Tenant::getLastLoginDate() const {
+    return lastLoginDate;
 }
 
-void Tenant::setRegisterDate(const string& registerDate) {
-    this->registerDate = registerDate;
+void Tenant::setLastLoginDate(const string& registerDate) {
+    this->lastLoginDate = lastLoginDate;
 }
 
 void Tenant::registerTenant() {
