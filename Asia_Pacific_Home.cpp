@@ -1,6 +1,6 @@
 /**
  * FILENAME: Asia_Pacific_Home.cpp
-*/
+ */
 
 #include <iostream>
 #include <regex>
@@ -16,8 +16,8 @@ using namespace std;
 UserAccount_Manager<Manager> managerList;
 UserAccount_Manager<Tenant> tenantList;
 
-
-void Asia_Pacific_Home::homePage() {
+void Asia_Pacific_Home::homePage()
+{
     cout << "-------------------------------------------------------------" << endl;
     cout << "-------------------------------------------------------------" << endl;
     cout << "                      ASIA PACIFIC HOME                      " << endl;
@@ -36,20 +36,29 @@ void Asia_Pacific_Home::homePage() {
     getline(cin >> ws, userInput);
     cout << endl;
 
-    if(userInput == "1") {
+    if (userInput == "1")
+    {
         cout << "Option 1";
-    } else if(userInput == "2") {
+    }
+    else if (userInput == "2")
+    {
         loginPage();
-    } else if(userInput == "3") {
+    }
+    else if (userInput == "3")
+    {
         cout << "Option 3";
-    } else {
-        cout << endl << "Invalid input! Please try again." << endl;
+    }
+    else
+    {
+        cout << endl
+             << "Invalid input! Please try again." << endl;
         cout << endl;
         homePage();
     }
 }
 
-void Asia_Pacific_Home::loginPage() {
+void Asia_Pacific_Home::loginPage()
+{
     DataValidation dv;
     cout << "Please select your user role (1-3):" << endl;
     cout << "1. Tenant" << endl;
@@ -61,36 +70,48 @@ void Asia_Pacific_Home::loginPage() {
     getline(cin >> ws, userInput);
     cout << endl;
 
-    if(userInput == "1") {
-        if(dv.handleUserLogin("Tenant") == false) {
+    if (userInput == "1")
+    {
+        if (dv.handleUserLogin("Tenant") == false)
+        {
             loginPage();
-        } else {
-
         }
-
-    } else if(userInput == "2") {
-        if(dv.handleUserLogin("Manager") == false) {
-            loginPage();
-        } else {
-            
+        else
+        {
         }
-
-    } else if(userInput == "3") {
-        if(dv.handleUserLogin("Admin") == false) {
+    }
+    else if (userInput == "2")
+    {
+        if (dv.handleUserLogin("Manager") == false)
+        {
             loginPage();
-        } else {
+        }
+        else
+        {
+        }
+    }
+    else if (userInput == "3")
+    {
+        if (dv.handleUserLogin("Admin") == false)
+        {
+            loginPage();
+        }
+        else
+        {
             admin_HomePage();
         }
-
-    } else {
-        cout << endl << "Invalid input! Please try again." << endl;
+    }
+    else
+    {
+        cout << endl
+             << "Invalid input! Please try again." << endl;
         cout << endl;
         loginPage();
     }
 }
 
-
-void Asia_Pacific_Home::admin_HomePage() {
+void Asia_Pacific_Home::admin_HomePage()
+{
     cout << "-------------------------------------------------------------" << endl;
     cout << "-------------------------------------------------------------" << endl;
     cout << "                            ADMIN                            " << endl;
@@ -110,23 +131,33 @@ void Asia_Pacific_Home::admin_HomePage() {
     getline(cin >> ws, userInput);
     cout << endl;
 
-    if(userInput == "1") {
+    if (userInput == "1")
+    {
         admin_ManageManagerPage();
-    } else if(userInput == "2") {
+    }
+    else if (userInput == "2")
+    {
         cout << "Option 2";
-    } else if(userInput == "3") {
+    }
+    else if (userInput == "3")
+    {
         homePage();
-    } else if(userInput == "4") {
+    }
+    else if (userInput == "4")
+    {
         homePage();
-    } else {
-        cout << endl << "Invalid input! Please try again." << endl;
+    }
+    else
+    {
+        cout << endl
+             << "Invalid input! Please try again." << endl;
         cout << endl;
         admin_HomePage();
     }
-}    
+}
 
-
-void Asia_Pacific_Home::admin_ManageManagerPage() {
+void Asia_Pacific_Home::admin_ManageManagerPage()
+{
     cout << "[MANAGER MANAGEMENT PAGE]" << endl;
     cout << "Please select an option (1-2):" << endl;
     cout << "1. Add New Manager" << endl;
@@ -138,14 +169,22 @@ void Asia_Pacific_Home::admin_ManageManagerPage() {
     getline(cin >> ws, userInput);
     cout << endl;
 
-    if(userInput == "1") {
+    if (userInput == "1")
+    {
         // Admin add new manager
-    } else if(userInput == "2") {
+    }
+    else if (userInput == "2")
+    {
         admin_ModifyManagerStatusPage();
-    } else if(userInput == "3") {
+    }
+    else if (userInput == "3")
+    {
         admin_HomePage();
-    } else {
-        cout << endl << "Invalid input! Please try again." << endl;
+    }
+    else
+    {
+        cout << endl
+             << "Invalid input! Please try again." << endl;
         cout << endl;
         admin_HomePage();
     }
@@ -244,9 +283,11 @@ void Asia_Pacific_Home::admin_ManageManagerPage() {
 //     admin_ManageManagerPage();
 // }
 
-void Asia_Pacific_Home::admin_ModifyManagerStatusPage() {
+void Asia_Pacific_Home::admin_ModifyManagerStatusPage()
+{
     Admin admin;
-    if(admin.updateManagerStatus(managerList) == true) {
+    if (admin.updateManagerStatus(managerList) == true)
+    {
         cout << "Status has been changed successfully!" << endl;
 
         cout << endl;
@@ -255,21 +296,26 @@ void Asia_Pacific_Home::admin_ModifyManagerStatusPage() {
         getline(cin >> ws, userInput);
         cout << endl;
         admin_ManageManagerPage();
-
-    } else {
+    }
+    else
+    {
         cout << endl;
         admin_ManageManagerPage();
     }
 }
 
-void Asia_Pacific_Home::admin_ViewTenantInfoPage() {
+void Asia_Pacific_Home::admin_ViewTenantInfoPage()
+{
     cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
     cout << "Available Tenant: " << managerList.getSize() << endl;
     cout << endl;
 
-    if(managerList.getSize() == 0) {
+    if (managerList.getSize() == 0)
+    {
         cout << "Tenant information not available...." << endl;
-    } else {
+    }
+    else
+    {
         cout << "Filtering Options (Filter By) [1-7]:" << endl;
         cout << "1. Name" << endl;
         cout << "2. Email" << endl;
@@ -280,6 +326,5 @@ void Asia_Pacific_Home::admin_ViewTenantInfoPage() {
         cout << "7. DISPLAY ALL" << endl;
 
         cout << ">>> " << endl;
-        
     }
 }

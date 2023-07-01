@@ -12,7 +12,6 @@ class Asia_Pacific_Home {
 
 public:
     User user;
-    Asia_Pacific_Home();
     void loginPage();
     void homePage();
     void admin_HomePage();

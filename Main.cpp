@@ -7,6 +7,8 @@
 #include "Asia_Pacific_Home.h"
 #include "DoublyCircularLinkedList.h"
 
+using namespace std;
+
 int main()
 {
     // Asia_Pacific_Home APH;
