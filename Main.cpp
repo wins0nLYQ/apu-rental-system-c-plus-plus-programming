@@ -1,35 +1,36 @@
 /**
  * FILENAME: Main.cpp
-*/
+ */
 
-#include "Asia_Pacific_Home.cpp"
+#include "Asia_Pacific_Home.h"
 #include "DoublyCircularLinkedList.h"
 
-int main() {
+int main()
+{
     // Asia_Pacific_Home APH;
     // APH.homePage();
     // return 0;
 
     /** DEMO - Tutorial7 - LinkedLIst-Doubly */
 
-    int n = 0;
-    cout << "Enter number of student name to store = ";
-    cin >> n;
-    DoublyCircularLinkedList<string> nameLst;
+    // int n = 0;
+    // std::cout << "Enter number of student name to store = ";
+    // std::cin >> n;
+    // DoublyCircularLinkedList<string> nameLst;
 
-    for (int i = 0; i < n; i++)
-    {
-        string tmp;
-        cout << "\n>Enter name " << (i+1) << " = ";
-        cin >> tmp;
-        nameLst.insert(tmp);
-    }
+    // for (int i = 0; i < n; i++)
+    // {
+    //     string tmp;
+    //     std::cout << "\n>Enter name " << (i + 1) << " = ";
+    //     std::cin >> tmp;
+    //     nameLst.insert(tmp);
+    // }
 
-    nameLst.display();
-    cout << endl;
+    // nameLst.display();
+    // std::cout << endl;
 
-    cout << "\nProgram ended!" << endl;
-    cout << endl;
+    // std::cout << "\nProgram ended!" << endl;
+    // std::cout << endl;
 
     return 0;
 }

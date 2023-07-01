@@ -6,8 +6,9 @@
 */
 
 #include <string>
-#include "UserAccount_Manager.cpp"
-#include "Manager.cpp"
+#include "UserAccount_Manager.h"
+#include "Manager.h"
+#include "Tenant.h"
 #include "User.h"
 #include "AccountManagement.h"
 
@@ -24,8 +25,7 @@ public:
     void addManager();
     bool updateManagerStatus(UserAccount_Manager<Manager>& managerList);
     void deleteManager();
-    void displayTenants(const std::string& propertyID);
-    void displayTenants();
+    void filterTenants(UserAccount_Manager<Tenant>& tenantList);
     void displayPropertyInformation(const std::string& tenantID);
     void displayPropertyInformation();
 };

@@ -5,6 +5,7 @@
  * FILENAME: Manager.h
 */
 
+#include <vector>
 #include "User.h"
 
 using namespace std;
