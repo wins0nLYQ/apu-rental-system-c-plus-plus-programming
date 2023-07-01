@@ -1,5 +1,8 @@
 #include "Admin.h"
 #include <iomanip>
+#include <iostream>
+#include "DataValidation.h"
+
 
 using namespace std;
 
@@ -104,12 +107,9 @@ void Admin::deleteManager() {
     // Implementation for deleting a manager
 }
 
-void Admin::displayTenants(const string& propertyID) {
-    // Implementation for displaying tenants for a specific property
-}
-
-void Admin::displayTenants() {
+void Admin::filterTenants(UserAccount_Manager<Tenant>& tenantList) {
     // Implementation for displaying all tenants
+
 }
 
 void Admin::displayPropertyInformation(const string& tenantID) {

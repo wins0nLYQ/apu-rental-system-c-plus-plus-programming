@@ -3,6 +3,7 @@
 */
 
 #include "Property.h"
+#include <iostream>
 
 string Property::getAdsID() const {
     return adsID;

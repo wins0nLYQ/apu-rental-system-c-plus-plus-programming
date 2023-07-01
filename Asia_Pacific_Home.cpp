@@ -4,16 +4,18 @@
 
 #include <iostream>
 #include <regex>
-#include "DataValidation.cpp"
 #include "Asia_Pacific_Home.h"
-#include "Tenant.cpp"
+#include "UserAccount_Manager.h"
+#include "Manager.h"
+#include "Tenant.h"
+#include "DataValidation.h"
+#include "Admin.h"
 
 using namespace std;
 
 UserAccount_Manager<Manager> managerList;
 UserAccount_Manager<Tenant> tenantList;
 
-Asia_Pacific_Home::Asia_Pacific_Home() {}
 
 void Asia_Pacific_Home::homePage() {
     cout << "-------------------------------------------------------------" << endl;
@@ -99,8 +101,9 @@ void Asia_Pacific_Home::admin_HomePage() {
 
     cout << "Please select an option (1-3):" << endl;
     cout << "1. Manage Manager Account" << endl;
-    cout << "2. View Information" << endl;
-    cout << "3. Logout" << endl;
+    cout << "2. View Tenant Information" << endl;
+    cout << "3. View Property Information" << endl;
+    cout << "4. Logout" << endl;
     cout << ">> ";
 
     string userInput;
@@ -112,6 +115,8 @@ void Asia_Pacific_Home::admin_HomePage() {
     } else if(userInput == "2") {
         cout << "Option 2";
     } else if(userInput == "3") {
+        homePage();
+    } else if(userInput == "4") {
         homePage();
     } else {
         cout << endl << "Invalid input! Please try again." << endl;
@@ -255,5 +260,27 @@ void Asia_Pacific_Home::admin_ModifyManagerStatusPage() {
     } else {
         cout << endl;
         admin_ManageManagerPage();
+    }
+}
+
+void Asia_Pacific_Home::admin_ViewTenantInfoPage() {
+    cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
+    cout << "Available Tenant: " << managerList.getSize() << endl;
+    cout << endl;
+
+    if(managerList.getSize() == 0) {
+        cout << "Tenant information not available...." << endl;
+    } else {
+        cout << "Filtering Options (Filter By) [1-7]:" << endl;
+        cout << "1. Name" << endl;
+        cout << "2. Email" << endl;
+        cout << "3. Phone Number" << endl;
+        cout << "4. Identification Number" << endl;
+        cout << "5. Gender" << endl;
+        cout << "6. Date of Birth" << endl;
+        cout << "7. DISPLAY ALL" << endl;
+
+        cout << ">>> " << endl;
+        
     }
 }
