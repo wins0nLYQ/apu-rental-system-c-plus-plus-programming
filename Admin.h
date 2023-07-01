@@ -12,7 +12,7 @@
 #include "User.h"
 #include "AccountManagement.h"
 
-class Admin : public User,public AccountManagement {
+class Admin : public User {
 private:
     std::string email;
     std::string password;

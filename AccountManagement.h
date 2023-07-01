@@ -1,12 +1,12 @@
-#ifndef ACCOUNTMANAGEMENT_H
-#define ACCOUNTMANAGEMENT_H
+// #ifndef ACCOUNTMANAGEMENT_H
+// #define ACCOUNTMANAGEMENT_H
 
-#include <iostream>
+// #include <iostream>
 
-class AccountManagement
-{
-public:
-  void addNewAccount();
-};
+// class AccountManagement
+// {
+// public:
+//   void addNewAccount();
+// };
 
-#endif
+// #endif
