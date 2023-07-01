@@ -8,8 +8,10 @@
 #include <string>
 #include "UserAccount_Manager.cpp"
 #include "Manager.cpp"
+#include "User.h"
+#include "AccountManagement.h"
 
-class Admin {
+class Admin : public User,public AccountManagement {
 private:
     std::string email;
     std::string password;

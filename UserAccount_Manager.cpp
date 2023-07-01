@@ -2,6 +2,7 @@
 #include <iostream>
 
 template<class T>
+
 UserAccount_Manager<T>::UserAccount_Manager() : size(0), capacity(5) {
     objectArray = new T[capacity];
 }
