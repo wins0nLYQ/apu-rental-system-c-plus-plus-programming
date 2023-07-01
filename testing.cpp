@@ -97,9 +97,9 @@ void printProperties(const vector<Property>& properties) {
     }
 }
 
-int main() {
-    vector<Property> properties = readCSV("mudah-apartment-kl-selangor.csv");
-    printProperties(properties);
+// int main() {
+//     vector<Property> properties = readCSV("mudah-apartment-kl-selangor.csv");
+//     printProperties(properties);
+//     return 0;
 
-    return 0;
-}
+// }

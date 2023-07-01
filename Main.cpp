@@ -2,7 +2,7 @@
  * FILENAME: Main.cpp
 */
 
-#include "Asia_Pacific_Home.cpp"
+#include "Asia_Pacific_Home.h"
 
 int main() {
     Asia_Pacific_Home APH;

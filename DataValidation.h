@@ -1,3 +1,6 @@
+#ifndef DATAVALIDATION_H
+#define DATAVALIDATION_H
+
 /**
  * FILENAME: DataValidation.h
 */
@@ -14,3 +17,5 @@ public:
     bool isValidDateOfBirth(const std::string& dateOfBirth);
     bool isNumber(const std::string& input);
 };
+
+#endif
