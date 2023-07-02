@@ -5,6 +5,23 @@
 #include "Property.h"
 #include <iostream>
 
+Property::Property(vector<std::string> attributes) {
+    this->adsID = attributes[0];
+    this->propName = attributes[1];
+    this->completionYear = attributes[2];
+    this->monthlyRent = attributes[3];
+    this->location = attributes[4];
+    this->propertyType = attributes[5];
+    this->rooms = attributes[6];
+    this->parking = attributes[7];
+    this->bathroom = attributes[8];
+    this->size  = attributes[9];
+    this->furnished  = attributes[10];
+    this->facilities  = attributes[11];
+    this->additionalFacilities  = attributes[12];
+    this->region  = attributes[13];
+}
+
 string Property::getAdsID() const {
     return adsID;
 }
@@ -21,19 +38,19 @@ void Property::setPropName(const string& propName) {
     this->propName = propName;
 }
 
-int Property::getCompletionYear() const {
+string Property::getCompletionYear() const {
     return completionYear;
 }
 
-void Property::setCompletionYear(int completionYear) {
+void Property::setCompletionYear(string completionYear) {
     this->completionYear = completionYear;
 }
 
-double Property::getMonthlyRent() const {
+string Property::getMonthlyRent() const {
     return monthlyRent;
 }
 
-void Property::setMonthlyRent(double monthlyRent) {
+void Property::setMonthlyRent(string monthlyRent) {
     this->monthlyRent = monthlyRent;
 }
 
@@ -53,35 +70,35 @@ void Property::setPropertyType(const string& propertyType) {
     this->propertyType = propertyType;
 }
 
-int Property::getRooms() const {
+string Property::getRooms() const {
     return rooms;
 }
 
-void Property::setRooms(int rooms) {
+void Property::setRooms(string rooms) {
     this->rooms = rooms;
 }
 
-int Property::getParking() const {
+string Property::getParking() const {
     return parking;
 }
 
-void Property::setParking(int parking) {
+void Property::setParking(string parking) {
     this->parking = parking;
 }
 
-int Property::getBathroom() const {
+string Property::getBathroom() const {
     return bathroom;
 }
 
-void Property::setBathroom(int bathroom) {
+void Property::setBathroom(string bathroom) {
     this->bathroom = bathroom;
 }
 
-int Property::getSize() const {
+string Property::getSize() const {
     return size;
 }
 
-void Property::setSize(int size) {
+void Property::setSize(string size) {
     this->size = size;
 }
 
@@ -93,18 +110,26 @@ void Property::setFurnished(const string& furnished) {
     this->furnished = furnished;
 }
 
-vector<string> Property::getFacilities() const {
+string Property::getFacilities() const {
     return facilities;
 }
 
-void Property::setFacilities(const vector<string>& facilities) {
+void Property::setFacilities(const string& facilities) {
     this->facilities = facilities;
 }
 
-vector<string> Property::getAdditionalFacilities() const {
+string Property::getAdditionalFacilities() const {
     return additionalFacilities;
 }
 
-void Property::setAdditionalFacilities(const vector<string>& additionalFacilities) {
+void Property::setAdditionalFacilities(const string& additionalFacilities) {
     this->additionalFacilities = additionalFacilities;
+}
+
+string Property::getRegion() const {
+    return region;
+}
+
+void Property::setRegion(const string& region) {
+    this->region = region;
 }

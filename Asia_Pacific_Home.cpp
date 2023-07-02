@@ -10,13 +10,13 @@
 #include "Tenant.h"
 #include "DataValidation.h"
 #include "Admin.h"
+#include "ReadCSV.h"
 
 using namespace std;
 
 DynamicArray<Manager> managerList;
 DynamicArray<Tenant> tenantList;
-
-
+vector<Property> properties;
 
 void Asia_Pacific_Home::homePage() {
     Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "1234");
@@ -24,7 +24,9 @@ void Asia_Pacific_Home::homePage() {
 
     Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "4324234");
     tenantList.insertAtEnd(newTenant2);
-    cout << tenantList.getSize() << endl;
+
+    ReadCSV read;
+    properties = read.readCSV("mudah-apartment-kl-selangor.csv");
 
     cout << "-------------------------------------------------------------" << endl;
     cout << "-------------------------------------------------------------" << endl;

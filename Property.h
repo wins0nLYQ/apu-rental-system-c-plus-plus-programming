@@ -1,65 +1,77 @@
+#ifndef PROPERTY_H
+#define PROPERTY_H
+
 /**
  * FILENAME: Property.h
-*/
+ */
 
 #include <string>
 #include <vector>
 
 using namespace std;
 
-class Property {
-  private:
-    string adsID;
-    string propName;
-    int completionYear;
-    double monthlyRent;
-    string location;
-    string propertyType;
-    int rooms;
-    int parking;
-    int bathroom;
-    int size;
-    string furnished;
-    vector<string> facilities;
-    vector<string> additionalFacilities;
+class Property
+{
+private:
+  string adsID;
+  string propName;
+  string completionYear;
+  string monthlyRent;
+  string location;
+  string propertyType;
+  string rooms;
+  string parking;
+  string bathroom;
+  string size;
+  string furnished;
+  string facilities;
+  string additionalFacilities;
+  string region;
 
-  public:
-    string getAdsID() const;
-    void setAdsID(const string& adsID);
+public:
+  Property(vector<std::string> attributes);
 
-    string getPropName() const;
-    void setPropName(const string& propName);
+  string getAdsID() const;
+  void setAdsID(const string &adsID);
 
-    int getCompletionYear() const;
-    void setCompletionYear(int completionYear);
+  string getPropName() const;
+  void setPropName(const string &propName);
 
-    double getMonthlyRent() const;
-    void setMonthlyRent(double monthlyRent);
+  string getCompletionYear() const;
+  void setCompletionYear(string completionYear);
 
-    string getLocation() const;
-    void setLocation(const string& location);
+  string getMonthlyRent() const;
+  void setMonthlyRent(string monthlyRent);
 
-    string getPropertyType() const;
-    void setPropertyType(const string& propertyType);
+  string getLocation() const;
+  void setLocation(const string &location);
 
-    int getRooms() const;
-    void setRooms(int rooms);
+  string getPropertyType() const;
+  void setPropertyType(const string &propertyType);
 
-    int getParking() const;
-    void setParking(int parking);
+  string getRooms() const;
+  void setRooms(string rooms);
 
-    int getBathroom() const;
-    void setBathroom(int bathroom);
+  string getParking() const;
+  void setParking(string parking);
 
-    int getSize() const;
-    void setSize(int size);
+  string getBathroom() const;
+  void setBathroom(string bathroom);
 
-    string getFurnished() const;
-    void setFurnished(const string& furnished);
+  string getSize() const;
+  void setSize(string size);
 
-    vector<string> getFacilities() const;
-    void setFacilities(const vector<string>& facilities);
+  string getFurnished() const;
+  void setFurnished(const string &furnished);
 
-    vector<string> getAdditionalFacilities() const;
-    void setAdditionalFacilities(const vector<string>& additionalFacilities);
+  string getFacilities() const;
+  void setFacilities(const string &facilities);
+
+  string getAdditionalFacilities() const;
+  void setAdditionalFacilities(const string &additionalFacilities);
+
+  string getRegion() const;
+  void setRegion(const string &region);
 };
+
+#endif
