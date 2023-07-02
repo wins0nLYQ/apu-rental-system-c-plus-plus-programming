@@ -9,9 +9,10 @@
 #include "DynamicArray.h"
 #include "Manager.h"
 #include "Tenant.h"
+#include "User.h"
+#include "AccountManagement.h"
 
-
-class Admin {
+class Admin : public User {
 private:
     std::string email;
     std::string password;

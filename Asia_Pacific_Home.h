@@ -6,10 +6,12 @@
 */
 
 #include <string>
+#include "User.h"
 
 class Asia_Pacific_Home {
 
 public:
+    User user;
     void loginPage();
     void homePage();
     void admin_HomePage();
