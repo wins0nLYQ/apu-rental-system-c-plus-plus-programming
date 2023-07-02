@@ -6,6 +6,9 @@
 */
 
 #include <string>
+#include "DynamicArray.h"
+#include "Manager.h"
+#include "Tenant.h"
 
 class DataValidation {
 public:
@@ -16,6 +19,8 @@ public:
     bool isValidPhoneNumber(const std::string& phoneNumber);
     bool isValidDateOfBirth(const std::string& dateOfBirth);
     bool isNumber(const std::string& input);
+    bool isEmailExists(DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList, const std::string& email);
+    bool isValidID(const std::string& identificationNo);
 };
 
 #endif

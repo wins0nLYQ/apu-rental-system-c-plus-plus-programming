@@ -134,7 +134,7 @@ bool DataValidation::isValidDateOfBirth(const std::string& dateOfBirth) {
         (time.tm_year == currentDate->tm_year && time.tm_mon == currentDate->tm_mon && time.tm_mday > currentDate->tm_mday)) {
         return false;
     }
-
+  
     return true;
 }
 
@@ -145,4 +145,38 @@ bool DataValidation::isNumber(const std::string& input) {
         }
     }
     return true; // All characters are digits, input is a number
+}
+
+bool DataValidation::isEmailExists(DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList, const std::string& email) {
+    Admin admin;
+    if(email == admin.getEmail()) {
+        return true;
+    }
+
+    int managerNum = managerList.getSize();
+    int tenantNum = tenantList.getSize();
+
+    for (int i = 0; i < managerNum; ++i) {
+        Manager manager = managerList.get(i);
+        if (manager.getEmail() == email) {
+            return true;
+        }
+    }
+
+    for (int i = 0; i < tenantNum; ++i) {
+        Tenant tenant = tenantList.get(i);
+        if (tenant.getEmail() == email) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool DataValidation::isValidID(const std::string& identificationNo) {
+    // Check if it matches the identification number format
+    int length = identificationNo.length();
+    if (length >= 6 && length <= 15) {
+        return true;
+    }
+    return false;
 }
