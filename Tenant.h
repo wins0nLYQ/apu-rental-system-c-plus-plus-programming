@@ -17,7 +17,7 @@ class Tenant : public User {
             const std::string& _identificationNo, const std::string& _gender,
             const std::string& _dateOfBirth, const std::string& _lastLoginDate);
     string getLastLoginDate() const;
-    void setLastLoginDate(const string& activityStatus);
+    void setLastLoginDate(const string& lastLoginDate);
     void registerTenant();
     void sortPropertyInformation();
     void searchProperty(); 

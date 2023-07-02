@@ -10,14 +10,14 @@ Tenant::Tenant(const std::string& _name, const std::string& _email, const std::s
             const std::string& _identificationNo, const std::string& _gender,
             const std::string& _dateOfBirth, const std::string& _lastLoginDate)
         : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth),
-          lastLoginDate(lastLoginDate) {
+          lastLoginDate(_lastLoginDate) {
     }
 
 string Tenant::getLastLoginDate() const {
     return lastLoginDate;
 }
 
-void Tenant::setLastLoginDate(const string& registerDate) {
+void Tenant::setLastLoginDate(const string& lastLoginDate) {
     this->lastLoginDate = lastLoginDate;
 }
 

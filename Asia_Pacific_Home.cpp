@@ -19,10 +19,10 @@ DynamicArray<Tenant> tenantList;
 vector<Property> properties;
 
 void Asia_Pacific_Home::homePage() {
-    Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "1234");
+    Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "hello");
     tenantList.insertAtEnd(newTenant);
 
-    Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "4324234");
+    Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "hi");
     tenantList.insertAtEnd(newTenant2);
 
     ReadCSV read;
