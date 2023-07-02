@@ -238,13 +238,23 @@ void Asia_Pacific_Home::admin_ViewTenantInfoPage()
 
     if(tenantList.getSize() == 0) {
         cout << "Tenant information not available...." << endl;
+        cout << "Input any key to back >> ";
+        string userInput;
+        getline(cin >> ws, userInput);
+        cout << endl;
+        admin_HomePage();
     } else {
         Admin admin;
-        admin.filterTenants(tenantList);
+        if(admin.filterTenants(tenantList) == false) {
+            admin_HomePage();
+        } 
+
+        
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            admin_HomePage();
+        
     }
-    cout << "Input any key to back >> ";
-    // string userInput;
-    // getline(cin >> ws, userInput);
-    // cout << endl;
-    // admin_HomePage();
 }

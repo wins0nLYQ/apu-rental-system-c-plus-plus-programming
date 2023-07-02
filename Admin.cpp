@@ -295,42 +295,25 @@ bool Admin::filterTenants(DynamicArray<Tenant>& tenantList) {
                 std::cout << "---------------------------\n";
             }
         }
-        
+        return true;
         
     } else {
         cout << "Invalid input! Please try again." << endl;
         cout << endl;
         filterTenants(tenantList);
+        return true;
     }
 
-    filteredTenant = tenantFilteringProcess(tenantList, filterBy, search);
-
-    if(filteredTenant.getSize() == 0) {
-        cout << "Sorry, no record found..." << endl;
-        cout << "Please try again." << endl;
-        cout << endl;
-        filterTenants(tenantList);
-    } else {
-        for(int i=0; i<filteredTenant.getSize(); ++i) {
-            Tenant tenant = filteredTenant.get(i);
-            std::cout << "Name: " << tenant.getName() << std::endl;
-            std::cout << "Email: " << tenant.getEmail() << std::endl;
-            std::cout << "Phone Number: " << tenant.getPhoneNo() << std::endl;
-            std::cout << "Identification No: " << tenant.getIdentificationNo() << std::endl;
-            std::cout << "Gender: " << tenant.getGender() << std::endl;
-            std::cout << "Date of Birth: " << tenant.getDateOfBirth() << std::endl;
-            // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
-            std::cout << "---------------------------\n";
-        }
-    } return true;
+    tenantFilteringProcess(tenantList, filterBy, search);
+    return true;
 }
 
-DynamicArray<Tenant> Admin::tenantFilteringProcess(DynamicArray<Tenant>& tenantList, const string& filterBy, const string& search) {
+void Admin::tenantFilteringProcess(DynamicArray<Tenant>& tenantList, const string& filterBy, const string& search) {
     DynamicArray<Tenant> temp;
 
     for(int i = 0; i < tenantList.getSize(); ++i) {
         Tenant tenant = tenantList.get(i);
-
+        
         if(filterBy == "Name") {
             string name = tenant.getName();
             if(name.find(search) != std::string::npos) {
@@ -362,7 +345,24 @@ DynamicArray<Tenant> Admin::tenantFilteringProcess(DynamicArray<Tenant>& tenantL
         }
     }
 
-    return temp;
+    if(temp.getSize() == 0) {
+        cout << "Sorry, no record found..." << endl;
+        cout << "Please try again." << endl;
+        cout << endl;
+        filterTenants(tenantList);
+    } else {
+        for(int i=0; i<temp.getSize(); ++i) {
+            Tenant tenant = temp.get(i);
+            std::cout << "Name: " << tenant.getName() << std::endl;
+            std::cout << "Email: " << tenant.getEmail() << std::endl;
+            std::cout << "Phone Number: " << tenant.getPhoneNo() << std::endl;
+            std::cout << "Identification No: " << tenant.getIdentificationNo() << std::endl;
+            std::cout << "Gender: " << tenant.getGender() << std::endl;
+            std::cout << "Date of Birth: " << tenant.getDateOfBirth() << std::endl;
+            // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
+            std::cout << "---------------------------\n";
+        }
+    }
 }
 
 void Admin::displayPropertyInformation(const string& tenantID) {

@@ -26,7 +26,7 @@ public:
     bool updateManagerStatus(DynamicArray<Manager>& managerList);
     void deleteManager();
     bool filterTenants(DynamicArray<Tenant>& tenantList);
-    DynamicArray<Tenant> tenantFilteringProcess(DynamicArray<Tenant>& tenantList, const string& filterBy, const string& search);
+    void tenantFilteringProcess(DynamicArray<Tenant>& tenantList, const string& filterBy, const string& search);
     void displayPropertyInformation(const std::string& tenantID);
     void displayPropertyInformation();
 };
