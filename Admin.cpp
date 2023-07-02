@@ -361,6 +361,7 @@ DynamicArray<Tenant> Admin::tenantFilteringProcess(DynamicArray<Tenant>& tenantL
             }
         }
     }
+
     return temp;
 }
 

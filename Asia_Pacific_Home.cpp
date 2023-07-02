@@ -243,8 +243,8 @@ void Asia_Pacific_Home::admin_ViewTenantInfoPage()
         admin.filterTenants(tenantList);
     }
     cout << "Input any key to back >> ";
-    string userInput;
-    getline(cin >> ws, userInput);
-    cout << endl;
-    admin_HomePage();
+    // string userInput;
+    // getline(cin >> ws, userInput);
+    // cout << endl;
+    // admin_HomePage();
 }
