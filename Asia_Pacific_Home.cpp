@@ -25,8 +25,8 @@ void Asia_Pacific_Home::homePage() {
     Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "hi");
     tenantList.insertAtEnd(newTenant2);
 
-    ReadCSV read;
-    properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+    ReadCSV readCSV;
+    properties = readCSV.readCSV("mudah-apartment-kl-selangor.csv");
 
     cout << "-------------------------------------------------------------" << endl;
     cout << "-------------------------------------------------------------" << endl;
