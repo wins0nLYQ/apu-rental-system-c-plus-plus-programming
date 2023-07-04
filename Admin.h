@@ -11,6 +11,7 @@
 #include "Tenant.h"
 #include "User.h"
 #include "AccountManagement.h"
+#include "Property.h"
 
 class Admin : public User {
 private:
@@ -25,10 +26,10 @@ public:
     void addManager(DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList);
     bool updateManagerStatus(DynamicArray<Manager>& managerList);
     void deleteManager();
-    bool filterTenants(DynamicArray<Tenant>& tenantList);
+    void filterTenants(DynamicArray<Tenant>& tenantList);
     void tenantFilteringProcess(DynamicArray<Tenant>& tenantList, const string& filterBy, const string& search);
-    void displayPropertyInformation(const std::string& tenantID);
-    void displayPropertyInformation();
+    void displayFilteredTenantList(DynamicArray<Tenant>& filteredList);
+    void filterProperty(vector<Property>& properties);
 };
 
 
