@@ -19,6 +19,7 @@ public:
     void admin_AddNewManagerPage();
     void admin_ModifyManagerStatusPage();
     void admin_ViewTenantInfoPage();
+    void admin_ViewPropertyInfoPage();
 };
 
 #endif
