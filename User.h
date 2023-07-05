@@ -16,37 +16,86 @@ private:
     string dateOfBirth;
 
 public:
-    User();
+    User(){}
+
     User(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
-         const std::string& _identificationNo, const std::string& _gender, const std::string& _password,
-         const std::string& _dateOfBirth);
+            const std::string& _identificationNo, const std::string& _gender,const std::string& _password,
+            const std::string& _dateOfBirth)
+            : name(_name), email(_email), password(_password), phoneNo(_phoneNo),
+            identificationNo(_identificationNo), gender(_gender), dateOfBirth(_dateOfBirth) {
+        }
 
-    string getName() const;
-    void setName(const string& name);
+    string getName() const {
+        return name;
+    }
 
-    string getEmail() const;
-    void setEmail(const string& email);
+    void setName(const string& name) {
+        this->name = name;
+    }
 
-    string getPassword() const;
-    void setPassword(const string& password);
+    string getEmail() const {
+        return email;
+    }
 
-    string getPhoneNo() const;
-    void setPhoneNo(const string& phoneNo);
+    void setEmail(const string& email) {
+        this->email = email;
+    }
 
-    string getIdentificationNo() const;
-    void setIdentificationNo(const string& identificationNo);
+    string getPassword() const {
+        return password;
+    }
 
-    string getGender() const;
-    void setGender(const string& gender);
+    void setPassword(const string& password) {
+        this->password = password;
+    }
 
-    string getDateOfBirth() const;
-    void setDateOfBirth(const string& dateOfBirth);
+    string getPhoneNo() const {
+        return phoneNo;
+    }
 
-    void login();
-    void logout();
-    void resetPassword();
+    void setPhoneNo(const string& phoneNo) {
+        this->phoneNo = phoneNo;
+    }
 
-    bool authenticated();
+    string getIdentificationNo() const {
+        return identificationNo;
+    }
+
+    void setIdentificationNo(const string& identificationNo) {
+        this->identificationNo = identificationNo;
+    }
+
+    string getGender() const {
+        return gender;
+    }
+
+    void setGender(const string& gender) {
+        this->gender = gender;
+    }
+
+    string getDateOfBirth() const {
+        return dateOfBirth;
+    }
+
+    void setDateOfBirth(const string& dateOfBirth) {
+        this->dateOfBirth = dateOfBirth;
+    }
+
+    void login() {
+        // Implementation of login logic
+    }
+
+    void logout() {
+        // Implementation of logout logic
+    }
+
+    void resetPassword() {
+        // Implementation of password reset logic
+    }
+
+    bool authenticated() {
+        return true;
+    }
 };
 
 #endif
