@@ -45,6 +45,8 @@ public:
     void login();
     void logout();
     void resetPassword();
+
+    bool authenticated();
 };
 
 #endif

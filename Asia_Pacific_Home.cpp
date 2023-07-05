@@ -5,6 +5,7 @@
 #include <iostream>
 #include <regex>
 #include "Asia_Pacific_Home.h"
+#include "ManagerInterface.h"
 #include "DynamicArray.h"
 #include "Manager.h"
 #include "Tenant.h"
@@ -69,6 +70,7 @@ void Asia_Pacific_Home::homePage() {
 
 void Asia_Pacific_Home::loginPage()
 {
+    User currentUser;
     DataValidation dv;
     cout << "Please select your user role (1-3):" << endl;
     cout << "1. Tenant" << endl;
@@ -82,7 +84,7 @@ void Asia_Pacific_Home::loginPage()
 
     if (userInput == "1")
     {
-        if (dv.handleUserLogin("Tenant") == false)
+        if (!dv.handleUserLogin("Tenant").authenticated())
         {
             loginPage();
         }
@@ -92,17 +94,21 @@ void Asia_Pacific_Home::loginPage()
     }
     else if (userInput == "2")
     {
-        if (dv.handleUserLogin("Manager") == false)
+        currentUser = dv.handleUserLogin("Manager");
+        if (!user.authenticated())
         {
             loginPage();
         }
         else
         {
+            Manager manager(currentUser.getName(), currentUser.getEmail(), currentUser.getPhoneNo(), currentUser.getIdentificationNo(),
+                            currentUser.getGender(), currentUser.getDateOfBirth(), "ACTIVE");
+            ManagerInterface mInterface(manager);
         }
     }
     else if (userInput == "3")
     {
-        if (dv.handleUserLogin("Admin") == false)
+        if (!dv.handleUserLogin("Admin").authenticated())
         {
             loginPage();
         }

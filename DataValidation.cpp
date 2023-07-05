@@ -8,22 +8,19 @@ using namespace std;
 
 DataValidation::DataValidation(){}
 
-bool DataValidation::loginValidation(string email, string password, string userRole) {
+User DataValidation::loginValidation(string email, string password, string userRole) {
     if (userRole == "Tenant") {
         cout << "Option 1";
-        return true;
     } else if (userRole == "Manager") {
-        cout << "Option 2";
-        return true;
+        
+
+        return;
     } else if (userRole == "Admin") {
         Admin admin;
         if ((email == admin.getEmail()) && (password == admin.getPassword())) {
-            return true;
-        } else {
-            return false;
+            return admin;
         }
     }
-    return false;
 }
 
 bool DataValidation::isEmailValid(const string& email) {
@@ -34,7 +31,7 @@ bool DataValidation::isEmailValid(const string& email) {
     return regex_match(email, emailRegex);
 }
 
-bool DataValidation::handleUserLogin(const string& userRole) {
+User DataValidation::handleUserLogin(const string& userRole) {
     string email;
     string password;
 
@@ -42,14 +39,14 @@ bool DataValidation::handleUserLogin(const string& userRole) {
     getline(cin >> ws, email);
     cout << endl;
     if(email == "-1") {
-        return false;
+        return;
     }
     while (!isEmailValid(email)) {
         cout << "Invalid email, please try again (-1 to back): ";
         getline(cin >> ws, email);
         cout << endl;
         if(email == "-1") {
-            return false;
+            return;
         }
     }
 
@@ -57,10 +54,13 @@ bool DataValidation::handleUserLogin(const string& userRole) {
     getline(cin >> ws, password);
     cout << endl;
     if(password == "-1") {
-        return false;
+        return;
     }
 
-    while (!loginValidation(email, password, userRole)) {
+    User currentUser;
+    currentUser = loginValidation(email, password, userRole);
+
+    while (!currentUser.authenticated()) {
         cout << "Invalid credentials, please try again!" << endl;
         cout << endl;
         cout << "Please enter the email address (-1 to back): ";
@@ -68,7 +68,7 @@ bool DataValidation::handleUserLogin(const string& userRole) {
         cout << endl;
 
         if(email == "-1") {
-            return false;
+            return;
         }
 
         while (!isEmailValid(email)) {
@@ -77,7 +77,7 @@ bool DataValidation::handleUserLogin(const string& userRole) {
             cout << endl;
 
             if(email == "-1") {
-                return false;
+                return;
             }
         }
 
@@ -86,10 +86,13 @@ bool DataValidation::handleUserLogin(const string& userRole) {
         cout << endl;
 
         if(password == "-1") {
-            return false;
+            return;
         }
+
+        currentUser = loginValidation(email, password, userRole);
     }
-    return true;
+
+    return currentUser;
 }
 
 bool DataValidation::isValidPhoneNumber(const std::string& phoneNumber) {

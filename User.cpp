@@ -80,3 +80,7 @@ void User::logout() {
 void User::resetPassword() {
     // Implementation of password reset logic
 }
+
+bool User::authenticated() {
+    return true;
+}
