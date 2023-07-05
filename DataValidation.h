@@ -6,202 +6,21 @@
 */
 
 #include <string>
-#include <iostream>
-#include <regex>
-
-#include "Admin.h"
 #include "DynamicArray.h"
 #include "Manager.h"
 #include "Tenant.h"
 
-using namespace std;
-
 class DataValidation {
 public:
-    DataValidation(){}
-
-    User loginValidation(std::string email, std::string password, std::string userRole)
-    {
-        if (userRole == "Tenant") {
-            cout << "Option 1";
-        } else if (userRole == "Manager") {
-            cout << "Option 2";
-        } else if (userRole == "Admin") {
-            Admin admin;
-            if ((email == admin.getEmail()) && (password == admin.getPassword())) {
-                return admin;
-            }
-        }
-    };
-
-    bool isEmailValid(const std::string& email)
-    {
-        // Regular expression pattern for email validation
-        regex emailRegex(R"(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)");
-
-        // Match the email pattern against the provided email
-        return regex_match(email, emailRegex);
-    };
-
-    User handleUserLogin(const std::string& userRole)
-    {
-        User user;
-        string email;
-        string password;
-
-        cout << "Please enter the email address (-1 to back): ";
-        getline(cin >> ws, email);
-        cout << endl;
-        if(email == "-1") {
-            return user;
-        }
-        while (!isEmailValid(email)) {
-            cout << "Invalid email, please try again (-1 to back): ";
-            getline(cin >> ws, email);
-            cout << endl;
-            if(email == "-1") {
-                return user;
-            }
-        }
-
-        cout << "Please enter the password (-1 to back): ";
-        getline(cin >> ws, password);
-        cout << endl;
-        if(password == "-1") {
-            return user;
-        }
-
-        // User currentUser;
-        user = loginValidation(email, password, userRole);
-
-        while (!user.authenticated()) {
-            cout << "Invalid credentials, please try again!" << endl;
-            cout << endl;
-            cout << "Please enter the email address (-1 to back): ";
-            getline(cin >> ws, email);
-            cout << endl;
-
-            if(email == "-1") {
-                return user;
-            }
-
-            while (!isEmailValid(email)) {
-                cout << "Invalid email, please try again (-1 to back): ";
-                getline(cin >> ws, email);
-                cout << endl;
-
-                if(email == "-1") {
-                    return user;
-                }
-            }
-
-            cout << "Please enter the password (-1 to back): ";
-            getline(cin >> ws, password);
-            cout << endl;
-
-            if(password == "-1") {
-                return user;
-            }
-
-            user = loginValidation(email, password, userRole);
-        }
-
-        return user;
-    };
-
-    bool isValidPhoneNumber(const std::string& phoneNumber)
-    {
-        // Regular expression pattern to match a valid phone number
-        std::regex pattern(R"(\d{10,11})");
-
-        return std::regex_match(phoneNumber, pattern);
-    };
-
-    bool isValidDateOfBirth(const std::string& dateOfBirth)
-    {
-        // Regular expression pattern to match a valid date in the format "YYYY-MM-DD"
-        std::regex pattern(R"(\d{4}-\d{2}-\d{2})");
-
-        // Check if the date format is valid
-        if (!std::regex_match(dateOfBirth, pattern)) {
-            return false;
-        }
-
-        // Parse the date components
-        std::istringstream iss(dateOfBirth);
-        int year, month, day;
-        char delimiter;
-        iss >> year >> delimiter >> month >> delimiter >> day;
-
-        // Check if the parsed values are within the valid range
-        if (month < 1 || month > 12 || day < 1 || day > 31) {
-            return false;
-        }
-
-        // Check if the date is a valid date
-        std::tm time = {};
-        time.tm_year = year - 1900;
-        time.tm_mon = month - 1;
-        time.tm_mday = day;
-
-        std::time_t currentTime = std::time(nullptr);
-        std::tm* currentDate = std::localtime(&currentTime);
-
-        // Check if the date is in the future
-        if (time.tm_year > currentDate->tm_year ||
-            (time.tm_year == currentDate->tm_year && time.tm_mon > currentDate->tm_mon) ||
-            (time.tm_year == currentDate->tm_year && time.tm_mon == currentDate->tm_mon && time.tm_mday > currentDate->tm_mday)) {
-            return false;
-        }
-    
-        return true;        
-    };
-
-    bool isNumber(const std::string& input)
-    {
-        for (char c : input) {
-            if (!std::isdigit(c)) {
-                return false; // Non-digit character found, input is not a number
-            }
-        }
-        return true; // All characters are digits, input is a number
-    };
-
-    bool isEmailExists(DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList, const std::string& email)
-    {
-        Admin admin;
-        if(email == admin.getEmail()) {
-            return true;
-        }
-
-        int managerNum = managerList.getSize();
-        int tenantNum = tenantList.getSize();
-
-        for (int i = 0; i < managerNum; ++i) {
-            Manager manager = managerList.get(i);
-            if (manager.getEmail() == email) {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < tenantNum; ++i) {
-            Tenant tenant = tenantList.get(i);
-            if (tenant.getEmail() == email) {
-                return true;
-            }
-        }
-        return false;
-    };
-    
-    bool isValidID(const std::string& identificationNo)
-    {
-        // Check if it matches the identification number format
-        int length = identificationNo.length();
-        if (length >= 6 && length <= 15) {
-            return true;
-        }
-        return false;
-    };
+    DataValidation();
+    User loginValidation(std::string email, std::string password, std::string userRole);
+    bool isEmailValid(const std::string& email);
+    User handleUserLogin(const std::string& userRole);
+    bool isValidPhoneNumber(const std::string& phoneNumber);
+    bool isValidDateOfBirth(const std::string& dateOfBirth);
+    bool isNumber(const std::string& input);
+    bool isEmailExists(DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList, const std::string& email);
+    bool isValidID(const std::string& identificationNo);
 };
 
 #endif

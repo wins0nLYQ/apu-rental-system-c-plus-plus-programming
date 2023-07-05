@@ -12,7 +12,6 @@ public:
   {
     this->manager = manager;
   }
-  
   void managerHomePage()
   {
     std::cout << "-------------------------------------------------------------" << endl;
