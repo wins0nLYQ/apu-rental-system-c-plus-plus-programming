@@ -1,5 +1,5 @@
 /**
- * FILENAME: Asia_Pacific_Home.cpp
+ * FILENAME: Asia_Pacific_Home_Func.cpp
  */
 
 #include <iostream>
@@ -147,10 +147,9 @@ void Asia_Pacific_Home::admin_HomePage()
     } else if(userInput == "2") {
         admin_ViewTenantInfoPage();
     } else if(userInput == "3") {
-        homePage();
+        // homePage();
     }
-    else if (userInput == "4")
-    {
+    else if (userInput == "4") {
         homePage();
     }
     else
@@ -177,7 +176,7 @@ void Asia_Pacific_Home::admin_ManageManagerPage()
 
     if (userInput == "1")
     {
-        // Admin add new manager
+        admin_AddNewManagerPage();
     }
     else if (userInput == "2")
     {
@@ -195,11 +194,6 @@ void Asia_Pacific_Home::admin_ManageManagerPage()
         admin_HomePage();
     }
 }
-
-// void Asia_Pacific_Home::admin_AddNewManagerPage() {
-//     DataValidation dv;
-//     string name, email, phoneNo, identificationNo, gender, dateOfBirth, status;
-//     cout << "[ADD NEW MANAGER ACCOUNT]" << endl;
 
 void Asia_Pacific_Home::admin_AddNewManagerPage() {
     Admin admin;
@@ -232,8 +226,7 @@ void Asia_Pacific_Home::admin_ModifyManagerStatusPage() {
     }
 }
 
-void Asia_Pacific_Home::admin_ViewTenantInfoPage()
-{
+void Asia_Pacific_Home::admin_ViewTenantInfoPage() {
     cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
     cout << "Available Tenant: " << tenantList.getSize() << endl;
     cout << endl;
@@ -247,16 +240,38 @@ void Asia_Pacific_Home::admin_ViewTenantInfoPage()
         admin_HomePage();
     } else {
         Admin admin;
-        if(admin.filterTenants(tenantList) == false) {
-            admin_HomePage();
-        } 
+        admin.filterTenants(tenantList);
 
+        cout << "Input any key to back >> ";
+        string userInput;
+        getline(cin >> ws, userInput);
+        cout << endl;
+        admin_HomePage();
         
-            cout << "Input any key to back >> ";
-            string userInput;
-            getline(cin >> ws, userInput);
-            cout << endl;
-            admin_HomePage();
+    }
+}
+
+void Asia_Pacific_Home::admin_ViewPropertyInfoPage() {
+    cout << "[VIEW PROPERTY INFORMATION PAGE]" << endl;
+    cout << "Available Property: " << properties.size() << endl;
+    cout << endl;
+
+    if(properties.size() == 0) {
+        cout << "Property information not available...." << endl;
+        cout << "Input any key to back >> ";
+        string userInput;
+        getline(cin >> ws, userInput);
+        cout << endl;
+        admin_HomePage();
+    } else {
+        Admin admin;
+        // admin.filterTenants(tenantList);
+
+        cout << "Input any key to back >> ";
+        string userInput;
+        getline(cin >> ws, userInput);
+        cout << endl;
+        admin_HomePage();
         
     }
 }
