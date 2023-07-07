@@ -6,15 +6,23 @@
 */
 
 #include <string>
-#include "DynamicArray.h"
-#include "Manager.h"
-#include "Tenant.h"
-#include "User.h"
-#include "AccountManagement.h"
-#include "Property.h"
 #include <iomanip>
+// #include <iostream>
+// #include "Asia_Pacific_Home.h"
+
+#include "DynamicArray.h"
+// #include "Manager.h"
+// #include "Tenant.h"
+#include "User.h"
+// #include "AccountManagement.h"
+// #include "Property.h"
+#include "DataValidation.h"
+#include "DataConverstion.h"
 
 using namespace std;
+
+class Tenant;
+class Manager;
 
 class Admin : public User {
 private:
@@ -27,6 +35,7 @@ public:
         password = "Admin@1234";
     }
 
+
     string getEmail() const {
         return email;
     }
@@ -35,8 +44,9 @@ public:
         return password;
     }
 
-    void addManager(DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList) {
+    void addManager(DynamicArray<Manager>& managerList, vector<string>& existingEmail) {
         // Implementation for adding a manager
+
         DataValidation dv;
         string name, email, phoneNo, identificationNo, gender, dateOfBirth, status;
         cout << "[ADD NEW MANAGER ACCOUNT]" << endl;
@@ -48,13 +58,14 @@ public:
         cout << "Email: ";
         getline(cin >> ws, email);
         cout << endl;
+
         while(dv.isEmailValid(email) == false) {
             cout << "Invalid email! Please try again: ";
             getline(cin >> ws, email);
             cout << endl;
         }
 
-        while(dv.isEmailExists(managerList, tenantList, email) == true) {
+        while(isEmailExists(existingEmail, email) == true) {
             cout << "Email exist! Please try another one: ";
             getline(cin >> ws, email);
             cout << endl;
@@ -133,7 +144,25 @@ public:
         cout << "Default login password: abc@1234" << endl;
         cout << endl;
 
-        std::cout << std::endl;
+        cout << "Input any key to back >> ";
+        string userInput;
+        getline(cin >> ws, userInput);
+        cout << endl;
+    }
+
+    bool isEmailExists(vector<string>& existingEmail, const std::string& email) {
+        Admin admin;
+        if(email == admin.getEmail()) {
+            return true;
+        }
+
+        int userNum = existingEmail.size();
+        for (int i = 0; i < userNum; ++i) {
+            if (existingEmail[i] == email) {
+                return true;
+            }
+        }
+        return false;
     }
 
     bool updateManagerStatus(DynamicArray<Manager>& managerList) {
@@ -145,7 +174,7 @@ public:
         for (int i = 0; i < size; ++i) {
             Manager& manager = managerList.get(i);
             cout << setw(5) << right << i + 1 << ". ";
-            cout << setw(15) << left << manager.getName();
+            cout << setw(25) << left << manager.getEmail();
             cout << " - " << manager.getStatus() << endl;
         }
         cout << endl;
@@ -215,8 +244,11 @@ public:
         } 
     }
 
-    
-    void filterTenants(DynamicArray<Tenant>& tenantList) {
+    void deleteManager() {
+        // Implementation for deleting a manager
+    }
+
+    bool filterTenants(DynamicArray<Tenant>& tenantList) {
         // Implementation for displaying all tenants
         DataValidation dv;
 
@@ -246,9 +278,8 @@ public:
             cout << endl;
 
             if(userInput == "-1") {
-                Asia_Pacific_Home APH;
-                APH.admin_HomePage();
-                break;
+                // APH->admin_HomePage();
+                return false;
 
             } else if (userInput == "1") {
                 filterBy = "Name";
@@ -319,23 +350,27 @@ public:
             }
         }
         if(filterBy != "ALL") {
+            DataConversion dc;
+            search = dc.toLowercase(search);
             tenantFilteringProcess(tenantList, filterBy, search);
         }
+        return true;
     }
 
     void tenantFilteringProcess(DynamicArray<Tenant>& tenantList, const string& filterBy, const string& search) {
         DynamicArray<Tenant> temp;
+        DataConversion dc;
 
         for(int i = 0; i < tenantList.getSize(); ++i) {
             Tenant tenant = tenantList.get(i);
             
             if(filterBy == "Name") {
-                string name = tenant.getName();
+                string name = dc.toLowercase(tenant.getName());
                 if(name.find(search) != std::string::npos) {
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "Email") {
-                string email = tenant.getEmail();
+                string email = dc.toLowercase(tenant.getEmail());
                 if(email.find(search) != std::string::npos) {
                     temp.insertAtEnd(tenant);
                 }
@@ -397,14 +432,6 @@ public:
             // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
             std::cout << "---------------------------\n";
         }
-    }
-    
-    void filterProperty(vector<Property>& properties) {
-
-    }
-
-    void deleteManager() {
-
     }
 };
 

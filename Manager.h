@@ -5,16 +5,14 @@
  * FILENAME: Manager.h
 */
 
-#include <vector>
 #include "User.h"
+#include <vector>
 
 using namespace std;
 
 class Manager : public User {
 private:
     string status;
-    vector<string> registeredTenants;
-    vector<string> favoriteProperties;
 
 public:
     Manager(){}
@@ -24,7 +22,7 @@ public:
                 const std::string& _dateOfBirth, const std::string& _status)
             : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth),
             status(_status) {
-        }
+    }
 
     string getStatus() const {
         return status;

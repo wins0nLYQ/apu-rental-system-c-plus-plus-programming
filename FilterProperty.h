@@ -1,11 +1,16 @@
-#include <string>
-#include <vector>
-#include "Property.h"
-#include <iostream>
-#include <DataValidation.h>
+#ifndef FILTERPROPERTY_H
+#define FILTERPROPERTY_H
+
+// #include <string>
+// #include <vector>
+// #include "Property.h"
+// #include <iostream>
+#include "DataValidation.h"
 #include "Asia_Pacific_Home.h"
 
 using namespace std;
+
+class Property;
 
 class FilterProperty {
 
@@ -107,9 +112,9 @@ class FilterProperty {
 
             } else if (userInput == "7") {
                 filterBy = "ALL";
-                cout << "Total Tenant Account: " << tenantList.getSize() << endl;
-                cout << endl;
-                displayFilteredTenantList(tenantList);
+                // cout << "Total Tenant Account: " << tenantList.getSize() << endl;
+                // cout << endl;
+                // displayFilteredTenantList(tenantList);
                 validInput = true;
 
             } else {
@@ -118,7 +123,9 @@ class FilterProperty {
             }
         }
         if(filterBy != "ALL") {
-            tenantFilteringProcess(tenantList, filterBy, search);
+            // tenantFilteringProcess(tenantList, filterBy, search);
         }
     }
 };
+
+#endif

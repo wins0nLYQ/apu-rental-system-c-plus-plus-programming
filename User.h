@@ -2,6 +2,10 @@
 #define USER_H
 
 #include <string>
+#include <regex>
+#include <iostream>
+#include "DataValidation.h"
+
 
 using namespace std;
 
@@ -23,7 +27,7 @@ public:
             const std::string& _dateOfBirth)
             : name(_name), email(_email), password(_password), phoneNo(_phoneNo),
             identificationNo(_identificationNo), gender(_gender), dateOfBirth(_dateOfBirth) {
-        }
+    }
 
     string getName() const {
         return name;
@@ -92,9 +96,83 @@ public:
     void resetPassword() {
         // Implementation of password reset logic
     }
+    
 
-    bool authenticated() {
+    bool handleUserLogin(const string& userRole) {
+        string email;
+        string password;
+
+        cout << "Please enter the email address (-1 to back): ";
+        getline(cin >> ws, email);
+        cout << endl;
+        if(email == "-1") {
+            return false;
+        }
+        DataValidation dv;
+        while (!dv.isEmailValid(email)) {
+            cout << "Invalid email, please try again (-1 to back): ";
+            getline(cin >> ws, email);
+            cout << endl;
+            if(email == "-1") {
+                return false;
+            }
+        }
+
+        cout << "Please enter the password (-1 to back): ";
+        getline(cin >> ws, password);
+        cout << endl;
+        if(password == "-1") {
+            return false;
+        }
+
+        while (!loginValidation(email, password, userRole)) {
+            cout << "Invalid credentials, please try again!" << endl;
+            cout << endl;
+            cout << "Please enter the email address (-1 to back): ";
+            getline(cin >> ws, email);
+            cout << endl;
+
+            if(email == "-1") {
+                return false;
+            }
+
+            while (!dv.isEmailValid(email)) {
+                cout << "Invalid email, please try again (-1 to back): ";
+                getline(cin >> ws, email);
+                cout << endl;
+
+                if(email == "-1") {
+                    return false;
+                }
+            }
+
+            cout << "Please enter the password (-1 to back): ";
+            getline(cin >> ws, password);
+            cout << endl;
+
+            if(password == "-1") {
+                return false;
+            }
+        }
         return true;
+    }
+
+    bool loginValidation(string email, string password, string userRole) {
+        if (userRole == "Tenant") {
+            cout << "Option 1";
+            return true;
+        } else if (userRole == "Manager") {
+            cout << "Option 2";
+            return true;
+        } else if (userRole == "Admin") {
+            // Admin admin;
+            if ((email == "admin@gmail.com") && (password == "Admin@1234")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 };
 
