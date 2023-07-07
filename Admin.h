@@ -36,13 +36,13 @@ public:
     }
 
 
-    string getEmail() const {
-        return email;
-    }
+    // string getEmail() const {
+    //     return email;
+    // }
 
-    string getPassword() const {
-        return password;
-    }
+    // string getPassword() const {
+    //     return password;
+    // }
 
     void addManager(DynamicArray<Manager>& managerList, vector<string>& existingEmail) {
         // Implementation for adding a manager
