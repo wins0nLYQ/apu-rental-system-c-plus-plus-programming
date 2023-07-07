@@ -13,6 +13,7 @@
 #include "Manager.h"
 #include "Tenant.h"
 #include "Admin.h"
+#include "FilterTenant.h"
 // #include "DataValidation.h"
 
 #include "ReadCSV.h"
@@ -249,8 +250,8 @@ public:
             cout << endl;
             admin_HomePage();
         } else {
-            Admin admin;
-            if (admin.filterTenants(tenantList) == false) {
+            FilterTenant filterTenant;
+            if (filterTenant.filterTenants(tenantList) == false) {
                 admin_HomePage();
             }
             cout << "Input any key to back >> ";
