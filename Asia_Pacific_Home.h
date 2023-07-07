@@ -7,19 +7,284 @@
 
 #include <string>
 #include "User.h"
+#include <iostream>
+#include <regex>
+#include "DynamicArray.h"
+#include "Manager.h"
+#include "Tenant.h"
+#include "Admin.h"
+// #include "DataValidation.h"
+
+#include "ReadCSV.h"
+#include "Property.h"
+
+using namespace std;
 
 class Asia_Pacific_Home {
+private:
+    DynamicArray<Manager> managerList;
+    DynamicArray<Tenant> tenantList;
+    vector<Property> properties;
 
 public:
-    User user;
-    void loginPage();
-    void homePage();
-    void admin_HomePage();
-    void admin_ManageManagerPage();
-    void admin_AddNewManagerPage();
-    void admin_ModifyManagerStatusPage();
-    void admin_ViewTenantInfoPage();
-    void admin_ViewPropertyInfoPage();
+    void homePage() {
+        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "hello");
+        tenantList.insertAtEnd(newTenant);
+
+        Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "hi");
+        tenantList.insertAtEnd(newTenant2);
+
+        ReadCSV read;
+        properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "                      ASIA PACIFIC HOME                      " << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << endl;
+        cout << endl;
+
+        cout << "Please select an option (1-3):" << endl;
+        cout << "1. View Property" << endl;
+        cout << "2. Login" << endl;
+        cout << "3. Sign Up" << endl;
+        cout << ">> ";
+
+        string userInput;
+        getline(cin >> ws, userInput);
+        cout << endl;
+
+        if (userInput == "1")
+        {
+            cout << "Option 1";
+        }
+        else if (userInput == "2")
+        {
+            loginPage();
+        }
+        else if (userInput == "3")
+        {
+            cout << "Option 3";
+        }
+        else
+        {
+            cout << endl
+                << "Invalid input! Please try again." << endl;
+            cout << endl;
+            homePage();
+        }
+    }
+
+    void loginPage() {
+        bool validInput = false;
+        User user;
+
+        while (!validInput) {
+            cout << "Please select your user role (1-3):" << endl;
+            cout << "1. Tenant" << endl;
+            cout << "2. Manager" << endl;
+            cout << "3. Admin" << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1") {
+                validInput = user.handleUserLogin("Tenant");
+            }
+            else if (userInput == "2") {
+                validInput = user.handleUserLogin("Manager");
+            }
+            else if (userInput == "3") {
+                validInput = user.handleUserLogin("Admin");
+                if (validInput) {
+                    admin_HomePage();
+                }
+            }
+            else {
+                cout << endl << "Invalid input! Please try again." << endl;
+                cout << endl;
+            }
+        }
+    }
+
+    void admin_HomePage() {
+        bool validInput = false;
+
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "                            ADMIN                            " << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << endl;
+        cout << endl;
+
+        while (!validInput) {
+            cout << "Please select an option (1-4):" << endl;
+            cout << "1. Manage Manager Account" << endl;
+            cout << "2. View Tenant Information" << endl;
+            cout << "3. View Property Information" << endl;
+            cout << "4. Logout" << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1") {
+                admin_ManageManagerPage();
+                validInput = true;
+            } else if(userInput == "2") {
+                admin_ViewTenantInfoPage();
+                validInput = true;
+            } else if(userInput == "3") {
+                homePage();
+                validInput = true;
+            } else if(userInput == "4") {
+                homePage();
+                validInput = true;
+            } else {
+                cout << endl << "Invalid input! Please try again." << endl;
+                cout << endl;
+            }
+        }
+    }
+
+    void admin_ManageManagerPage()
+    {
+        bool validInput = false;
+
+        while(!validInput) {
+            cout << "[MANAGER MANAGEMENT PAGE]" << endl;
+            cout << "Please select an option (1-2):" << endl;
+            cout << "1. Add New Manager" << endl;
+            cout << "2. Mofify Account Status" << endl;
+            cout << "3. Back" << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1")
+            {
+                admin_AddNewManagerPage();
+                validInput = true;
+            }
+            else if (userInput == "2")
+            {
+                admin_ModifyManagerStatusPage();
+                validInput = true;
+            }
+            else if (userInput == "3")
+            {
+                admin_HomePage();
+                validInput = true;
+            }
+            else
+            {
+                cout << endl << "Invalid input! Please try again." << endl;
+                cout << endl;
+            }                                               
+        }       
+    }               
+
+    void admin_AddNewManagerPage() {
+        Admin admin;
+        vector<string> existingEmail = getExistingEmail();
+        admin.addManager(managerList, existingEmail);
+        admin_ManageManagerPage();
+    }
+
+    vector<string> getExistingEmail() {
+        vector<string> existingEmail;
+
+        int managerNum = managerList.getSize();
+        int tenantNum = tenantList.getSize();
+
+        for (int i = 0; i < managerNum; ++i) {
+            Manager manager = managerList.get(i);
+            existingEmail.push_back(manager.getEmail());
+        }
+
+        for (int i = 0; i < tenantNum; ++i) {
+            Tenant tenant = tenantList.get(i);
+            existingEmail.push_back(tenant.getEmail());
+        }
+        return existingEmail;
+    }
+
+    void admin_ModifyManagerStatusPage() {
+        Admin admin;
+        if (admin.updateManagerStatus(managerList) == true)
+        {
+            cout << "Status has been changed successfully!" << endl;
+
+            cout << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            admin_ManageManagerPage();
+        }
+        else
+        {
+            cout << endl;
+            admin_ManageManagerPage();
+        }
+    }
+
+    void admin_ViewTenantInfoPage() {
+        cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
+        cout << "Available Tenant: " << tenantList.getSize() << endl;
+        cout << endl;
+
+        if(tenantList.getSize() == 0) {
+            cout << "Tenant information not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            admin_HomePage();
+        } else {
+            Admin admin;
+            if (admin.filterTenants(tenantList) == false) {
+                admin_HomePage();
+            }
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            admin_HomePage();
+            
+        }
+    }
+
+    void admin_ViewPropertyInfoPage() {
+        cout << "[VIEW PROPERTY INFORMATION PAGE]" << endl;
+        cout << "Available Property: " << properties.size() << endl;
+        cout << endl;
+
+        if(properties.size() == 0) {
+            cout << "Property information not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            admin_HomePage();
+        } else {
+            Admin admin;
+            // admin.filterTenants(tenantList);
+
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            admin_HomePage();
+        }
+    }
 };
 
 #endif
