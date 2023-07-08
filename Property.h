@@ -29,7 +29,9 @@ class Property{
     string region;
 
   public:
-  Property(vector<std::string> attributes) {
+  Property(){}
+
+  Property(vector<string> attributes) {
       this->adsID = attributes[0];
       this->propName = attributes[1];
       this->completionYear = attributes[2];
@@ -156,6 +158,78 @@ class Property{
 
   void setRegion(const string& region) {
       this->region = region;
+  }
+
+  vector<string> getAvailableLocation(vector<Property>& properties) {
+    vector<string> locationList;
+
+    for (int i = 0; i < properties.size(); ++i) {
+        Property property = properties[i];
+        string location = property.getLocation();
+
+        // Check if the region is already in the vector
+        if (find(locationList.begin(), locationList.end(), location) == locationList.end()) {
+            // Region is not found, add it to the vector
+            locationList.push_back(location);
+        }
+    }
+    sort(locationList.begin(), locationList.end());
+    return locationList;
+  }
+
+  vector<string> getAvailablePropertyType(vector<Property>& properties) {
+    vector<string> propertyTypeList;
+
+    for (int i = 0; i < properties.size(); ++i) {
+        Property property = properties[i];
+        string propertyType = property.getPropertyType();
+
+        if(propertyType != "") {
+            // Check if the region is already in the vector
+            if (find(propertyTypeList.begin(), propertyTypeList.end(), propertyType) == propertyTypeList.end()) {
+                // Region is not found, add it to the vector
+                propertyTypeList.push_back(propertyType);
+            }
+        }
+    }
+    sort(propertyTypeList.begin(), propertyTypeList.end());
+    return propertyTypeList;
+  }
+
+  vector<string> getAvailableFurnishedType(vector<Property>& properties) {
+    vector<string> furnishedTypeList;
+
+    for (int i = 0; i < properties.size(); ++i) {
+        Property property = properties[i];
+        string furnishedType = property.getFurnished();
+
+        if(furnishedType != "") {
+            // Check if the region is already in the vector
+            if (find(furnishedTypeList.begin(), furnishedTypeList.end(), furnishedType) == furnishedTypeList.end()) {
+                // Region is not found, add it to the vector
+                furnishedTypeList.push_back(furnishedType);
+            }
+        }
+    }
+    sort(furnishedTypeList.begin(), furnishedTypeList.end());
+    return furnishedTypeList;
+  }
+
+  vector<string> getAvailableRegion(vector<Property>& properties) {
+    vector<string> regionList;
+
+    for (int i = 0; i < properties.size(); ++i) {
+        Property property = properties[i];
+        string region = property.getRegion();
+
+        // Check if the region is already in the vector
+        if (find(regionList.begin(), regionList.end(), region) == regionList.end()) {
+            // Region is not found, add it to the vector
+            regionList.push_back(region);
+        }
+    }
+    sort(regionList.begin(), regionList.end());
+    return regionList;
   }
 
 };

@@ -14,6 +14,7 @@
 #include "Tenant.h"
 #include "Admin.h"
 #include "FilterTenant.h"
+#include "FilterProperty.h"
 // #include "DataValidation.h"
 
 #include "ReadCSV.h"
@@ -141,7 +142,7 @@ public:
                 admin_ViewTenantInfoPage();
                 validInput = true;
             } else if(userInput == "3") {
-                homePage();
+                admin_ViewPropertyInfoPage();
                 validInput = true;
             } else if(userInput == "4") {
                 homePage();
@@ -276,13 +277,10 @@ public:
             cout << endl;
             admin_HomePage();
         } else {
-            Admin admin;
-            // admin.filterTenants(tenantList);
-
-            cout << "Input any key to back >> ";
-            string userInput;
-            getline(cin >> ws, userInput);
-            cout << endl;
+            FilterProperty filterProperty;
+            if (filterProperty.filterProperty(properties) == false) {
+                admin_HomePage();
+            }
             admin_HomePage();
         }
     }
