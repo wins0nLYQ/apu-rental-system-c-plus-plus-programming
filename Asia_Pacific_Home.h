@@ -442,13 +442,24 @@ public:
  * --------------------------------------------------------------------------------------------
 */
 
+    void manager_HomePage(Manager manager)
+    {
+        std::cout << "-------------------------------------------------------------" << endl;
+        std::cout << "-------------------------------------------------------------" << endl;
+        std::cout << "                           MANAGER                           " << endl;
+        std::cout << "-------------------------------------------------------------" << endl;
+        std::cout << "WELCOME Manager: " << manager.getName() << std::endl;
+        std::cout << std::endl;
+        std::cout << std::endl;
 
-
-    void manager_HomePage(Manager manager) {
-        cout << "Welcome Manager: " << manager.getName() << endl;
+        std::cout << "Please select an option (1-3):" << std::endl;
+        std::cout << "1. Display All Registered Tenant' Details" << std::endl;
+        std::cout << "2. View Favorite Property List" << std::endl;
+        std::cout << "3. Manage Tenant Renting Request" << std::endl;
+        std::cout << "4. Manage Tenant Payment" << std::endl;
+        std::cout << "5. Logout" << std::endl;
+        std::cout << ">>> ";
     }
-
-
 };
 
 #endif
