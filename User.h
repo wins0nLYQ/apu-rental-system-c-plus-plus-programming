@@ -9,6 +9,9 @@
 
 using namespace std;
 
+class Manager;
+class Tenant;
+
 class User {
 private:
     string name;
@@ -98,82 +101,82 @@ public:
     }
     
 
-    bool handleUserLogin(const string& userRole) {
-        string email;
-        string password;
+    // bool handleUserLogin(const string& userRole, DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList) {
+    //     string email;
+    //     string password;
 
-        cout << "Please enter the email address (-1 to back): ";
-        getline(cin >> ws, email);
-        cout << endl;
-        if(email == "-1") {
-            return false;
-        }
-        DataValidation dv;
-        while (!dv.isEmailValid(email)) {
-            cout << "Invalid email, please try again (-1 to back): ";
-            getline(cin >> ws, email);
-            cout << endl;
-            if(email == "-1") {
-                return false;
-            }
-        }
+    //     cout << "Please enter the email address (-1 to back): ";
+    //     getline(cin >> ws, email);
+    //     cout << endl;
+    //     if(email == "-1") {
+    //         return false;
+    //     }
+    //     DataValidation dv;
+    //     while (!dv.isEmailValid(email)) {
+    //         cout << "Invalid email, please try again (-1 to back): ";
+    //         getline(cin >> ws, email);
+    //         cout << endl;
+    //         if(email == "-1") {
+    //             return false;
+    //         }
+    //     }
 
-        cout << "Please enter the password (-1 to back): ";
-        getline(cin >> ws, password);
-        cout << endl;
-        if(password == "-1") {
-            return false;
-        }
+    //     cout << "Please enter the password (-1 to back): ";
+    //     getline(cin >> ws, password);
+    //     cout << endl;
+    //     if(password == "-1") {
+    //         return false;
+    //     }
 
-        while (!loginValidation(email, password, userRole)) {
-            cout << "Invalid credentials, please try again!" << endl;
-            cout << endl;
-            cout << "Please enter the email address (-1 to back): ";
-            getline(cin >> ws, email);
-            cout << endl;
+    //     while (!loginValidation(email, password, userRole, managerList, tenantList)) {
+    //         cout << "Invalid credentials, please try again!" << endl;
+    //         cout << endl;
+    //         cout << "Please enter the email address (-1 to back): ";
+    //         getline(cin >> ws, email);
+    //         cout << endl;
 
-            if(email == "-1") {
-                return false;
-            }
+    //         if(email == "-1") {
+    //             return false;
+    //         }
 
-            while (!dv.isEmailValid(email)) {
-                cout << "Invalid email, please try again (-1 to back): ";
-                getline(cin >> ws, email);
-                cout << endl;
+    //         while (!dv.isEmailValid(email)) {
+    //             cout << "Invalid email, please try again (-1 to back): ";
+    //             getline(cin >> ws, email);
+    //             cout << endl;
 
-                if(email == "-1") {
-                    return false;
-                }
-            }
+    //             if(email == "-1") {
+    //                 return false;
+    //             }
+    //         }
 
-            cout << "Please enter the password (-1 to back): ";
-            getline(cin >> ws, password);
-            cout << endl;
+    //         cout << "Please enter the password (-1 to back): ";
+    //         getline(cin >> ws, password);
+    //         cout << endl;
 
-            if(password == "-1") {
-                return false;
-            }
-        }
-        return true;
-    }
+    //         if(password == "-1") {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
-    bool loginValidation(string email, string password, string userRole) {
-        if (userRole == "Tenant") {
-            cout << "Option 1";
-            return true;
-        } else if (userRole == "Manager") {
-            cout << "Option 2";
-            return true;
-        } else if (userRole == "Admin") {
-            // Admin admin;
-            if ((email == "admin@gmail.com") && (password == "Admin@1234")) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
+    // bool loginValidation(string email, string password, string userRole, DynamicArray<Manager>& managerList, DynamicArray<Tenant>& tenantList) {
+    //     if (userRole == "Tenant") {
+    //         cout << "Option 1";
+    //         return true;
+    //     } else if (userRole == "Manager") {
+    //         cout << "Option 2";
+    //         return true;
+    //     } else if (userRole == "Admin") {
+    //         // Admin admin;
+    //         if ((email == "admin@gmail.com") && (password == "Admin@1234")) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     }
+    //     return false;
+    // }
 };
 
 #endif

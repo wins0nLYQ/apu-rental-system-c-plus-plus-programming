@@ -71,6 +71,24 @@ public:
     void displayPaymentStatus() {
         // Implementation of displaying payment status logic
     }
+
+    Manager login(const std::string& email, DynamicArray<Manager>& managerList) {
+        Manager loginManager;
+        for(int i = 0; i < managerList.getSize(); ++i) {
+            Manager manager;
+            manager = managerList.get(i);
+            if(manager.getEmail() == email) {
+                loginManager.setName(manager.getName());
+                loginManager.setEmail(manager.getEmail());
+                loginManager.setPhoneNo(manager.getPhoneNo());
+                loginManager.setIdentificationNo(manager.getIdentificationNo());
+                loginManager.setGender(manager.getGender());
+                loginManager.setDateOfBirth(manager.getDateOfBirth());
+                loginManager.setPassword(manager.getPassword());
+                loginManager.setStatus(manager.getStatus());
+            }
+        } return loginManager;
+    }
 };
 
 #endif
