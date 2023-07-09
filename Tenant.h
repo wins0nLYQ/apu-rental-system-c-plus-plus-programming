@@ -58,6 +58,24 @@ class Tenant : public User {
     void displayRentingHistory() {
         // Implementation of displaying renting history logic
     }
+
+    Tenant login(const std::string& email, DynamicArray<Tenant>& tenantList) {
+        Tenant loginTenant;
+        for(int i = 0; i < tenantList.getSize(); ++i) {
+            Tenant tenant;
+            tenant = tenantList.get(i);
+            if(tenant.getEmail() == email) {
+                loginTenant.setName(tenant.getName());
+                loginTenant.setEmail(tenant.getEmail());
+                loginTenant.setPhoneNo(tenant.getPhoneNo());
+                loginTenant.setIdentificationNo(tenant.getIdentificationNo());
+                loginTenant.setGender(tenant.getGender());
+                loginTenant.setDateOfBirth(tenant.getDateOfBirth());
+                loginTenant.setLastLoginDate(tenant.getLastLoginDate());
+                loginTenant.setPassword(tenant.getPassword());
+            }
+        } return loginTenant;
+    } 
 };
 
 #endif
