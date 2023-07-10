@@ -29,6 +29,7 @@ class Property{
     string region;
 
   public:
+  Property(){}; 
   Property(vector<std::string> attributes) {
       this->adsID = attributes[0];
       this->propName = attributes[1];

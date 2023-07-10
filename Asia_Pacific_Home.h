@@ -36,6 +36,7 @@ public:
 
         ReadCSV read;
         properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+        read.printProperties(properties);
 
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
