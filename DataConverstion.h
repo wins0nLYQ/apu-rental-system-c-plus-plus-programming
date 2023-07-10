@@ -25,6 +25,17 @@ public:
 
         return result;
     }
+
+    long long extractDigit(const std::string& input) {
+        string result;
+        for (char c : input) {
+            if (std::isdigit(c)) {
+                result += c;
+            }
+        }
+        long long digit = stoll(result);
+        return digit;
+    }
 };
 
 
