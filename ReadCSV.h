@@ -89,29 +89,33 @@ class ReadCSV {
   }
 
   void printProperties(DynamicArray<Property> properties) {
-      int count = 0;
-      for (Property property : properties) {
-          cout << "ads_id: " << property.getAdsID() << endl;
-          cout << "prop_name: " << property.getPropName() << endl;
-          cout << "completion_year: " << property.getCompletionYear() << endl;
-          cout << "monthly_rent: " << property.getMonthlyRent() << endl;
-          cout << "location: " << property.getLocation() << endl;
-          cout << "property_type: " << property.getPropertyType() << endl;
-          cout << "rooms: " << property.getRooms() << endl;
-          cout << "parking: " << property.getParking() << endl;
-          cout << "bathroom: " << property.getBathroom() << endl;
-          cout << "size: " << property.getSize() << endl;
-          cout << "furnished: " << property.getFurnished() << endl;
-          cout << "facilities: " << property.getFacilities() << endl;
-          cout << "additional_facilities: " << property.getAdditionalFacilities() << endl;
-          cout << "region: " << property.getRegion() << endl;
+      // int count = 0;
+      // for (Property property : properties) {
+      Property property;
+      for (int i = 0; i < properties.getSize(); ++i) {
+        cout << "Hello" << endl;
+        property = properties.get(i);
+        cout << "ads_id: " << property.getAdsID() << endl;
+        cout << "prop_name: " << property.getPropName() << endl;
+        cout << "completion_year: " << property.getCompletionYear() << endl;
+        cout << "monthly_rent: " << property.getMonthlyRent() << endl;
+        cout << "location: " << property.getLocation() << endl;
+        cout << "property_type: " << property.getPropertyType() << endl;
+        cout << "rooms: " << property.getRooms() << endl;
+        cout << "parking: " << property.getParking() << endl;
+        cout << "bathroom: " << property.getBathroom() << endl;
+        cout << "size: " << property.getSize() << endl;
+        cout << "furnished: " << property.getFurnished() << endl;
+        cout << "facilities: " << property.getFacilities() << endl;
+        cout << "additional_facilities: " << property.getAdditionalFacilities() << endl;
+        cout << "region: " << property.getRegion() << endl;
 
-          cout << "-----------------------------------" << endl;
-          
-          count++;
-          if (count >= 5) {
-              break;
-          }
+        cout << "-----------------------------------" << endl;
+        
+        // count++;
+        // if (count >= 5) {
+        //     break;
+        // }
       }
   }
 };

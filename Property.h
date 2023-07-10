@@ -196,12 +196,12 @@ public:
 
         for (int i = 0; i < properties.getSize(); i++)
         {
-            Property property = properties.get(i);
-            string location = properties.get(i).getLocation();
+            Property x = properties.get(i);
+            string location = x.getLocation();
+            cout << location << endl;
             bool flag = false;
             for (int j = 0; j < locationList.getSize(); j++)
             {
-                cout << "Hello" << endl;
                 if (location == locationList.get(j))
                 {
                     flag = true;
@@ -286,6 +286,63 @@ public:
         }
         sort(regionList.begin(), regionList.end());
         return regionList;
+    }
+
+    void displayFilteredPropertyList(DynamicArray<Property>& filteredList) {
+        int pageSize = 5;  // Number of items to display per page
+        int currentPage = 0;  // Current page index
+
+        while (true) {
+            int startIdx = currentPage * pageSize;
+            int endIdx = startIdx + pageSize;
+
+            cout << "[RESULT]" << endl;
+            cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.getSize())/pageSize) << endl;
+            cout << "---------------------------\n";
+
+            for (int i = startIdx; i < endIdx && i < filteredList.getSize(); ++i) {
+                Property property = filteredList.get(i);
+                std::cout << "Ads ID: " << property.getAdsID() << std::endl;
+                std::cout << "Property Name: " << property.getPropName() << std::endl;
+                std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
+                std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
+                std::cout << "Location: " << property.getLocation() << std::endl;
+                std::cout << "Property Type: " << property.getPropertyType() << std::endl;
+                std::cout << "Rooms: " << property.getRooms() << std::endl;
+                std::cout << "Parking: " << property.getParking() << std::endl;
+                std::cout << "Bathroom: " << property.getBathroom() << std::endl;
+                std::cout << "Size: " << property.getSize() << std::endl;
+                std::cout << "Furnished: " << property.getFurnished() << std::endl;
+                std::cout << "Facilities: " << property.getFacilities() << std::endl;
+                std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
+                std::cout << "Region: " << property.getRegion() << std::endl;
+                std::cout << "---------------------------\n";
+            }
+            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "N" || userInput == "n") {
+                if (endIdx < filteredList.getSize()) {
+                    currentPage++;
+                } else {
+                    cout << "No more items. Reached the last page." << endl;
+                }
+            } else if (userInput == "P" || userInput == "p") {
+                if (currentPage > 0) {
+                    currentPage--;
+                } else {
+                    cout << "Already on the first page." << endl;
+                }
+            } else if (userInput == "Q" || userInput == "q") {
+                break;  // Exit the loop
+            } else {
+                cout << "Invalid input. Please try again." << endl;
+            }
+        }
     }
 };
 

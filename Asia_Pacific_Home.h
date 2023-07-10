@@ -40,7 +40,13 @@ public:
         managerList.insertAtEnd(newManager);
 
         ReadCSV read;
-        properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+        DynamicArray<Property> defaultData = read.readCSV("mudah-apartment-kl-selangor.csv");
+        this-> properties = defaultData;
+
+        // properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+
+        // Property property = properties.get(10);
+        // cout << property.getLocation();
 
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;

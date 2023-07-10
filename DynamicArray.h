@@ -95,15 +95,35 @@ public:
             throw std::out_of_range("Invalid index");
         }
     }
+
+    void removeAt(int index)
+    {
+        if (index >= 0 && index < size)
+        {
+            for (int i = index; i < size - 1; ++i)
+            {
+                objectArray[i] = objectArray[i + 1];
+            }
+            size--;
+        }
+        else
+        {
+            // Handle index out of bounds error
+            throw std::out_of_range("Invalid index");
+        }
+    }
+
+    void removeAtBeginning()
+    {
+        removeAt(0);
+    }
+
+    void removeAtEnd()
+    {
+        removeAt(size - 1);
+    }
 };
 
-// void delete(int index) {
-//     if (index >= 0 && index < size) {
-//         for (int i = index; i < size - 1; ++i) {
-//             objectArray[i] = objectArray[i + 1];
-//         }
-//         --size;
-//     }
-// }
+
 
 #endif

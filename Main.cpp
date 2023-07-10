@@ -14,8 +14,9 @@ using namespace std;
 
 int main()
 {
-    // Asia_Pacific_Home APH;
-    // APH.homePage();
+    Asia_Pacific_Home APH;
+    
+    APH.homePage();
 
     // DynamicArray<Tenant> tenantList;
 
@@ -30,13 +31,50 @@ int main()
 
 
 
-    DynamicArray<Property> propList;
-    ReadCSV read;
-    propList = read.readCSV("mudah-apartment-kl-selangor.csv");
+    // ReadCSV read;
+    // DynamicArray<Property> properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+    // // DynamicArray<string> test = getAvailableLocation(properties);
+    // filterProperty(properties);
 
-    Property property = propList.get(0);
 
-    cout << property.getAdsID() << endl;
+    //     DynamicArray<string> locationList;
+
+    //     for (int i = 0; i < properties.getSize(); i++)
+    //     {
+    //         Property x = properties.get(i);
+    //         string location = x.getLocation();
+    //         cout << location << endl;
+    //         bool flag = false;
+    //         for (int j = 0; j < locationList.getSize(); j++)
+    //         {
+    //             if (location == locationList.get(j))
+    //             {
+    //                 flag = true;
+    //             }
+    //         }
+
+    //         if (!flag)
+    //         {
+    //             locationList.insertAtEnd(location);
+    //         }
+    //     }
+
+        // for(int i = 0; i< test.getSize(); ++i) {
+        //     cout << test.get(i) << endl;
+        // }
+        // sort(locationList.begin(), locationList.end());
+        // cout << locationList.get(0);
+  
+
+    // cout << propList.getSize() << endl;
+
+    // Property property = propList.get(0);
+    // read.printProperties(propList);
+
+    // Tenant tenant = propList.get(0);
+
+
+    // cout << property.getAdsID() << endl;
 
 
 
