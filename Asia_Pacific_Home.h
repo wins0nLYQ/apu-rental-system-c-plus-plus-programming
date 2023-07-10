@@ -26,7 +26,7 @@ class Asia_Pacific_Home {
 private:
     DynamicArray<Manager> managerList;
     DynamicArray<Tenant> tenantList;
-    vector<Property> properties;
+    DynamicArray<Property> properties;
 
 public:
     void homePage() {
@@ -404,10 +404,10 @@ public:
 
     void admin_ViewPropertyInfoPage() {
         cout << "[VIEW PROPERTY INFORMATION PAGE]" << endl;
-        cout << "Available Property: " << properties.size() << endl;
+        cout << "Available Property: " << properties.getSize() << endl;
         cout << endl;
 
-        if(properties.size() == 0) {
+        if(properties.getSize() == 0) {
             cout << "Property information not available...." << endl;
             cout << "Input any key to back >> ";
             string userInput;

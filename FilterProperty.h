@@ -18,7 +18,7 @@ class FilterProperty {
 
     public:
 
-    bool filterProperty(vector<Property>& properties) {
+    bool filterProperty(DynamicArray<Property>& properties) {
         // Implementation for displaying all property information
         DataValidation dv;
         Property property;
@@ -105,9 +105,9 @@ class FilterProperty {
             } else if (userInput == "3") {
                 string search;
                 cout << "AVAILABLE LOCATIONS:" << endl;
-                vector<string> locationList = property.getAvailableLocation(properties);
-                for(int i = 0; i < locationList.size(); ++i) {
-                    cout << i + 1 << ". " << locationList[i] << endl;
+                DynamicArray<string> locationList = property.getAvailableLocation(properties);
+                for(int i = 0; i < locationList.getSize(); ++i) {
+                    cout << i + 1 << ". " << locationList.get(i) << endl;
                 }
 
                 bool check = false;
@@ -118,9 +118,9 @@ class FilterProperty {
                     cout << endl;
                     if(dv.isNumber(search)) {
                         int selectedNum = stoi(search);
-                        if(selectedNum > 0 && selectedNum <= locationList.size()) {
+                        if(selectedNum > 0 && selectedNum <= locationList.getSize()) {
                             check = true;
-                            filterByLocations(properties, locationList[selectedNum - 1]);
+                            filterByLocations(properties, locationList.get(selectedNum - 1));
                         } else {
                             cout << "Invalid input! Please enter within the range." << endl;
                         }
@@ -133,9 +133,9 @@ class FilterProperty {
             } else if (userInput == "4") {
                 string search;
                 cout << "AVAILABLE PROPERTY TYPE:" << endl;
-                vector<string> propertyTypeList = property.getAvailablePropertyType(properties);
-                for(int i = 0; i < propertyTypeList.size(); ++i) {
-                    cout << i + 1 << ". " << propertyTypeList[i] << endl;
+                DynamicArray<string> propertyTypeList = property.getAvailablePropertyType(properties);
+                for(int i = 0; i < propertyTypeList.getSize(); ++i) {
+                    cout << i + 1 << ". " << propertyTypeList.get(i) << endl;
                 }
 
                 bool check = false;
@@ -146,9 +146,9 @@ class FilterProperty {
                     cout << endl;
                     if(dv.isNumber(search)) {
                         int selectedNum = stoi(search);
-                        if(selectedNum > 0 && selectedNum <= propertyTypeList.size()) {
+                        if(selectedNum > 0 && selectedNum <= propertyTypeList.getSize()) {
                             check = true;
-                            filterByPropertyType(properties, propertyTypeList[selectedNum - 1]);
+                            filterByPropertyType(properties, propertyTypeList.get(selectedNum - 1));
                         } else {
                             cout << "Invalid input! Please enter within the range." << endl;
                         }
@@ -349,170 +349,164 @@ class FilterProperty {
         return true;
     }
 
-    void filterByName(vector<Property>& properties, const string& search) {
-        vector<Property> temp;
-        DataConversion dc;
+    void filterByName(DynamicArray<Property>& properties, const string& search) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
-            string name = dc.toLowercase(property.getPropName());
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
+            string name = property.getPropName();
             if(name.find(search) != std::string::npos) {
-                    temp.push_back(property);
+                    temp.insertAtEnd(property);
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterByMonthlyRent(vector<Property>& properties, const long long& minimum, const long long& maximum) {
-        vector<Property> temp;
-        DataConversion dc;
+    void filterByMonthlyRent(DynamicArray<Property>& properties, const long long& minimum, const long long& maximum) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string monthlyRent = property.getMonthlyRent();
 
             if(monthlyRent != "") {
-                // string result;
-                // for (char c : monthlyRent) {
-                //     if (std::isdigit(c)) {
-                //         result += c;
-                //     }
-                // }
-                long long monthlyRentDigit = dc.extractDigit(monthlyRent);
-                if(monthlyRentDigit >= minimum && monthlyRentDigit <= maximum) {
-                    temp.push_back(property);
+                string result;
+                for (char c : monthlyRent) {
+                    if (std::isdigit(c)) {
+                        result += c;
+                    }
+                }
+                if(stoll(result) >= minimum && stoll(result) <= maximum) {
+                    temp.insertAtEnd(property);
                 }
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterByLocations(vector<Property>& properties, string search) {
-        vector<Property> temp;
+    void filterByLocations(DynamicArray<Property>& properties, string search) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string location = property.getLocation();
             if(location == search) {
-                temp.push_back(property);
+                temp.insertAtEnd(property);
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterByPropertyType(vector<Property>& properties, string search) {
-        vector<Property> temp;
+    void filterByPropertyType(DynamicArray<Property>& properties, string search) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string propertyType = property.getPropertyType();
             if(propertyType == search) {
-                temp.push_back(property);
+                temp.insertAtEnd(property);
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterByRooms(vector<Property>& properties, string search) {
-        vector<Property> temp;
+    void filterByRooms(DynamicArray<Property>& properties, string search) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string rooms = property.getRooms();
             if(search == "5") {
                 if(rooms != "1" && rooms != "2" && rooms != "3" && rooms != "4" && rooms != "") {
-                    temp.push_back(property);
+                    temp.insertAtEnd(property);
                 }
             } else {
                 if(search == rooms) {
-                    temp.push_back(property);
+                    temp.insertAtEnd(property);
                 } 
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterByParking(vector<Property>& properties, string search) {
-        vector<Property> temp;
+    void filterByParking(DynamicArray<Property>& properties, string search) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string parking = property.getParking();
             if(search == "3") {
                 if(parking != "1" && parking != "2" && parking != "") {
-                    temp.push_back(property);
+                    temp.insertAtEnd(property);
                 }
             } else {
                 if(search == parking) {
-                    temp.push_back(property);
+                    temp.insertAtEnd(property);
                 } 
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterByBathroom(vector<Property>& properties, string search) {
-        vector<Property> temp;
+    void filterByBathroom(DynamicArray<Property>& properties, string search) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string bathroom = property.getBathroom();
             if(search == "3") {
                 if(bathroom != "1" && bathroom != "2" && bathroom != "") {
-                    temp.push_back(property);
+                    temp.insertAtEnd(property);
                 }
             } else {
                 if(search == bathroom) {
-                    temp.push_back(property);
+                    temp.insertAtEnd(property);
                 } 
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterBySize(vector<Property>& properties, const long long& minimum, const long long& maximum) {
-        vector<Property> temp;
-        DataConversion dc;
+    void filterBySize(DynamicArray<Property>& properties, const long long& minimum, const long long& maximum) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string size = property.getSize();
 
             if(size != "") {
-                // string result;
-                // for (char c : size) {
-                //     if (std::isdigit(c)) {
-                //         result += c;
-                //     }
-                // }
-                long long sizeDigit = dc.extractDigit(size);
-                if(sizeDigit >= minimum && sizeDigit <= maximum) {
-                    temp.push_back(property);
+                string result;
+                for (char c : size) {
+                    if (std::isdigit(c)) {
+                        result += c;
+                    }
+                }
+                if(stoll(result) >= minimum && stoll(result) <= maximum) {
+                    temp.insertAtEnd(property);
                 }
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterByFurnishedType(vector<Property>& properties, string search) {
-        vector<Property> temp;
+    void filterByFurnishedType(DynamicArray<Property>& properties, string search) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string furnishedType = property.getFurnished();
             if(furnishedType == search) {
-                temp.push_back(property);
+                temp.insertAtEnd(property);
             }
         } proceedMessage(properties, temp);
     }
 
-    void filterByRegion(vector<Property>& properties, string search) {
-        vector<Property> temp;
+    void filterByRegion(DynamicArray<Property>& properties, string search) {
+        DynamicArray<Property> temp;
 
-        for(int i = 0; i < properties.size(); ++i) {
-            Property property = properties[i];
+        for(int i = 0; i < properties.getSize(); ++i) {
+            Property property = properties.get(i);
             string region = property.getRegion();
             if(region == search) {
-                temp.push_back(property);
+                temp.insertAtEnd(property);
             }
         } proceedMessage(properties, temp);
     }
 
-
-    void proceedMessage(vector<Property>& properties, vector<Property>& temp) {
-        if(temp.size() == 0) {
+    void proceedMessage(DynamicArray<Property>& properties, DynamicArray<Property>& temp) {
+        if(temp.getSize() == 0) {
             cout << "Sorry, no record found..." << endl;
             cout << "Please try again." << endl;
             cout << endl;
@@ -538,62 +532,62 @@ class FilterProperty {
 
     }
 
-    // void displayFilteredPropertyList(vector<Property>& filteredList) {
-    //     int pageSize = 5;  // Number of items to display per page
-    //     int currentPage = 0;  // Current page index
+    void displayFilteredPropertyList(DynamicArray<Property>& filteredList) {
+        int pageSize = 5;  // Number of items to display per page
+        int currentPage = 0;  // Current page index
 
-    //     while (true) {
-    //         int startIdx = currentPage * pageSize;
-    //         int endIdx = startIdx + pageSize;
+        while (true) {
+            int startIdx = currentPage * pageSize;
+            int endIdx = startIdx + pageSize;
 
-    //         cout << "[RESULT]" << endl;
-    //         cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.size())/pageSize) << endl;
-    //         cout << "---------------------------\n";
+            cout << "[RESULT]" << endl;
+            cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.getSize())/pageSize) << endl;
+            cout << "---------------------------\n";
 
-    //         for (int i = startIdx; i < endIdx && i < filteredList.size(); ++i) {
-    //             Property property = filteredList[i];
-    //             std::cout << "Ads ID: " << property.getAdsID() << std::endl;
-    //             std::cout << "Property Name: " << property.getPropName() << std::endl;
-    //             std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
-    //             std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
-    //             std::cout << "Location: " << property.getLocation() << std::endl;
-    //             std::cout << "Property Type: " << property.getPropertyType() << std::endl;
-    //             std::cout << "Rooms: " << property.getRooms() << std::endl;
-    //             std::cout << "Parking: " << property.getParking() << std::endl;
-    //             std::cout << "Bathroom: " << property.getBathroom() << std::endl;
-    //             std::cout << "Size: " << property.getSize() << std::endl;
-    //             std::cout << "Furnished: " << property.getFurnished() << std::endl;
-    //             std::cout << "Facilities: " << property.getFacilities() << std::endl;
-    //             std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
-    //             std::cout << "Region: " << property.getRegion() << std::endl;
-    //             std::cout << "---------------------------\n";
-    //         }
-    //         cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
-    //         cout << ">> ";
+            for (int i = startIdx; i < endIdx && i < filteredList.getSize(); ++i) {
+                Property property = filteredList.get(i);
+                std::cout << "Ads ID: " << property.getAdsID() << std::endl;
+                std::cout << "Property Name: " << property.getPropName() << std::endl;
+                std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
+                std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
+                std::cout << "Location: " << property.getLocation() << std::endl;
+                std::cout << "Property Type: " << property.getPropertyType() << std::endl;
+                std::cout << "Rooms: " << property.getRooms() << std::endl;
+                std::cout << "Parking: " << property.getParking() << std::endl;
+                std::cout << "Bathroom: " << property.getBathroom() << std::endl;
+                std::cout << "Size: " << property.getSize() << std::endl;
+                std::cout << "Furnished: " << property.getFurnished() << std::endl;
+                std::cout << "Facilities: " << property.getFacilities() << std::endl;
+                std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
+                std::cout << "Region: " << property.getRegion() << std::endl;
+                std::cout << "---------------------------\n";
+            }
+            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+            cout << ">> ";
 
     //         string userInput;
     //         getline(cin >> ws, userInput);
     //         cout << endl;
 
-    //         if (userInput == "N" || userInput == "n") {
-    //             if (endIdx < filteredList.size()) {
-    //                 currentPage++;
-    //             } else {
-    //                 cout << "No more items. Reached the last page." << endl;
-    //             }
-    //         } else if (userInput == "P" || userInput == "p") {
-    //             if (currentPage > 0) {
-    //                 currentPage--;
-    //             } else {
-    //                 cout << "Already on the first page." << endl;
-    //             }
-    //         } else if (userInput == "Q" || userInput == "q") {
-    //             break;  // Exit the loop
-    //         } else {
-    //             cout << "Invalid input. Please try again." << endl;
-    //         }
-    //     }
-    // }
+            if (userInput == "N" || userInput == "n") {
+                if (endIdx < filteredList.getSize()) {
+                    currentPage++;
+                } else {
+                    cout << "No more items. Reached the last page." << endl;
+                }
+            } else if (userInput == "P" || userInput == "p") {
+                if (currentPage > 0) {
+                    currentPage--;
+                } else {
+                    cout << "Already on the first page." << endl;
+                }
+            } else if (userInput == "Q" || userInput == "q") {
+                break;  // Exit the loop
+            } else {
+                cout << "Invalid input. Please try again." << endl;
+            }
+        }
+    }
 
 };
 
