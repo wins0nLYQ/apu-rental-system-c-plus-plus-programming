@@ -5,9 +5,12 @@
 // #include <vector>
 // #include "Property.h"
 // #include <iostream>
+#include <cmath>
 #include "DataValidation.h"
 #include "Asia_Pacific_Home.h"
 #include "Property.h"
+#include "DataConverstion.h"
+
 
 using namespace std;
 
@@ -19,6 +22,7 @@ class FilterProperty {
         // Implementation for displaying all property information
         DataValidation dv;
         Property property;
+        DataConversion dc;
 
         bool validInput = false;
         while(!validInput) {
@@ -59,7 +63,7 @@ class FilterProperty {
                 getline(cin >> ws, search);
                 cout << endl;
                 validInput = true;
-                filterByName(properties, search);
+                filterByName(properties, dc.toLowercase(search));
 
             } else if (userInput == "2") {
                 string search;
@@ -87,7 +91,7 @@ class FilterProperty {
                         maximum = stoi(search);
                         if(minimum > maximum) {
                             cout << "Invalid maximum value, please try again!" << endl;
-                        } else if (maximum > minimum) {
+                        } else if (maximum >= minimum) {
                             check = true;
                             filterByMonthlyRent(properties, minimum, maximum);
                         }
@@ -266,7 +270,7 @@ class FilterProperty {
                         maximum = stoi(search);
                         if(minimum > maximum) {
                             cout << "Invalid maximum value, please try again!" << endl;
-                        } else if (maximum > minimum) {
+                        } else if (maximum >= minimum) {
                             check = true;
                             filterBySize(properties, minimum, maximum);
                         }
@@ -334,7 +338,7 @@ class FilterProperty {
                 validInput = true;
 
             } else if(userInput == "11") {
-                displayFilteredPropertyList(properties);
+                property.displayFilteredPropertyList(properties);
                 validInput = true;
 
             } else {
@@ -347,10 +351,11 @@ class FilterProperty {
 
     void filterByName(vector<Property>& properties, const string& search) {
         vector<Property> temp;
+        DataConversion dc;
 
         for(int i = 0; i < properties.size(); ++i) {
             Property property = properties[i];
-            string name = property.getPropName();
+            string name = dc.toLowercase(property.getPropName());
             if(name.find(search) != std::string::npos) {
                     temp.push_back(property);
             }
@@ -359,19 +364,21 @@ class FilterProperty {
 
     void filterByMonthlyRent(vector<Property>& properties, const long long& minimum, const long long& maximum) {
         vector<Property> temp;
+        DataConversion dc;
 
         for(int i = 0; i < properties.size(); ++i) {
             Property property = properties[i];
             string monthlyRent = property.getMonthlyRent();
 
             if(monthlyRent != "") {
-                string result;
-                for (char c : monthlyRent) {
-                    if (std::isdigit(c)) {
-                        result += c;
-                    }
-                }
-                if(stoll(result) >= minimum && stoll(result) <= maximum) {
+                // string result;
+                // for (char c : monthlyRent) {
+                //     if (std::isdigit(c)) {
+                //         result += c;
+                //     }
+                // }
+                long long monthlyRentDigit = dc.extractDigit(monthlyRent);
+                if(monthlyRentDigit >= minimum && monthlyRentDigit <= maximum) {
                     temp.push_back(property);
                 }
             }
@@ -458,19 +465,21 @@ class FilterProperty {
 
     void filterBySize(vector<Property>& properties, const long long& minimum, const long long& maximum) {
         vector<Property> temp;
+        DataConversion dc;
 
         for(int i = 0; i < properties.size(); ++i) {
             Property property = properties[i];
             string size = property.getSize();
 
             if(size != "") {
-                string result;
-                for (char c : size) {
-                    if (std::isdigit(c)) {
-                        result += c;
-                    }
-                }
-                if(stoll(result) >= minimum && stoll(result) <= maximum) {
+                // string result;
+                // for (char c : size) {
+                //     if (std::isdigit(c)) {
+                //         result += c;
+                //     }
+                // }
+                long long sizeDigit = dc.extractDigit(size);
+                if(sizeDigit >= minimum && sizeDigit <= maximum) {
                     temp.push_back(property);
                 }
             }
@@ -500,11 +509,6 @@ class FilterProperty {
             }
         } proceedMessage(properties, temp);
     }
-    
-
-
-
-
 
 
     void proceedMessage(vector<Property>& properties, vector<Property>& temp) {
@@ -525,7 +529,8 @@ class FilterProperty {
                     filterProperty(temp);
                     flag = true;
                 } else if(userInput == "N" || userInput == "n") {
-                    displayFilteredPropertyList(temp);
+                    Property property;
+                    property.displayFilteredPropertyList(temp);
                     flag = true;
                 }
             }
@@ -533,62 +538,62 @@ class FilterProperty {
 
     }
 
-    void displayFilteredPropertyList(vector<Property>& filteredList) {
-        int pageSize = 5;  // Number of items to display per page
-        int currentPage = 0;  // Current page index
+    // void displayFilteredPropertyList(vector<Property>& filteredList) {
+    //     int pageSize = 5;  // Number of items to display per page
+    //     int currentPage = 0;  // Current page index
 
-        while (true) {
-            int startIdx = currentPage * pageSize;
-            int endIdx = startIdx + pageSize;
+    //     while (true) {
+    //         int startIdx = currentPage * pageSize;
+    //         int endIdx = startIdx + pageSize;
 
-            cout << "[RESULT]" << endl;
-            cout << "Page " << currentPage + 1 << endl;
-            cout << "---------------------------\n";
+    //         cout << "[RESULT]" << endl;
+    //         cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.size())/pageSize) << endl;
+    //         cout << "---------------------------\n";
 
-            for (int i = startIdx; i < endIdx && i < filteredList.size(); ++i) {
-                Property property = filteredList[i];
-                std::cout << "Ads ID: " << property.getAdsID() << std::endl;
-                std::cout << "Property Name: " << property.getPropName() << std::endl;
-                std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
-                std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
-                std::cout << "Location: " << property.getLocation() << std::endl;
-                std::cout << "Property Type: " << property.getPropertyType() << std::endl;
-                std::cout << "Rooms: " << property.getRooms() << std::endl;
-                std::cout << "Parking: " << property.getParking() << std::endl;
-                std::cout << "Bathroom: " << property.getBathroom() << std::endl;
-                std::cout << "Size: " << property.getSize() << std::endl;
-                std::cout << "Furnished: " << property.getFurnished() << std::endl;
-                std::cout << "Facilities: " << property.getFacilities() << std::endl;
-                std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
-                std::cout << "Region: " << property.getRegion() << std::endl;
-                std::cout << "---------------------------\n";
-            }
-            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
-            cout << ">> ";
+    //         for (int i = startIdx; i < endIdx && i < filteredList.size(); ++i) {
+    //             Property property = filteredList[i];
+    //             std::cout << "Ads ID: " << property.getAdsID() << std::endl;
+    //             std::cout << "Property Name: " << property.getPropName() << std::endl;
+    //             std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
+    //             std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
+    //             std::cout << "Location: " << property.getLocation() << std::endl;
+    //             std::cout << "Property Type: " << property.getPropertyType() << std::endl;
+    //             std::cout << "Rooms: " << property.getRooms() << std::endl;
+    //             std::cout << "Parking: " << property.getParking() << std::endl;
+    //             std::cout << "Bathroom: " << property.getBathroom() << std::endl;
+    //             std::cout << "Size: " << property.getSize() << std::endl;
+    //             std::cout << "Furnished: " << property.getFurnished() << std::endl;
+    //             std::cout << "Facilities: " << property.getFacilities() << std::endl;
+    //             std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
+    //             std::cout << "Region: " << property.getRegion() << std::endl;
+    //             std::cout << "---------------------------\n";
+    //         }
+    //         cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+    //         cout << ">> ";
 
-            string userInput;
-            getline(cin >> ws, userInput);
-            cout << endl;
+    //         string userInput;
+    //         getline(cin >> ws, userInput);
+    //         cout << endl;
 
-            if (userInput == "N" || userInput == "n") {
-                if (endIdx < filteredList.size()) {
-                    currentPage++;
-                } else {
-                    cout << "No more items. Reached the last page." << endl;
-                }
-            } else if (userInput == "P" || userInput == "p") {
-                if (currentPage > 0) {
-                    currentPage--;
-                } else {
-                    cout << "Already on the first page." << endl;
-                }
-            } else if (userInput == "Q" || userInput == "q") {
-                break;  // Exit the loop
-            } else {
-                cout << "Invalid input. Please try again." << endl;
-            }
-        }
-    }
+    //         if (userInput == "N" || userInput == "n") {
+    //             if (endIdx < filteredList.size()) {
+    //                 currentPage++;
+    //             } else {
+    //                 cout << "No more items. Reached the last page." << endl;
+    //             }
+    //         } else if (userInput == "P" || userInput == "p") {
+    //             if (currentPage > 0) {
+    //                 currentPage--;
+    //             } else {
+    //                 cout << "Already on the first page." << endl;
+    //             }
+    //         } else if (userInput == "Q" || userInput == "q") {
+    //             break;  // Exit the loop
+    //         } else {
+    //             cout << "Invalid input. Please try again." << endl;
+    //         }
+    //     }
+    // }
 
 };
 
