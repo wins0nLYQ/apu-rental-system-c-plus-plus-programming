@@ -31,6 +31,18 @@ public:
 
   ~DoublyCircularLinkedList(){
       // Delete the list
+      if (head == nullptr) {
+        return;
+      }
+
+      DCLListNode<T> current = head;
+      do {
+        DCLListNode<T>nextNode = current->next;
+        delete current;
+        current = nextNode;
+      } while (current != head);
+
+      head = nullptr;
   };
 
   void insertAtBegin(const T &object)
