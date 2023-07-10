@@ -1,10 +1,15 @@
 /**
  * FILENAME: Main.cpp
-*/
+ */
 
-#include "Asia_Pacific_Home.cpp"
+#include <iostream>
 
-int main() {
+#include "Asia_Pacific_Home.h"
+
+using namespace std;
+
+int main()
+{
     Asia_Pacific_Home APH;
     APH.homePage();
     return 0;

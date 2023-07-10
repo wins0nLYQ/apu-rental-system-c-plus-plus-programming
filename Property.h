@@ -1,66 +1,294 @@
+#ifndef PROPERTY_H
+#define PROPERTY_H
+
 /**
  * FILENAME: Property.h
-*/
+ */
 
-#include <string>
-#include <vector>
-#include <iostream>
+// #include <string>
+// #include <vector>
+// #include <iostream>
 
 using namespace std;
 
-class Property {
+class Property{
   private:
     string adsID;
     string propName;
-    int completionYear;
-    double monthlyRent;
+    string completionYear;
+    string monthlyRent;
     string location;
     string propertyType;
-    int rooms;
-    int parking;
-    int bathroom;
-    int size;
+    string rooms;
+    string parking;
+    string bathroom;
+    string size;
     string furnished;
-    vector<string> facilities;
-    vector<string> additionalFacilities;
+    string facilities;
+    string additionalFacilities;
+    string region;
 
   public:
-    string getAdsID() const;
-    void setAdsID(const string& adsID);
+  Property(){}
 
-    string getPropName() const;
-    void setPropName(const string& propName);
+  Property(vector<string> attributes) {
+      this->adsID = attributes[0];
+      this->propName = attributes[1];
+      this->completionYear = attributes[2];
+      this->monthlyRent = attributes[3];
+      this->location = attributes[4];
+      this->propertyType = attributes[5];
+      this->rooms = attributes[6];
+      this->parking = attributes[7];
+      this->bathroom = attributes[8];
+      this->size  = attributes[9];
+      this->furnished  = attributes[10];
+      this->facilities  = attributes[11];
+      this->additionalFacilities  = attributes[12];
+      this->region  = attributes[13];
+  }
 
-    int getCompletionYear() const;
-    void setCompletionYear(int completionYear);
+  string getAdsID() const {
+      return adsID;
+  }
 
-    double getMonthlyRent() const;
-    void setMonthlyRent(double monthlyRent);
+  void setAdsID(const string& adsID) {
+      this->adsID = adsID;
+  }
 
-    string getLocation() const;
-    void setLocation(const string& location);
+  string getPropName() const {
+      return propName;
+  }
 
-    string getPropertyType() const;
-    void setPropertyType(const string& propertyType);
+  void setPropName(const string& propName) {
+      this->propName = propName;
+  }
 
-    int getRooms() const;
-    void setRooms(int rooms);
+  string getCompletionYear() const {
+      return completionYear;
+  }
 
-    int getParking() const;
-    void setParking(int parking);
+  void setCompletionYear(string completionYear) {
+      this->completionYear = completionYear;
+  }
 
-    int getBathroom() const;
-    void setBathroom(int bathroom);
+  string getMonthlyRent() const {
+      return monthlyRent;
+  }
 
-    int getSize() const;
-    void setSize(int size);
+  void setMonthlyRent(string monthlyRent) {
+      this->monthlyRent = monthlyRent;
+  }
 
-    string getFurnished() const;
-    void setFurnished(const string& furnished);
+  string getLocation() const {
+      return location;
+  }
 
-    vector<string> getFacilities() const;
-    void setFacilities(const vector<string>& facilities);
+  void setLocation(const string& location) {
+      this->location = location;
+  }
 
-    vector<string> getAdditionalFacilities() const;
-    void setAdditionalFacilities(const vector<string>& additionalFacilities);
+  string getPropertyType() const {
+      return propertyType;
+  }
+
+  void setPropertyType(const string& propertyType) {
+      this->propertyType = propertyType;
+  }
+
+  string getRooms() const {
+      return rooms;
+  }
+
+  void setRooms(string rooms) {
+      this->rooms = rooms;
+  }
+
+  string getParking() const {
+      return parking;
+  }
+
+  void setParking(string parking) {
+      this->parking = parking;
+  }
+
+  string getBathroom() const {
+      return bathroom;
+  }
+
+  void setBathroom(string bathroom) {
+      this->bathroom = bathroom;
+  }
+
+  string getSize() const {
+      return size;
+  }
+
+  void setSize(string size) {
+      this->size = size;
+  }
+
+  string getFurnished() const {
+      return furnished;
+  }
+
+  void setFurnished(const string& furnished) {
+      this->furnished = furnished;
+  }
+
+  string getFacilities() const {
+      return facilities;
+  }
+
+  void setFacilities(const string& facilities) {
+      this->facilities = facilities;
+  }
+
+  string getAdditionalFacilities() const {
+      return additionalFacilities;
+  }
+
+  void setAdditionalFacilities(const string& additionalFacilities) {
+      this->additionalFacilities = additionalFacilities;
+  }
+
+  string getRegion() const {
+      return region;
+  }
+
+  void setRegion(const string& region) {
+      this->region = region;
+  }
+
+  vector<string> getAvailableLocation(vector<Property>& properties) {
+    vector<string> locationList;
+
+    for (int i = 0; i < properties.size(); ++i) {
+        Property property = properties[i];
+        string location = property.getLocation();
+
+        // Check if the region is already in the vector
+        if (find(locationList.begin(), locationList.end(), location) == locationList.end()) {
+            // Region is not found, add it to the vector
+            locationList.push_back(location);
+        }
+    }
+    sort(locationList.begin(), locationList.end());
+    return locationList;
+  }
+
+  vector<string> getAvailablePropertyType(vector<Property>& properties) {
+    vector<string> propertyTypeList;
+
+    for (int i = 0; i < properties.size(); ++i) {
+        Property property = properties[i];
+        string propertyType = property.getPropertyType();
+
+        if(propertyType != "") {
+            // Check if the region is already in the vector
+            if (find(propertyTypeList.begin(), propertyTypeList.end(), propertyType) == propertyTypeList.end()) {
+                // Region is not found, add it to the vector
+                propertyTypeList.push_back(propertyType);
+            }
+        }
+    }
+    sort(propertyTypeList.begin(), propertyTypeList.end());
+    return propertyTypeList;
+  }
+
+  vector<string> getAvailableFurnishedType(vector<Property>& properties) {
+    vector<string> furnishedTypeList;
+
+    for (int i = 0; i < properties.size(); ++i) {
+        Property property = properties[i];
+        string furnishedType = property.getFurnished();
+
+        if(furnishedType != "") {
+            // Check if the region is already in the vector
+            if (find(furnishedTypeList.begin(), furnishedTypeList.end(), furnishedType) == furnishedTypeList.end()) {
+                // Region is not found, add it to the vector
+                furnishedTypeList.push_back(furnishedType);
+            }
+        }
+    }
+    sort(furnishedTypeList.begin(), furnishedTypeList.end());
+    return furnishedTypeList;
+  }
+
+  vector<string> getAvailableRegion(vector<Property>& properties) {
+    vector<string> regionList;
+
+    for (int i = 0; i < properties.size(); ++i) {
+        Property property = properties[i];
+        string region = property.getRegion();
+
+        // Check if the region is already in the vector
+        if (find(regionList.begin(), regionList.end(), region) == regionList.end()) {
+            // Region is not found, add it to the vector
+            regionList.push_back(region);
+        }
+    }
+    sort(regionList.begin(), regionList.end());
+    return regionList;
+  }
+
+  void displayFilteredPropertyList(vector<Property>& filteredList) {
+        int pageSize = 5;  // Number of items to display per page
+        int currentPage = 0;  // Current page index
+
+        while (true) {
+            int startIdx = currentPage * pageSize;
+            int endIdx = startIdx + pageSize;
+
+            cout << "[RESULT]" << endl;
+            cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.size())/pageSize) << endl;
+            cout << "---------------------------\n";
+
+            for (int i = startIdx; i < endIdx && i < filteredList.size(); ++i) {
+                Property property = filteredList[i];
+                std::cout << "Ads ID: " << property.getAdsID() << std::endl;
+                std::cout << "Property Name: " << property.getPropName() << std::endl;
+                std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
+                std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
+                std::cout << "Location: " << property.getLocation() << std::endl;
+                std::cout << "Property Type: " << property.getPropertyType() << std::endl;
+                std::cout << "Rooms: " << property.getRooms() << std::endl;
+                std::cout << "Parking: " << property.getParking() << std::endl;
+                std::cout << "Bathroom: " << property.getBathroom() << std::endl;
+                std::cout << "Size: " << property.getSize() << std::endl;
+                std::cout << "Furnished: " << property.getFurnished() << std::endl;
+                std::cout << "Facilities: " << property.getFacilities() << std::endl;
+                std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
+                std::cout << "Region: " << property.getRegion() << std::endl;
+                std::cout << "---------------------------\n";
+            }
+            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "N" || userInput == "n") {
+                if (endIdx < filteredList.size()) {
+                    currentPage++;
+                } else {
+                    cout << "No more items. Reached the last page." << endl;
+                }
+            } else if (userInput == "P" || userInput == "p") {
+                if (currentPage > 0) {
+                    currentPage--;
+                } else {
+                    cout << "Already on the first page." << endl;
+                }
+            } else if (userInput == "Q" || userInput == "q") {
+                break;  // Exit the loop
+            } else {
+                cout << "Invalid input. Please try again." << endl;
+            }
+        }
+    }
+
 };
+
+#endif

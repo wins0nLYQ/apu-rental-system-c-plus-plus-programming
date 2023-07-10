@@ -45,6 +45,12 @@
         "bitset": "cpp",
         "cstring": "cpp",
         "ctime": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "iomanip": "cpp",
+        "bit": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "string_view": "cpp",
+        "numbers": "cpp"
     }
 }

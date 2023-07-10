@@ -1,25 +1,94 @@
+#ifndef MANAGER_H
+#define MANAGER_H
+
 /**
  * FILENAME: Manager.h
 */
 
-#include "User.cpp"
+#include "User.h"
+#include <vector>
 
 using namespace std;
 
 class Manager : public User {
 private:
-    vector<string> registeredTenants;
-    vector<string> favoriteProperties;
+    string status;
 
 public:
-    void displayRegisteredTenant();
-    void searchTenant();
-    void displayTenantStatus();
-    void deleteTenant();
-    void displayFavoriteProperty();
-    void generate_TopFavProp_Report();
-    void displayRentingRequest();
-    void acceptTenancy();
-    void rejectTenancy();
-    void displayPaymentStatus();
+    Manager(){}
+
+    Manager(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
+                const std::string& _identificationNo, const std::string& _gender,
+                const std::string& _dateOfBirth, const std::string& _status)
+            : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth),
+            status(_status) {
+    }
+
+    string getStatus() const {
+        return status;
+    }
+
+    void setStatus(const string& status) {
+        this->status = status;
+    }
+
+    void displayRegisteredTenant() {
+        // Implementation of displaying registered tenants logic
+    }
+
+    void searchTenant() {
+        // Implementation of tenant search logic
+    }
+
+    void displayTenantStatus() {
+        // Implementation of displaying tenant status logic
+    }
+
+    void deleteTenant() {
+        // Implementation of tenant deletion logic
+    }
+
+    void displayFavoriteProperty() {
+        // Implementation of displaying favorite properties logic
+    }
+
+    void generate_TopFavProp_Report() {
+        // Implementation of generating top favorite properties report logic
+    }
+
+    void displayRentingRequest() {
+        // Implementation of displaying renting requests logic
+    }
+
+    void acceptTenancy() {
+        // Implementation of accepting tenancy logic
+    }
+
+    void rejectTenancy() {
+        // Implementation of rejecting tenancy logic
+    }
+
+    void displayPaymentStatus() {
+        // Implementation of displaying payment status logic
+    }
+
+    Manager login(const std::string& email, DynamicArray<Manager>& managerList) {
+        Manager loginManager;
+        for(int i = 0; i < managerList.getSize(); ++i) {
+            Manager manager;
+            manager = managerList.get(i);
+            if(manager.getEmail() == email) {
+                loginManager.setName(manager.getName());
+                loginManager.setEmail(manager.getEmail());
+                loginManager.setPhoneNo(manager.getPhoneNo());
+                loginManager.setIdentificationNo(manager.getIdentificationNo());
+                loginManager.setGender(manager.getGender());
+                loginManager.setDateOfBirth(manager.getDateOfBirth());
+                loginManager.setPassword(manager.getPassword());
+                loginManager.setStatus(manager.getStatus());
+            }
+        } return loginManager;
+    }
 };
+
+#endif
