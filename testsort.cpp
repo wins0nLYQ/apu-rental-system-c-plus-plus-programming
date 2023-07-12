@@ -9,24 +9,45 @@
 using namespace std;
 
 // Compare function for sorting properties in descending order based on monthly_rent
-bool compareMonthlyRent(const Property& prop1, const Property& prop2) {
+bool compareMonthlyRentDesc(const Property& prop1, const Property& prop2) {
     DataConversion dataConversion;
     long long rent1 = dataConversion.extractDigit(prop1.getMonthlyRent());
     long long rent2 = dataConversion.extractDigit(prop2.getMonthlyRent());
     return rent1 > rent2;
 }
 
-// Compare function for sorting properties in ascending order based on location
-bool compareLocation(const Property& prop1, const Property& prop2) {
+// Compare function for sorting properties in descending order based on location
+bool compareLocationDesc(const Property& prop1, const Property& prop2) {
     return prop1.getLocation() > prop2.getLocation();
 }
 
 // Compare function for sorting properties in descending order based on size
-bool compareSize(const Property& prop1, const Property& prop2) {
+bool compareSizeDesc(const Property& prop1, const Property& prop2) {
     DataConversion converter;
     long long size1 = converter.extractDigit(prop1.getSize());
     long long size2 = converter.extractDigit(prop2.getSize());
     return size1 > size2;
+}
+
+// Compare function for sorting properties in ascending order based on monthly_rent
+bool compareMonthlyRentAsc(const Property& prop1, const Property& prop2) {
+    DataConversion dataConversion;
+    long long rent1 = dataConversion.extractDigit(prop1.getMonthlyRent());
+    long long rent2 = dataConversion.extractDigit(prop2.getMonthlyRent());
+    return rent1 < rent2;
+}
+
+// Compare function for sorting properties in ascending order based on location
+bool compareLocationAsc(const Property& prop1, const Property& prop2) {
+    return prop1.getLocation() < prop2.getLocation();
+}
+
+// Compare function for sorting properties in ascending order based on size
+bool compareSizeAsc(const Property& prop1, const Property& prop2) {
+    DataConversion converter;
+    long long size1 = converter.extractDigit(prop1.getSize());
+    long long size2 = converter.extractDigit(prop2.getSize());
+    return size1 < size2;
 }
 
 // Merge function for merging two sorted vectors based on monthly_rent
@@ -122,39 +143,94 @@ int main() {
     getline(cin >> ws, choice);
 
     DataValidation validator;
+    Property propertyObj;
     if (validator.isNumber(choice)) {
         int decision = stoi(choice);
+        cout << " " << endl;
+        std::cout << "Sort in:" << std::endl;
+        std::cout << "1. Ascending Order" << std::endl;
+        std::cout << "2. Descending Order" << std::endl;
+        std::cout << "Enter your choice (1-2): ";
 
-        // Sort properties based on user's choice
-        switch (decision) {
-            case 1:
-                std::cout << "Sorting based on Monthly Rent" << std::endl;
-                // Sort by monthly rent in descending order
-                properties = mergeSort(properties, compareMonthlyRent);
-                break;
-            case 2:
-                std::cout << "Sorting based on Location" << std::endl;
-                // Sort by location in ascending order
-                properties = mergeSort(properties, compareLocation);
-                break;
-            case 3:
-                std::cout << "Sorting based on Size" << std::endl;
-                // Sort by size in descending order
-                properties = mergeSort(properties, compareSize);
-                break;
-            default:
-                std::cout << "Invalid input. Please try again." << std::endl;
-                break;
+        string orderChoice;
+        getline(cin >> ws, orderChoice);
+
+        if (validator.isNumber(orderChoice)) {
+            int orderDecision = stoi(orderChoice);
+
+            // Sort properties based on user's choice
+            switch (decision) {
+                case 1:
+                    if (orderDecision == 1) {
+                        cout << " " << endl;
+                        cout << "Sorting based on Monthly Rent in ascending order" << std::endl;
+                        // Sort by monthly rent in ascending order
+                        properties = mergeSort(properties, compareMonthlyRentAsc);
+                    } else if (orderDecision == 2) {
+                        cout << " " << endl;
+                        cout << "Sorting based on Monthly Rent in descending order" << std::endl;
+                        // Sort by monthly rent in descending order
+                        properties = mergeSort(properties, compareMonthlyRentDesc);
+                    } else {
+                        cout << " " << endl;
+                        std::cout << "Invalid input. Please try again." << std::endl;
+                        return 0;
+                    }
+                    break;
+                case 2:
+                    if (orderDecision == 1) {
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Monthly Rent in asecending order" << std::endl;
+                        // Sort by location in ascending order
+                        properties = mergeSort(properties, compareLocationAsc);
+                    } else if (orderDecision == 2) {
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Monthly Rent in descending order" << std::endl;
+                        // Sort by location in descending order
+                        properties = mergeSort(properties, compareLocationDesc);
+                    } else {
+                        cout << " " << endl;
+                        std::cout << "Invalid input. Please try again." << std::endl;
+                        return 0;
+                    }
+                    break;
+                case 3:
+                    if (orderDecision == 1) {
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Size in ascending order" << std::endl;
+                        // Sort by size in ascending order
+                        properties = mergeSort(properties, compareSizeAsc);
+                    } else if (orderDecision == 2) {
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Size in desencing order" << std::endl;
+                        // Sort by size in descending order
+                        properties = mergeSort(properties, compareSizeDesc);
+                    } else {
+                        cout << " " << endl;
+                        std::cout << "Invalid input. Please try again." << std::endl;
+                        return 0;
+                    }
+                    break;
+                default:
+                    std::cout << "Invalid input. Please try again." << std::endl;
+                    cout << " " << endl;
+                    return 0;
+            }
+
+            // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
+            propertyObj.displayFilteredPropertyList(properties);
+        } else {
+            std::cout << "Invalid input. Please try again." << std::endl;
+            cout << " " << endl;
+            return 0;
         }
     } else {
         std::cout << "Invalid input. Please try again." << std::endl;
+        cout << " " << endl;
+        return 0;
     }
-
-
-    // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
-    Property propertyObj;
-    propertyObj.displayFilteredPropertyList(properties);
 
     return 0;
 }
+
 

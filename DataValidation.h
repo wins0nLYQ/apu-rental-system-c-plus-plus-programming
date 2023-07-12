@@ -10,7 +10,7 @@
 // #include "Manager.h"
 // #include "Tenant.h"
 // #include <iostream>
-// #include <regex>
+#include <regex>
 // #include "Admin.h"
 
 using namespace std;
