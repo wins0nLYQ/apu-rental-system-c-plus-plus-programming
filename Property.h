@@ -5,9 +5,11 @@
  * FILENAME: Property.h
  */
 
-// #include <string>
-// #include <vector>
-// #include <iostream>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm> 
+#include <cmath> 
 
 using namespace std;
 
