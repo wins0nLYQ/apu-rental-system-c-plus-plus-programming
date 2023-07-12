@@ -171,10 +171,10 @@ public:
                 getline(cin >> ws, userInput);
                 cout << endl;
 
-                if(userInput == "Y") {
+                if(userInput == "Y" || userInput == "y") {
                     filterTenants(temp);
                     flag = true;
-                } else if(userInput == "N") {
+                } else if(userInput == "N" || userInput == "n") {
                     displayFilteredTenantList(temp);
                     flag = true;
                 }

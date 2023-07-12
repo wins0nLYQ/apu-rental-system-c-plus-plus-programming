@@ -6,12 +6,14 @@
 */
 
 #include "User.h"
+#include "DoublyCircularLinkedList.h"
 
 using namespace std;
 
 class Tenant : public User {
   private:
     string lastLoginDate;
+    DoublyCircularLinkedList<Property> favouriteList;
 
   public:
     Tenant(){}
@@ -29,6 +31,14 @@ class Tenant : public User {
 
     void setLastLoginDate(const string& lastLoginDate) {
         this->lastLoginDate = lastLoginDate;
+    }
+
+    DoublyCircularLinkedList<Property> getFavouriteList() const {
+        return favouriteList;
+    }
+
+    void addFavouriteList(Property& property) {
+        
     }
 
     void registerTenant() {
