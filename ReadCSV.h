@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include "DynamicArray.h"
 #include "Property.h"
 
 using namespace std;
@@ -22,8 +23,8 @@ class ReadCSV {
       return tokens;
   }
 
-  vector<Property> readCSV(const string& filename) {
-      vector<Property> properties;
+  DynamicArray<Property> readCSV(const string& filename) {
+      DynamicArray<Property> properties;
       ifstream file(filename);
 
       if (!file) {
@@ -80,37 +81,41 @@ class ReadCSV {
 
         Property property = Property(attributes);
 
-        properties.push_back(property);
+        properties.insertAtEnd(property);
       }
 
       file.close();
       return properties;
   }
 
-  void printProperties(const vector<Property>& properties) {
-      int count = 0;
-      for (const auto& property : properties) {
-          cout << "ads_id: " << property.getAdsID() << endl;
-          cout << "prop_name: " << property.getPropName() << endl;
-          cout << "completion_year: " << property.getCompletionYear() << endl;
-          cout << "monthly_rent: " << property.getMonthlyRent() << endl;
-          cout << "location: " << property.getLocation() << endl;
-          cout << "property_type: " << property.getPropertyType() << endl;
-          cout << "rooms: " << property.getRooms() << endl;
-          cout << "parking: " << property.getParking() << endl;
-          cout << "bathroom: " << property.getBathroom() << endl;
-          cout << "size: " << property.getSize() << endl;
-          cout << "furnished: " << property.getFurnished() << endl;
-          cout << "facilities: " << property.getFacilities() << endl;
-          cout << "additional_facilities: " << property.getAdditionalFacilities() << endl;
-          cout << "region: " << property.getRegion() << endl;
+  void printProperties(DynamicArray<Property> properties) {
+      // int count = 0;
+      // for (Property property : properties) {
+      Property property;
+      for (int i = 0; i < properties.getSize(); ++i) {
+        cout << "Hello" << endl;
+        property = properties.get(i);
+        cout << "ads_id: " << property.getAdsID() << endl;
+        cout << "prop_name: " << property.getPropName() << endl;
+        cout << "completion_year: " << property.getCompletionYear() << endl;
+        cout << "monthly_rent: " << property.getMonthlyRent() << endl;
+        cout << "location: " << property.getLocation() << endl;
+        cout << "property_type: " << property.getPropertyType() << endl;
+        cout << "rooms: " << property.getRooms() << endl;
+        cout << "parking: " << property.getParking() << endl;
+        cout << "bathroom: " << property.getBathroom() << endl;
+        cout << "size: " << property.getSize() << endl;
+        cout << "furnished: " << property.getFurnished() << endl;
+        cout << "facilities: " << property.getFacilities() << endl;
+        cout << "additional_facilities: " << property.getAdditionalFacilities() << endl;
+        cout << "region: " << property.getRegion() << endl;
 
-          cout << "-----------------------------------" << endl;
-          
-          count++;
-          if (count >= 5) {
-              break;
-          }
+        cout << "-----------------------------------" << endl;
+        
+        // count++;
+        // if (count >= 5) {
+        //     break;
+        // }
       }
   }
 };
