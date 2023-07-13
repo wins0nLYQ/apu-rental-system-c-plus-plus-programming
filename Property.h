@@ -344,6 +344,10 @@ public:
             }
         }
     }
+
+    bool operator<(const Property& other) const {
+        return this->propName < other.getPropName();
+    }
 };
 
 #endif
