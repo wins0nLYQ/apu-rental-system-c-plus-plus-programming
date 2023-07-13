@@ -6,6 +6,8 @@
 */
 
 #include "User.h"
+#include "DoublyCircularLinkedList.h"
+#include "Property.h"
 
 
 using namespace std;
@@ -13,6 +15,7 @@ using namespace std;
 class Tenant : public User {
   private:
     string lastLoginDate;
+    DoublyCircularLinkedList<Property> dcll;
 
   public:
     Tenant(){}

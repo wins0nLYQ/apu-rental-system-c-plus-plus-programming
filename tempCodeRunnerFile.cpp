@@ -1,9 +1,8 @@
-#include <iostream>
-#include <vector>
 
 #include "DynamicArray.h"
 #include "Property.h"
 #include "Asia_Pacific_Home.h"
+#include <algorithm>
 
 using namespace std;
 

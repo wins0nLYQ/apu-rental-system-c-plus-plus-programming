@@ -22,7 +22,7 @@ class ReadCSV {
       }
       return tokens;
   }
-
+  
   DynamicArray<Property> readCSV(const string& filename) {
       DynamicArray<Property> properties;
       ifstream file(filename);

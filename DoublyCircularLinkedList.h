@@ -36,9 +36,9 @@ public:
         return;
       }
 
-      DCLListNode<T> current = head;
+      DCLListNode<T> *current = head;
       do {
-        DCLListNode<T>nextNode = current->next;
+        DCLListNode<T> *nextNode = current->next;
         delete current;
         current = nextNode;
       } while (current != head);

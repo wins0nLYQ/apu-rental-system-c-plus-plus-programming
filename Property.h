@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -247,12 +249,12 @@ public:
 
     vector<string> getAvailableFurnishedType(DynamicArray<Property> &properties)
     {
-        vector<string> furnishedTypeList;
+        std::vector<std::string> furnishedTypeList;
 
         for (int i = 0; i < properties.getSize(); ++i)
         {
             Property property = properties.get(i);
-            string furnishedType = property.getFurnished();
+            std::string furnishedType = property.getFurnished();
 
             if (furnishedType != "")
             {
@@ -288,19 +290,22 @@ public:
         return regionList;
     }
 
-    void displayFilteredPropertyList(DynamicArray<Property>& filteredList) {
-        int pageSize = 5;  // Number of items to display per page
-        int currentPage = 0;  // Current page index
+    void displayFilteredPropertyList(DynamicArray<Property> &filteredList)
+    {
+        int pageSize = 5;    // Number of items to display per page
+        int currentPage = 0; // Current page index
 
-        while (true) {
+        while (true)
+        {
             int startIdx = currentPage * pageSize;
             int endIdx = startIdx + pageSize;
 
             cout << "[RESULT]" << endl;
-            cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.getSize())/pageSize) << endl;
+            cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.getSize()) / pageSize) << endl;
             cout << "---------------------------\n";
 
-            for (int i = startIdx; i < endIdx && i < filteredList.getSize(); ++i) {
+            for (int i = startIdx; i < endIdx && i < filteredList.getSize(); ++i)
+            {
                 Property property = filteredList.get(i);
                 std::cout << "Ads ID: " << property.getAdsID() << std::endl;
                 std::cout << "Property Name: " << property.getPropName() << std::endl;
@@ -325,27 +330,41 @@ public:
             getline(cin >> ws, userInput);
             cout << endl;
 
-            if (userInput == "N" || userInput == "n") {
-                if (endIdx < filteredList.getSize()) {
+            if (userInput == "N" || userInput == "n")
+            {
+                if (endIdx < filteredList.getSize())
+                {
                     currentPage++;
-                } else {
+                }
+                else
+                {
                     cout << "No more items. Reached the last page." << endl;
                 }
-            } else if (userInput == "P" || userInput == "p") {
-                if (currentPage > 0) {
+            }
+            else if (userInput == "P" || userInput == "p")
+            {
+                if (currentPage > 0)
+                {
                     currentPage--;
-                } else {
+                }
+                else
+                {
                     cout << "Already on the first page." << endl;
                 }
-            } else if (userInput == "Q" || userInput == "q") {
-                break;  // Exit the loop
-            } else {
+            }
+            else if (userInput == "Q" || userInput == "q")
+            {
+                break; // Exit the loop
+            }
+            else
+            {
                 cout << "Invalid input. Please try again." << endl;
             }
         }
     }
 
-    bool operator<(const Property& other) const {
+    bool operator<(const Property &other) const
+    {
         return this->propName < other.getPropName();
     }
 };
