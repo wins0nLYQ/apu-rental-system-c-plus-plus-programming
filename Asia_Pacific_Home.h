@@ -26,9 +26,10 @@ using namespace std;
 class Asia_Pacific_Home
 {
 private:
+    ReadCSV read;
     DynamicArray<Manager> managerList;
     DynamicArray<Tenant> tenantList;
-    vector<Property> properties;
+    DynamicArray<Property> properties = read.readCSV("mudah-apartment-kl-selangor.csv");
 
 public:
     void homePage()
@@ -41,9 +42,6 @@ public:
 
         Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Inactive");
         managerList.insertAtEnd(newManager);
-
-        ReadCSV read;
-        properties = read.readCSV("mudah-apartment-kl-selangor.csv");
 
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
@@ -456,10 +454,10 @@ public:
     void admin_ViewPropertyInfoPage()
     {
         cout << "[VIEW PROPERTY INFORMATION PAGE]" << endl;
-        cout << "Available Property: " << properties.size() << endl;
+        cout << "Available Property: " << properties.getSize() << endl;
         cout << endl;
 
-        if (properties.size() == 0)
+        if (properties.getSize() == 0)
         {
             cout << "Property information not available...." << endl;
             cout << "Input any key to back >> ";
@@ -485,7 +483,6 @@ public:
 
     void tenant_HomePage(Tenant tenant)
     {
-        bool validInput = false;
         cout << "Welcome Tenant: " << tenant.getName() << endl;
         cout << "-------------------------------------------------------------" << endl;
         while (!validInput)
@@ -510,6 +507,16 @@ public:
     void manager_HomePage(Manager manager)
     {
         cout << "Welcome Manager: " << manager.getName() << endl;
+    }
+
+    /**
+     * --------------------------------------------------------------------------------------------
+     * GET SET
+     */
+
+    DynamicArray<Property> getPropertyList()
+    {
+        return this->properties;
     }
 };
 
