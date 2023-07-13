@@ -21,6 +21,7 @@ private:
 public:
   DCLListNode<T> *head;
   DCLListNode<T> *tail;
+  DCLListNode<T> *current;
 
   DoublyCircularLinkedList()
   {
@@ -163,6 +164,16 @@ public:
         }
       }
     }
+  }
+
+  T& nextItem() {
+    current = current->next;
+    return current->data;
+  }
+
+  T& prevItem() {
+    current = current->prev;
+    return current->data;
   }
 
   void display()

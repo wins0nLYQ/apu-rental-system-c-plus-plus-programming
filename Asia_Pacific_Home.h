@@ -29,10 +29,12 @@ private:
     DynamicArray<Manager> managerList;
     DynamicArray<Tenant> tenantList;
     DynamicArray<Property> properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+    User user;
 
 public:
     void homePage()
     {
+        cout << user.isAuthorised() << endl;
         Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "hello");
         tenantList.insertAtEnd(newTenant);
 
@@ -205,6 +207,7 @@ public:
         else if (userRole == "Tenant")
         {
             Tenant tenant = tenant.login(email, tenantList);
+            this->user = tenant;
             tenant_HomePage(tenant);
         }
         else if (userRole == "Manager")
@@ -482,6 +485,7 @@ public:
 
     void tenant_HomePage(Tenant tenant)
     {
+        cout << user.isAuthorised() << endl;
         cout << "Welcome Tenant: " << tenant.getName() << endl;
     }
 
