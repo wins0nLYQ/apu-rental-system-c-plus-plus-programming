@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     ReadCSV reader;
-    std::vector<Property> properties = reader.readCSV("mudah-apartment-kl-selangor.csv");
+    DynamicArray<Property> properties = reader.readCSV("mudah-apartment-kl-selangor.csv");
 
     std::cout << "Sort Properties by:" << std::endl;
     std::cout << "1. Monthly Rent" << std::endl;
