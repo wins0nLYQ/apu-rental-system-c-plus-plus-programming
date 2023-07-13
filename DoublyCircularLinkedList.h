@@ -167,11 +167,13 @@ public:
   }
 
   T& nextItem() {
-
+    current = current->next;
+    return current->data;
   }
 
   T& prevItem() {
-    
+    current = current->prev;
+    return current->data;
   }
 
   void display()
