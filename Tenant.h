@@ -10,6 +10,8 @@
 
 using namespace std;
 
+class Property;
+
 class Tenant : public User {
   private:
     string lastLoginDate;
@@ -33,9 +35,9 @@ class Tenant : public User {
         this->lastLoginDate = lastLoginDate;
     }
 
-    DoublyCircularLinkedList<Property> getFavouriteList() const {
-        return favouriteList;
-    }
+    // DoublyCircularLinkedList<Property> getFavouriteList() const {
+    //     return favouriteList;
+    // }
 
     void addFavouriteList(Property& property) {
         
