@@ -96,6 +96,18 @@ public:
         }
     }
 
+    void set(int index, const T& object)
+    {
+        if (index >= 0 && index < size)
+        {
+            objectArray[index] = object;
+        }
+        else
+        {
+            throw std::out_of_range("Invalid index");
+        }
+    }
+
     void removeAt(int index)
     {
         if (index >= 0 && index < size)

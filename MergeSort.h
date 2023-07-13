@@ -7,10 +7,12 @@
 #include "Property.h"
 #include "DataConverstion.h"
 #include "DataValidation.h"
+#include "DynamicArray.h"
 
 class MergeSort {
 public:
     MergeSort() {}
+
     // Compare function for sorting properties in descending order based on monthly_rent
     static bool compareMonthlyRentDesc(const Property& prop1, const Property& prop2) {
         DataConversion dataConversion;
@@ -53,93 +55,80 @@ public:
         return size1 < size2;
     }
 
-    // Merge function for merging two sorted vectors based on monthly_rent
-    static std::vector<Property> merge(std::vector<Property>& left, std::vector<Property>& right, std::function<bool(const Property&, const Property&)> compare) {
-        std::vector<Property> merged;
-        int leftIndex = 0;
-        int rightIndex = 0;
+    void merge(DynamicArray<Property>& arr, int left, int mid, int right, std::function<bool(const Property&, const Property&)> compareFunction) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
 
-        // Determine the size of the merged vector
-        int mergedSize = left.size() + right.size();
-        merged.resize(mergedSize);
+        DynamicArray<int> mergedIndices;
 
-        int mergedIndex = 0;
+        int i = left;   // Initial index of the first subarray
+        int j = mid + 1; // Initial index of the second subarray
 
-        // Copy data to temp arrays leftArray[] and rightArray[]
-        std::vector<Property> leftArray(left.size());
-        std::vector<Property> rightArray(right.size());
-
-        // Copy data to temp arrays
-        for (int i = 0; i < left.size(); i++) {
-            leftArray[i] = left[i];
-        }
-
-        for (int i = 0; i < right.size(); i++) {
-            rightArray[i] = right[i];
-        }
-
-        // Merge the two arrays
-        while (leftIndex < leftArray.size() && rightIndex < rightArray.size()) {
-            if (compare(leftArray[leftIndex], rightArray[rightIndex])) {
-                merged[mergedIndex] = leftArray[leftIndex];
-                leftIndex++;
+        // Merge the subarrays while maintaining the descending order of ads_id
+        while (i <= mid && j <= right) {
+            if (compareFunction(arr.get(i), arr.get(j))) {
+                mergedIndices.insertAtEnd(i);
+                i++;
             } else {
-                merged[mergedIndex] = rightArray[rightIndex];
-                rightIndex++;
-            }
-            mergedIndex++;
-        }
-
-        // Copy the remaining elements from left vector, if any
-        while (leftIndex < leftArray.size()) {
-            merged[mergedIndex] = leftArray[leftIndex];
-            leftIndex++;
-            mergedIndex++;
-        }
-
-        // Copy the remaining elements from right vector, if any
-        while (rightIndex < rightArray.size()) {
-            merged[mergedIndex] = rightArray[rightIndex];
-            rightIndex++;
-            mergedIndex++;
-        }
-
-        return merged;
-    }
-
-    // Merge sort function for sorting properties based on monthly_rent in descending order
-    static std::vector<Property> mergeSort(std::vector<Property>& properties, std::function<bool(const Property&, const Property&)> compare) {
-        if (properties.size() <= 1) {
-            return properties;
-        }
-
-        int mid = properties.size() / 2;
-        std::vector<Property> left(properties.size() - mid);
-        std::vector<Property> right(mid);
-
-        // Copy data to left and right vectors
-        for (int i = 0; i < properties.size(); i++) {
-            if (i < mid) {
-                right[i] = properties[i];
-            } else {
-                left[i - mid] = properties[i];
+                mergedIndices.insertAtEnd(j);
+                j++;
             }
         }
 
-        left = mergeSort(left, compare);
-        right = mergeSort(right, compare);
+        // Copy the remaining elements of the first subarray, if any
+        while (i <= mid) {
+            mergedIndices.insertAtEnd(i);
+            i++;
+        }
 
-        return merge(left, right, compare);
+        // Copy the remaining elements of the second subarray, if any
+        while (j <= right) {
+            mergedIndices.insertAtEnd(j);
+            j++;
+        }
+
+        DynamicArray<Property> sortedArr;
+        for (int k = 0; k < mergedIndices.getSize(); k++) {
+            sortedArr.insertAtEnd(arr.get(mergedIndices.get(k)));
+        }
+
+        for (int k = 0; k < sortedArr.getSize(); k++) {
+            arr.set(left + k, sortedArr.get(k));
+        }
     }
 
-    // Perform merge sort and return the time taken in milliseconds
-    static long long performMergeSort(std::vector<Property>& properties, std::function<bool(const Property&, const Property&)> compare) {
+    void mergeSort(DynamicArray<Property>& arr, int left, int right, std::function<bool(const Property&, const Property&)> compareFunction) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Sort first and second halves
+            mergeSort(arr, left, mid, compareFunction);
+            mergeSort(arr, mid + 1, right, compareFunction);
+
+            // Merge the sorted halves
+            merge(arr, left, mid, right, compareFunction);
+        }
+    }
+
+    // Function to calculate the time spent for merge sort
+    void calculateMergeSortTime(DynamicArray<Property>& arr, std::function<bool(const Property&, const Property&)> compareFunction) {
+        // Start the timer
         auto startTime = std::chrono::steady_clock::now();
-        properties = mergeSort(properties, compare);
+
+        // Perform merge sort
+        MergeSort mergeSortObj;
+        mergeSortObj.mergeSort(arr, 0, arr.getSize() - 1, compareFunction);
+
+        // End the timer
         auto endTime = std::chrono::steady_clock::now();
 
-        return std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+        // Calculate the duration in seconds
+        std::chrono::duration<double> duration = endTime - startTime;
+
+        // Print the time spent
+        std::cout << "Time spent for merge sort: " << duration.count() << " seconds" << std::endl;
     }
+
 };
 
-#endif
+#endif // MERGE_SORT_H

@@ -10,6 +10,8 @@
 #include <iostream>
 #include <algorithm> 
 #include <cmath> 
+#include "DynamicArray.h"
+
 
 using namespace std;
 
