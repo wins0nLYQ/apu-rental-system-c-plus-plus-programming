@@ -88,6 +88,10 @@ public:
         this->dateOfBirth = dateOfBirth;
     }
 
+    bool isAuthorised() {
+        return this->email != "";
+    }
+
     void login() {
         // Implementation of login logic
     }
