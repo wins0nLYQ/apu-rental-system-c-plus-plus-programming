@@ -77,6 +77,7 @@ class Tenant : public User {
             }
         } return loginTenant;
     } 
+
 };
 
 #endif

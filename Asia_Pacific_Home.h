@@ -25,16 +25,15 @@ using namespace std;
 class Asia_Pacific_Home
 {
 private:
-    ReadCSV read;
+    
     DynamicArray<Manager> managerList;
     DynamicArray<Tenant> tenantList;
-    DynamicArray<Property> properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+    DynamicArray<Property> properties;
     User user;
 
 public:
     void homePage()
     {
-        cout << user.isAuthorised() << endl;
         Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "hello");
         tenantList.insertAtEnd(newTenant);
 
@@ -43,6 +42,9 @@ public:
 
         Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Inactive");
         managerList.insertAtEnd(newManager);
+
+        ReadCSV read;
+        read.readCSV("mudah-apartment-kl-selangor.csv", properties);
 
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
@@ -376,14 +378,14 @@ public:
     void admin_AddNewManagerPage()
     {
         Admin admin;
-        vector<string> existingEmail = getExistingEmail();
+        DynamicArray<string> existingEmail = getExistingEmail();
         admin.addManager(managerList, existingEmail);
         admin_ManageManagerPage();
     }
 
-    vector<string> getExistingEmail()
+    DynamicArray<string> getExistingEmail()
     {
-        vector<string> existingEmail;
+        DynamicArray<string> existingEmail;
 
         int managerNum = managerList.getSize();
         int tenantNum = tenantList.getSize();
@@ -391,13 +393,13 @@ public:
         for (int i = 0; i < managerNum; ++i)
         {
             Manager manager = managerList.get(i);
-            existingEmail.push_back(manager.getEmail());
+            existingEmail.insertAtEnd(manager.getEmail());
         }
 
         for (int i = 0; i < tenantNum; ++i)
         {
             Tenant tenant = tenantList.get(i);
-            existingEmail.push_back(tenant.getEmail());
+            existingEmail.insertAtEnd(tenant.getEmail());
         }
         return existingEmail;
     }
@@ -445,10 +447,10 @@ public:
             {
                 admin_HomePage();
             }
-            cout << "Input any key to back >> ";
-            string userInput;
-            getline(cin >> ws, userInput);
-            cout << endl;
+            // cout << "Input any key to back >> ";
+            // string userInput;
+            // getline(cin >> ws, userInput);
+            // cout << endl;
             admin_HomePage();
         }
     }

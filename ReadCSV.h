@@ -23,13 +23,14 @@ class ReadCSV {
       return tokens;
   }
 
-  DynamicArray<Property> readCSV(const string& filename) {
-      DynamicArray<Property> properties;
+  void readCSV(const string& filename, DynamicArray<Property>& properties) {
+      // DynamicArray<Property> properties;
       ifstream file(filename);
 
       if (!file) {
           cerr << "Failed to open the file: " << filename << endl;
-          return properties;
+          // return properties;
+          return;
       }
 
       std::string line;
@@ -85,7 +86,7 @@ class ReadCSV {
       }
 
       file.close();
-      return properties;
+      // return properties;
   }
 
   void printProperties(DynamicArray<Property> properties) {
