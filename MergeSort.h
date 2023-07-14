@@ -60,6 +60,11 @@ public:
         return prop1.getPropName() < prop2.getPropName();
     }
 
+    // Compare function for sorting properties in ascending order based on property ads id
+    static bool compareAdsIdAsc(const Property& prop1, const Property& prop2) {
+        return prop1.getAdsID() < prop2.getAdsID();
+    }
+
     void merge(DynamicArray<Property>& arr, int left, int mid, int right, std::function<bool(const Property&, const Property&)> compareFunction) {
         int n1 = mid - left + 1;
         int n2 = right - mid;

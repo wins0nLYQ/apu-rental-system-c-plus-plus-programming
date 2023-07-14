@@ -15,7 +15,11 @@ class Rental {
         string remarks;
 
     public:
-        string getAdsID() const {
+    Rental() {
+        // default constructor, sets all member variables to empty strings or 0's.
+    }
+
+    string getAdsID() const {
         return adsID;
     }
 
