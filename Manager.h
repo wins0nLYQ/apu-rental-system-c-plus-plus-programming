@@ -7,6 +7,7 @@
 
 #include "User.h"
 #include <vector>
+#include "DataConversion.h"
 
 using namespace std;
 
@@ -73,11 +74,11 @@ public:
     }
 
     Manager login(const std::string& email, DynamicArray<Manager>& managerList) {
-        Manager loginManager;
+        Manager loginManager; DataConversion dc;
         for(int i = 0; i < managerList.getSize(); ++i) {
             Manager manager;
             manager = managerList.get(i);
-            if(manager.getEmail() == email) {
+            if(dc.toLowercase(manager.getEmail()) == dc.toLowercase(email)) {
                 loginManager.setName(manager.getName());
                 loginManager.setEmail(manager.getEmail());
                 loginManager.setPhoneNo(manager.getPhoneNo());

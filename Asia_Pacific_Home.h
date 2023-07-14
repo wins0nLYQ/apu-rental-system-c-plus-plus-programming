@@ -67,9 +67,11 @@ public:
 
         if (userInput == "1")
         {
-            cout << "Option 1";
             FilterProperty fp(user);
-            fp.filterProperty(properties);
+            if(fp.filterProperty(properties) == false) {
+                homePage();
+            }
+            homePage();
         }
         else if (userInput == "2")
         {

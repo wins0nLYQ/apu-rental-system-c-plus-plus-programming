@@ -228,8 +228,9 @@ class Tenant : public User {
         // Implementation of displaying property information logic
     }
 
-    void saveFavorite() {
+    void saveFavoriteProperty(const Property& property) {
         // Implementation of saving favorite properties logic
+        this->dcll.insertAtEnd(property);
     }
 
     void placeRentRequest() {
@@ -245,7 +246,7 @@ class Tenant : public User {
         for(int i = 0; i < tenantList.getSize(); ++i) {
             Tenant tenant;
             tenant = tenantList.get(i);
-            if(tenant.getEmail() == email) {
+            if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(email)) {
                 loginTenant.setName(tenant.getName());
                 loginTenant.setEmail(tenant.getEmail());
                 loginTenant.setPhoneNo(tenant.getPhoneNo());
