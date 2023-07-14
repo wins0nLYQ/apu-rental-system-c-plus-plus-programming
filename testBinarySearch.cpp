@@ -73,18 +73,20 @@ int main() {
     ReadCSV read;
     read.readCSV("mudah-apartment-kl-selangor.csv", items);
 
-    string userInput;
-    cout << "What are you searching for: ";
-    getline(cin >> ws, userInput);
+    while (true) {
+        string userInput;
+        cout << "What are you searching for: ";
+        getline(cin >> ws, userInput);
 
-    Property property;
-    BinarySearch bs;
-    bs.binarySearch(items, userInput, property);
+        Property property;
+        BinarySearch bs;
+        bs.binarySearch(items, userInput, property);
 
-    cout << "Result: " << endl
-         << "Ads ID: " << property.getAdsID() << endl
-         << "Property Name: " << property.getPropName() << endl
-         << endl;
-
+        cout << "Result: " << endl
+            << "Ads ID: " << property.getAdsID() << endl
+            << "Property Name: " << property.getPropName() << endl
+            << endl;
+    }
+    
     return 0;
 }
