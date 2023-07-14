@@ -26,23 +26,31 @@ class Manager;
 
 class Admin : public User {
 private:
-    std::string email;
-    std::string password;
+    // std::string email;
+    // std::string password;
+    // std::string role;
 
 public:
-    Admin() {
-        email = "admin@gmail.com";
-        password = "Admin@1234";
-    }
+    // Admin() {
+    //     email = "admin@gmail.com";
+    //     password = "Admin@1234";
+    //     role = "Admin";
+    // }
+
+    Admin(): User("Admin", "admin@gmail.com", "Admin", "Admin", "Admin", "Admin@1234", "Admin", "Admin"){}
 
 
-    string getEmail() const {
-        return email;
-    }
+    // string getEmail() const {
+    //     return email;
+    // }
 
-    string getPassword() const {
-        return password;
-    }
+    // string getPassword() const {
+    //     return password;
+    // }
+
+    // string getRole() const {
+    //     return role;
+    // }
 
     void addManager(DynamicArray<Manager>& managerList, DynamicArray<string>& existingEmail) {
         // Implementation for adding a manager
