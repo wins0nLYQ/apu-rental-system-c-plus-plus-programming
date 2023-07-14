@@ -9,7 +9,7 @@
 #include "DataValidation.h"
 #include "Asia_Pacific_Home.h"
 #include "Property.h"
-#include "DataConverstion.h"
+#include "DataConversion.h"
 
 
 using namespace std;
@@ -284,9 +284,9 @@ class FilterProperty {
             } else if (userInput == "9") {
                 string search;
                 cout << "AVAILABLE FURNISHED TYPE:" << endl;
-                vector<string> furnishedTypeList = property.getAvailableFurnishedType(properties);
-                for(int i = 0; i < furnishedTypeList.size(); ++i) {
-                    cout << i + 1 << ". " << furnishedTypeList[i] << endl;
+                DynamicArray<string> furnishedTypeList = property.getAvailableFurnishedType(properties);
+                for(int i = 0; i < furnishedTypeList.getSize(); ++i) {
+                    cout << i + 1 << ". " << furnishedTypeList.get(i) << endl;
                 }
 
                 bool check = false;
@@ -297,9 +297,9 @@ class FilterProperty {
                     cout << endl;
                     if(dv.isNumber(search)) {
                         int selectedNum = stoi(search);
-                        if(selectedNum > 0 && selectedNum <= furnishedTypeList.size()) {
+                        if(selectedNum > 0 && selectedNum <= furnishedTypeList.getSize()) {
                             check = true;
-                            filterByFurnishedType(properties, furnishedTypeList[selectedNum - 1]);
+                            filterByFurnishedType(properties, furnishedTypeList.get(selectedNum - 1));
                         } else {
                             cout << "Invalid input! Please enter within the range." << endl;
                         }
@@ -312,9 +312,9 @@ class FilterProperty {
             } else if (userInput == "10") {
                 string search;
                 cout << "AVAILABLE REGIONS:" << endl;
-                vector<string> regionList = property.getAvailableRegion(properties);
-                for(int i = 0; i < regionList.size(); ++i) {
-                    cout << i + 1 << ". " << regionList[i] << endl;
+                DynamicArray<string> regionList = property.getAvailableRegion(properties);
+                for(int i = 0; i < regionList.getSize(); ++i) {
+                    cout << i + 1 << ". " << regionList.get(i) << endl;
                 }
 
                 bool check = false;
@@ -325,9 +325,9 @@ class FilterProperty {
                     cout << endl;
                     if(dv.isNumber(search)) {
                         int selectedNum = stoi(search);
-                        if(selectedNum > 0 && selectedNum <= regionList.size()) {
+                        if(selectedNum > 0 && selectedNum <= regionList.getSize()) {
                             check = true;
-                            filterByRegion(properties, regionList[selectedNum - 1]);
+                            filterByRegion(properties, regionList.get(selectedNum - 1));
                         } else {
                             cout << "Invalid input! Please enter within the range." << endl;
                         }
@@ -338,7 +338,7 @@ class FilterProperty {
                 validInput = true;
 
             } else if(userInput == "11") {
-                property.displayFilteredPropertyList(properties);
+                displayFilteredPropertyList(properties);
                 validInput = true;
 
             } else {
@@ -515,7 +515,7 @@ class FilterProperty {
             bool flag = false;
             while(!flag) {
                 string userInput;
-                cout << "Additional Searching and Sorting Options? (Y/N): ";
+                cout << "Additional Searching and Filtering Options? (Y/N): ";
                 getline(cin >> ws, userInput);
                 cout << endl;
 
@@ -523,13 +523,69 @@ class FilterProperty {
                     filterProperty(temp);
                     flag = true;
                 } else if(userInput == "N" || userInput == "n") {
-                    Property property;
-                    property.displayFilteredPropertyList(temp);
+                    displayFilteredPropertyList(temp);
                     flag = true;
                 }
             }
         }
 
+    }
+
+    void displayFilteredPropertyList(DynamicArray<Property>& filteredList) {
+        int pageSize = 5;  // Number of items to display per page
+        int currentPage = 0;  // Current page index
+
+        while (true) {
+            int startIdx = currentPage * pageSize;
+            int endIdx = startIdx + pageSize;
+
+            cout << "[RESULT]" << endl;
+            cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.getSize())/pageSize) << endl;
+            cout << "---------------------------\n";
+
+            for (int i = startIdx; i < endIdx && i < filteredList.getSize(); ++i) {
+                Property property = filteredList.get(i);
+                std::cout << "Ads ID: " << property.getAdsID() << std::endl;
+                std::cout << "Property Name: " << property.getPropName() << std::endl;
+                std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
+                std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
+                std::cout << "Location: " << property.getLocation() << std::endl;
+                std::cout << "Property Type: " << property.getPropertyType() << std::endl;
+                std::cout << "Rooms: " << property.getRooms() << std::endl;
+                std::cout << "Parking: " << property.getParking() << std::endl;
+                std::cout << "Bathroom: " << property.getBathroom() << std::endl;
+                std::cout << "Size: " << property.getSize() << std::endl;
+                std::cout << "Furnished: " << property.getFurnished() << std::endl;
+                std::cout << "Facilities: " << property.getFacilities() << std::endl;
+                std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
+                std::cout << "Region: " << property.getRegion() << std::endl;
+                std::cout << "---------------------------\n";
+            }
+            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "N" || userInput == "n") {
+                if (endIdx < filteredList.getSize()) {
+                    currentPage++;
+                } else {
+                    cout << "No more items. Reached the last page." << endl;
+                }
+            } else if (userInput == "P" || userInput == "p") {
+                if (currentPage > 0) {
+                    currentPage--;
+                } else {
+                    cout << "Already on the first page." << endl;
+                }
+            } else if (userInput == "Q" || userInput == "q") {
+                break;  // Exit the loop
+            } else {
+                cout << "Invalid input. Please try again." << endl;
+            }
+        }
     }
     
 

@@ -134,6 +134,10 @@ public:
     {
         removeAt(size - 1);
     }
+
+    void replace(const T &object, int index) {
+        objectArray[index] = object;
+    }
 };
 
 
