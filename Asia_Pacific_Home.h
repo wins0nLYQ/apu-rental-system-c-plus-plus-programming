@@ -754,7 +754,13 @@ public:
                 cout << endl;
                 validInput = true;
                 DynamicArray<Property> result = ls.searchByAdsID(properties, search);
-                filterProperty.displayFilteredPropertyList(result);
+                if(result.getSize() > 0) {
+                    filterProperty.displayFilteredPropertyList(result);
+                } else {
+                    cout << "Sorry, no record found..." << endl;
+                    cout << "Please try again." << endl;
+                    cout << endl;
+                }
                 tenant_searchSelectionPage(tenant);
 
             } else if (userInput == "2") {
@@ -764,7 +770,13 @@ public:
                 cout << endl;
                 validInput = true;
                 DynamicArray<Property> result = ls.searchByPropertyName(properties, search);
-                filterProperty.displayFilteredPropertyList(result);
+                if(result.getSize() > 0) {
+                    filterProperty.displayFilteredPropertyList(result);
+                } else {
+                    cout << "Sorry, no record found..." << endl;
+                    cout << "Please try again." << endl;
+                    cout << endl;
+                }
                 tenant_searchSelectionPage(tenant);
 
             } else {
