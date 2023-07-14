@@ -62,6 +62,7 @@
 */
 #include "BinarySearch.h"
 #include "ReadCSV.h"
+#include "FilterProperty.h"
 #include <string>
 #include <iostream>
 
@@ -78,14 +79,22 @@ int main() {
         cout << "What are you searching for: ";
         getline(cin >> ws, userInput);
 
-        Property property;
         BinarySearch bs;
-        bs.binarySearch(items, userInput, property);
 
-        cout << "Result: " << endl
-            << "Ads ID: " << property.getAdsID() << endl
-            << "Property Name: " << property.getPropName() << endl
-            << endl;
+        DynamicArray<Property> property;
+
+        /**Search based on property name*/
+        bs.binarySearch_PropertyName(items, userInput, property);
+
+        /**Search based on ads id*/
+        bs.binarySearch_AdsId(items, userInput, property);
+
+        // Property prop;
+        // bs.binarySearchSingleResult(items, userInput, prop);
+        // property.insertAtEnd(prop);
+
+        FilterProperty fp;
+        fp.displayFilteredPropertyList(property);
     }
     
     return 0;
