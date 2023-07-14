@@ -5,7 +5,7 @@
 #include <functional>
 #include <chrono>
 #include "Property.h"
-#include "DataConverstion.h"
+#include "DataConversion.h"
 #include "DataValidation.h"
 #include "DynamicArray.h"
 
