@@ -34,7 +34,6 @@ private:
 public:
     void homePage()
     {
-        cout << user.isAuthorised() << endl;
         Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "hello");
         tenantList.insertAtEnd(newTenant);
 
@@ -339,7 +338,7 @@ public:
         while (!validInput)
         {
             cout << "[MANAGER MANAGEMENT PAGE]" << endl;
-            cout << "Please select an option (1-2):" << endl;
+            cout << "Please select an option (1-3):" << endl;
             cout << "1. Add New Manager" << endl;
             cout << "2. Mofify Account Status" << endl;
             cout << "3. Back" << endl;
@@ -485,8 +484,211 @@ public:
 
     void tenant_HomePage(Tenant tenant)
     {
-        cout << user.isAuthorised() << endl;
+        bool validInput = false;
+
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "                            ADMIN                            " << endl;
+        cout << "-------------------------------------------------------------" << endl;
         cout << "Welcome Tenant: " << tenant.getName() << endl;
+        cout << endl;
+        cout << endl;
+
+        while (!validInput)
+        {
+            cout << "Please select an option (1-4):" << endl;
+            cout << "1. View Property" << endl;
+            cout << "2. Property Favourite List" << endl;
+            cout << "3. Rent Request" << endl;
+            cout << "4. Logout" << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1")
+            {
+                tenant_viewProperty(tenant);
+                validInput = true;
+            }
+            else if (userInput == "2")
+            {
+                /**
+                 * TODO: Call tenant favourite property list
+                */
+                validInput = true;
+            }
+            else if (userInput == "3")
+            {
+                /**
+                 * TODO: Call tenant rent request function
+                */
+                validInput = true;
+            }
+            else if (userInput == "4")
+            {
+                User emptyUser;
+                this->user = emptyUser;
+                homePage();
+                validInput = true;
+            }
+            else
+            {
+                cout << endl
+                     << "Invalid input! Please try again." 
+                     << endl
+                     << endl;
+            }
+        }
+    }
+
+    void tenant_viewProperty(Tenant tenant)
+    {
+        bool validInput = false;
+        /**
+         * TODO: Call the function that display all property list
+        */
+        while (!validInput)
+        {
+            std::cout << "[VIEW PROPERTY PAGE]" << endl;
+            std::cout << "Please select an option (1-3):" << endl;
+            std::cout << "1. Sort" << endl;
+            std::cout << "2. Search" << endl;
+            std::cout << "3. Back" << endl;
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1")
+            {
+                tenant_sortSelectionPage(tenant);
+                validInput = true;
+            }
+            else if (userInput == "2")
+            {
+                tenant_searchSelectionPage(tenant);
+                validInput = true;
+            }
+            else if (userInput == "3")
+            {
+                validInput = true;
+                tenant_HomePage(tenant);
+            }
+            else
+            {
+                cout << endl
+                     << "Invalid input! Please try again." 
+                     << endl
+                     << endl;
+            }
+        }
+    }
+
+    void tenant_sortSelectionPage(Tenant tenant)
+    {
+        bool validInput = false;
+        
+        while (!validInput)
+        {
+            std::cout << "[Sorting Algorithm Selection]" << endl;
+            std::cout << "Please select an option (1-3):" << endl;
+            std::cout << "1. Bubble Sort" << endl;
+            std::cout << "2. Merge Sort" << endl;
+            std::cout << "3. Back" << endl;
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1")
+            {
+                /**
+                 * TODO: Call bubble sort function
+                */
+                validInput = true;
+            }
+            else if (userInput == "2")
+            {
+                /**
+                 * TODO: Call merge sort function
+                */
+                validInput = true;
+            }
+            else if (userInput == "3")
+            {
+                validInput = true;
+                tenant_viewProperty(tenant);
+            }
+            else
+            {
+                cout << endl
+                     << "Invalid input! Please try again." 
+                     << endl
+                     << endl;
+            }
+        }
+    }
+
+    void tenant_searchSelectionPage(Tenant tenant)
+    {
+        bool validInput = false;
+        
+        while (!validInput)
+        {
+            std::cout << "[Searching Algorithm Selection]" << endl;
+            std::cout << "Please select an option (1-3):" << endl;
+            std::cout << "1. Linear Search" << endl;
+            std::cout << "2. Binary Search" << endl;
+            std::cout << "3. Back" << endl;
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1")
+            {
+                /**
+                 * TODO: Call linear search function
+                */
+                validInput = true;
+            }
+            else if (userInput == "2")
+            {
+                /**
+                 * TODO: Call binary search function
+                */
+                validInput = true;
+            }
+            else if (userInput == "3")
+            {
+                validInput = true;
+                tenant_viewProperty(tenant);
+            }
+            else
+            {
+                cout << endl
+                     << "Invalid input! Please try again." 
+                     << endl
+                     << endl;
+            }
+        }
+    }
+
+    void tenant_favouriteList(Tenant tenant)
+    {
+        bool validInput = false;
+        /**
+         * TODO: Display tenant favourite list
+        */
+    } 
+
+    void tenant_rentRequest(Tenant tenant)
+    {
+        /**
+         * TODO: Display tenant rent request list
+        */
     }
 
     /**
@@ -495,7 +697,20 @@ public:
 
     void manager_HomePage(Manager manager)
     {
-        cout << "Welcome Manager: " << manager.getName() << endl;
+        std::cout << "-------------------------------------------------------------" << endl;
+        std::cout << "-------------------------------------------------------------" << endl;
+        std::cout << "                           MANAGER                           " << endl;
+        std::cout << "-------------------------------------------------------------" << endl;
+        std::cout << "Welcome Manager: " << manager.getName() << std::endl;
+        std::cout << std::endl;
+        std::cout << std::endl;
+
+        std::cout << "Please select an option (1-3):" << std::endl;
+        std::cout << "1. Display All Registered Tenant' Details" << std::endl;
+        std::cout << "2. Favorite Property List" << std::endl;
+        std::cout << "3. View Property Information" << std::endl;
+        std::cout << "4. Logout" << std::endl;
+        std::cout << ">> ";
     }
 
     /**
