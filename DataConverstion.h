@@ -27,14 +27,20 @@ public:
     }
 
     long long extractDigit(const std::string& input) {
-        string result;
+        std::string result;
         for (char c : input) {
             if (std::isdigit(c)) {
                 result += c;
             }
         }
-        long long digit = stoll(result);
-        return digit;
+
+        try {
+            long long digit = std::stoll(result);
+            return digit;
+        } catch (const std::invalid_argument&) {
+            // Handle invalid string gracefully
+            return 0;
+        }
     }
 
     void sort(DynamicArray<string>& array) {
@@ -68,7 +74,5 @@ public:
         return buffer;
     }
 };
-
-
 
 #endif

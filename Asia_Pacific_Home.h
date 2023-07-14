@@ -165,8 +165,6 @@ public:
             cout << "Please enter the email address (-1 to back): ";
             getline(cin >> ws, email);
             cout << endl;
-
-            if (email == "-1")
             {
                 loginPage();
             }
