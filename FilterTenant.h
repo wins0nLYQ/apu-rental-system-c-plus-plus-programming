@@ -164,7 +164,7 @@ public:
             cout << "Please try again." << endl;
             cout << endl;
             filterTenants(tenantList);
-        } else {
+        } else if(temp.getSize() > 1){
             bool flag = false;
             while(!flag) {
                 string userInput;
@@ -178,8 +178,12 @@ public:
                 } else if(userInput == "N") {
                     displayFilteredTenantList(temp);
                     flag = true;
+                } else {
+                    cout << "Invalid input! Please try again..." << endl;
                 }
             }
+        } else if(temp.getSize() == 1) {
+            displayFilteredTenantList(temp);
         }
     }
 

@@ -177,6 +177,7 @@ public:
             cout << "Please enter the email address (-1 to back): ";
             getline(cin >> ws, email);
             cout << endl;
+            if(email == "-1")
             {
                 loginPage();
                 return;
@@ -588,7 +589,7 @@ public:
             std::cout << "2. Search" << endl;
             std::cout << "3. Advanced Searching and Filtering Options" << endl;
             std::cout << "4. Back" << endl;
-            std::cout << ">> " << endl;
+            std::cout << ">> ";
 
             string userInput;
             getline(cin >> ws, userInput);
@@ -606,7 +607,7 @@ public:
             }
             else if (userInput == "3")
             {
-                FilterProperty filterProperty(user);
+                FilterProperty filterProperty(user, tenant);
                 validInput = true;
                 if (filterProperty.filterProperty(properties) == false)
                 {
@@ -640,7 +641,7 @@ public:
             std::cout << "1. Bubble Sort" << endl;
             std::cout << "2. Merge Sort" << endl;
             std::cout << "3. Back" << endl;
-            std::cout << ">> " << endl;
+            std::cout << ">> ";
 
             string userInput;
             getline(cin >> ws, userInput);

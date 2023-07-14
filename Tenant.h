@@ -228,9 +228,13 @@ class Tenant : public User {
         // Implementation of displaying property information logic
     }
 
-    void saveFavoriteProperty(const Property& property) {
+    void setFavoriteProperty(const Property& property) {
         // Implementation of saving favorite properties logic
         this->dcll.insertAtEnd(property);
+    }
+
+    DoublyCircularLinkedList<Property> getFavoriteProperty() const {
+        return dcll;
     }
 
     void placeRentRequest() {

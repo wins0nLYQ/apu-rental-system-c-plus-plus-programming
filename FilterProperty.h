@@ -17,12 +17,18 @@ using namespace std;
 class FilterProperty {
     private:
         User user;
+        Tenant tenant;
 
     public:
     FilterProperty() {}
 
     FilterProperty(User user) {
         this->user = user;
+    }
+
+    FilterProperty(User user, Tenant tenant) {
+        this->user = user;
+        this->tenant = tenant;
     }
 
     bool filterProperty(DynamicArray<Property>& properties) {
@@ -345,7 +351,7 @@ class FilterProperty {
                 validInput = true;
 
             } else if(userInput == "11") {
-                displayFilteredPropertyList(properties, this->user);
+                displayFilteredPropertyList(properties);
                 validInput = true;
 
             } else {
@@ -518,7 +524,7 @@ class FilterProperty {
             cout << "Please try again." << endl;
             cout << endl;
             filterProperty(properties);
-        } else {
+        } else if(temp.getSize() > 1) {
             bool flag = false;
             while(!flag) {
                 string userInput;
@@ -530,15 +536,19 @@ class FilterProperty {
                     filterProperty(temp);
                     flag = true;
                 } else if(userInput == "N" || userInput == "n") {
-                    displayFilteredPropertyList(temp, this->user);
+                    displayFilteredPropertyList(temp);
                     flag = true;
+                } else {
+                    cout << "Invalid input! Please try again..." << endl;
                 }
             }
+        } else if(temp.getSize() == 1) {
+            displayFilteredPropertyList(temp);
         }
 
     }
 
-    void displayFilteredPropertyList(DynamicArray<Property>& filteredList, User user) {
+    void displayFilteredPropertyList(DynamicArray<Property>& filteredList) {
         int pageSize = 5;  // Number of items to display per page
         int currentPage = 0;  // Current page index
 
@@ -597,13 +607,79 @@ class FilterProperty {
                 }
             } else if (userInput == "Q" || userInput == "q") {
                 break;  // Exit the loop
+
             } else if ((userInput == "F" || userInput == "f") && user.getRole()=="Tenant") {
-                cout << "Passsed" << endl;
+                cout << endl;
+                cout << "Please enter the respective Property No.: ";
+
+                DataValidation dv;
+                string choice;
+                getline(cin >> ws, choice);
+                cout << endl;
+
+                if(dv.isNumber(choice)) {
+                    if(stoi(choice) -1 >= startIdx && stoi(choice) -1 < endIdx && stoi(choice) -1 < filteredList.getSize()) {
+                        cout << "[SELECTED PROPERTY]" << endl;
+                        displaySingleProperty(filteredList.get(stoi(choice) - 1));
+                        cout << endl;
+                        cout << "Are you sure to add above property to your favourite list? (Y/N)" << endl;
+                        cout << ">> ";
+
+                        string confirm;
+                        getline(cin >> ws, confirm);
+                        cout << endl;
+
+                        if(confirm == "Y" || confirm == "y") {
+                            tenant.setFavoriteProperty(filteredList.get(stoi(choice) - 1));
+                            cout << endl;
+                            cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;
+                            cout << "Enter any key to continue surfing: ";
+                            string userInput;
+                            getline(cin >> ws, userInput);
+                            cout << endl;
+
+                        } else if(confirm == "N" || confirm == "n") {
+                            cout << "Enter any key to continue surfing: ";
+                            string userInput;
+                            getline(cin >> ws, userInput);
+                            cout << endl;
+
+                        } else {
+                            cout << "Invalid input! Please try again..." << endl;
+                            cout << endl;
+                        }
+
+                    } else {
+                        cout << "Invalid input! Please try again..." << endl;
+                        cout << endl;
+                    }
+                } else {
+                    cout << "Enter digit ONLY! Please try again..." << endl;
+                    cout << endl;
+                }
 
             } else {
                 cout << "Invalid input. Please try again." << endl;
             }
         }
+    }
+
+    void displaySingleProperty(const Property& property) {
+        std::cout << "Ads ID: " << property.getAdsID() << std::endl;
+        std::cout << "Property Name: " << property.getPropName() << std::endl;
+        std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
+        std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
+        std::cout << "Location: " << property.getLocation() << std::endl;
+        std::cout << "Property Type: " << property.getPropertyType() << std::endl;
+        std::cout << "Rooms: " << property.getRooms() << std::endl;
+        std::cout << "Parking: " << property.getParking() << std::endl;
+        std::cout << "Bathroom: " << property.getBathroom() << std::endl;
+        std::cout << "Size: " << property.getSize() << std::endl;
+        std::cout << "Furnished: " << property.getFurnished() << std::endl;
+        std::cout << "Facilities: " << property.getFacilities() << std::endl;
+        std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
+        std::cout << "Region: " << property.getRegion() << std::endl;
+        std::cout << "---------------------------\n";
     }
     
 
