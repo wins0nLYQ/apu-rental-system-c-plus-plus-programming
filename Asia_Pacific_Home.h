@@ -688,7 +688,7 @@ public:
             std::cout << "1. Linear Search" << endl;
             std::cout << "2. Binary Search" << endl;
             std::cout << "3. Back" << endl;
-            std::cout << ">> " << endl;
+            std::cout << ">> ";
 
             string userInput;
             getline(cin >> ws, userInput);
@@ -728,6 +728,7 @@ public:
     void tenant_linearSearch(Tenant tenant)
     {
         LinearSearch ls; DataConversion dc;
+        FilterProperty filterProperty(user, tenant);
         bool validInput = false;
         while(!validInput) {
             cout << "Searching Options (Search By) [1-2]:" << endl;
@@ -752,7 +753,9 @@ public:
                 getline(cin >> ws, search);
                 cout << endl;
                 validInput = true;
-                ls.searchByAdsID(properties, dc.toLowercase(search));
+                DynamicArray<Property> result = ls.searchByAdsID(properties, search);
+                filterProperty.displayFilteredPropertyList(result);
+                tenant_searchSelectionPage(tenant);
 
             } else if (userInput == "2") {
                 string search;
@@ -760,7 +763,9 @@ public:
                 getline(cin >> ws, search);
                 cout << endl;
                 validInput = true;
-                ls.searchByPropertyName(properties, dc.toLowercase(search));
+                DynamicArray<Property> result = ls.searchByPropertyName(properties, search);
+                filterProperty.displayFilteredPropertyList(result);
+                tenant_searchSelectionPage(tenant);
 
             } else {
                 cout << "Invalid input! Please try again." << endl;
