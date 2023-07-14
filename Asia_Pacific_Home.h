@@ -15,9 +15,9 @@
 #include "Admin.h"
 #include "FilterTenant.h"
 #include "FilterProperty.h"
-
 #include "ReadCSV.h"
 #include "Property.h"
+#include "LinearSearch.h"
 
 using namespace std;
 
@@ -699,6 +699,8 @@ public:
                 /**
                  * TODO: Call linear search function
                 */
+                tenant_linearSearch(tenant);
+
                 validInput = true;
             }
             else if (userInput == "2")
@@ -722,6 +724,50 @@ public:
             }
         }
     }
+
+    void tenant_linearSearch(Tenant tenant)
+    {
+        LinearSearch ls; DataConversion dc;
+        bool validInput = false;
+        while(!validInput) {
+            cout << "Searching Options (Search By) [1-2]:" << endl;
+            cout << "1. Ads ID" << endl;
+            cout << "2. Property Name" << endl;
+            cout << endl;
+            cout << "-------------------------------------" << endl;
+            cout << "[-1 to back]" << endl;
+            cout << ">>> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if(userInput == "-1") {
+                tenant_searchSelectionPage(tenant);
+                break;
+
+            } else if (userInput == "1") {
+                string search;
+                cout << "Enter Ads ID: ";
+                getline(cin >> ws, search);
+                cout << endl;
+                validInput = true;
+                ls.searchByAdsID(properties, dc.toLowercase(search));
+
+            } else if (userInput == "2") {
+                string search;
+                cout << "Enter relavant keyword (Property Name): ";
+                getline(cin >> ws, search);
+                cout << endl;
+                validInput = true;
+                ls.searchByPropertyName(properties, dc.toLowercase(search));
+
+            } else {
+                cout << "Invalid input! Please try again." << endl;
+                cout << endl;
+            }
+        }
+    } 
 
     void tenant_favouriteList(Tenant tenant)
     {
