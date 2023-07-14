@@ -12,6 +12,7 @@
 #include "User.h"
 #include "Tenant.h"
 
+
 using namespace std;
 
 class FilterProperty {
@@ -65,8 +66,6 @@ class FilterProperty {
             cout << endl;
 
             if(userInput == "-1") {
-                // Asia_Pacific_Home APH;
-                // APH.admin_HomePage();
                 return false;
                 break;
 
