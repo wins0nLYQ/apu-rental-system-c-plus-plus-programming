@@ -7,9 +7,10 @@
 #include "DynamicArray.h"
 #include "Property.h"
 #include "ReadCSV.h"
-#include "DataConverstion.h"
+#include "DataConversion.h"
 #include "DataValidation.h"
 #include "MergeSort.h"
+#include "FilterProperty.h"
 
 using namespace std;
 
@@ -17,7 +18,9 @@ int main() {
     ReadCSV csvReader;
     Property propertyObj;
     MergeSort mergeSortObj;
-    DynamicArray<Property> properties = csvReader.readCSV("mudah-apartment-kl-selangor.csv");
+    DynamicArray<Property> properties;
+    
+    csvReader.readCSV("mudah-apartment-kl-selangor.csv", properties);
     // Define the comparison function based on the user's choice
     std::function<bool(const Property&, const Property&)> compareFunction;
 
@@ -115,8 +118,10 @@ int main() {
                 mergeSortObj.mergeSort(properties, 0, properties.getSize() - 1, compareFunction);
                 // Calculate the time spent for merge sort
                 mergeSortObj.calculateMergeSortTime(properties, compareFunction);
+
                 // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
-                propertyObj.displayFilteredPropertyList(properties);
+                FilterProperty fp;
+                fp.displayFilteredPropertyList(properties);
             } else {
                 std::cout << "Invalid input. Please try again." << std::endl;
                 cout << " " << endl;
