@@ -6,9 +6,10 @@
  */
 
 #include <string>
-#include "User.h"
 #include <iostream>
 #include <regex>
+
+#include "User.h"
 #include "DynamicArray.h"
 #include "Manager.h"
 #include "Tenant.h"
@@ -17,7 +18,9 @@
 #include "FilterProperty.h"
 #include "ReadCSV.h"
 #include "Property.h"
+
 #include "LinearSearch.h"
+#include "BinarySearch.h"
 
 using namespace std;
 
@@ -702,23 +705,24 @@ public:
             std::cout << "Please select an option (1-3):" << endl;
             std::cout << "1. Linear Search" << endl;
             std::cout << "2. Binary Search" << endl;
-            std::cout << "3. Back" << endl;
-            std::cout << ">> ";
+            std::cout << endl;
+            std::cout << "-------------------------------------" << endl;
+            std::cout << "[-1 to back]" << endl;
+            std::cout << ">>> ";
 
             string userInput;
             getline(cin >> ws, userInput);
             cout << endl;
 
-            if (userInput == "1")
+            if (userInput == "1" || userInput == "2")
             {
                 /**
                  * TODO: Call linear search function
                 */
-                tenant_linearSearch(tenant);
-
+                tenant_searchItemOptions(tenant, userInput);
                 validInput = true;
             }
-            else if (userInput == "4") {
+            else if (userInput == "-1") {
                 validInput = true;
                 tenant_viewProperty(tenant);
             }
@@ -736,40 +740,6 @@ public:
         bool validInput = false;
         while (!validInput)
         {
-            std::cout << "[SORTING OPTIONS]" << endl;
-            std::cout << "Please select an option (1-3):" << endl;
-            std::cout << "1. Search by Property Name" << endl;
-            std::cout << "2. Search by Property Ads ID" << endl;
-            std::cout << "3. Back" << endl;
-            std::cout << ">> ";
-
-            string userInput;
-            getline(cin >> ws, userInput);
-            cout << endl;
-
-            if (userInput == "1" || userInput == "2")
-            {
-                // call sort function
-            }
-            else if (userInput == "3") {
-                validInput = true;
-                tenant_searchSelectionPage(tenant);
-            }
-            else {
-                cout << endl
-                     << "Invalid input! Please try again." 
-                     << endl
-                     << endl;
-            }
-        }
-    }
-
-    void tenant_linearSearch(Tenant tenant)
-    {
-        LinearSearch ls; DataConversion dc;
-        FilterProperty filterProperty(user, tenant);
-        bool validInput = false;
-        while(!validInput) {
             cout << "Searching Options (Search By) [1-2]:" << endl;
             cout << "1. Ads ID" << endl;
             cout << "2. Property Name" << endl;
@@ -782,16 +752,43 @@ public:
             getline(cin >> ws, userInput);
             cout << endl;
 
-            if(userInput == "-1") {
+            if (userInput == "1" || userInput == "2")
+            {
+                // call search function
+                tenant_search(tenant, searchTypeSelection, userInput);
+                validInput = true;
+            }
+            else if (userInput == "-1") {
+                validInput = true;
                 tenant_searchSelectionPage(tenant);
-                break;
+            }
+            else {
+                cout << endl
+                     << "Invalid input! Please try again." 
+                     << endl
+                     << endl;
+            }
+        }
+    }
 
-            } else if (userInput == "1") {
-                string search;
+    void tenant_search(Tenant tenant, const string &searchType, const string &searchItem) 
+    {
+        FilterProperty filterProperty(user, tenant);
+
+        std::string search;
+
+        int searchTypeInt = std::stoi(searchType);
+        int searchItemInt = std::stoi(searchItem);
+
+        if (searchType == "1") {
+            LinearSearch ls;
+
+            if (searchItem == "1") {
+                // call linear search for ads ID
                 cout << "Enter Ads ID: ";
                 getline(cin >> ws, search);
                 cout << endl;
-                validInput = true;
+
                 DynamicArray<Property> result = ls.searchByAdsID(properties, search);
                 if(result.getSize() > 0) {
                     filterProperty.displayFilteredPropertyList(result);
@@ -801,13 +798,12 @@ public:
                     cout << endl;
                 }
                 tenant_searchSelectionPage(tenant);
-
-            } else if (userInput == "2") {
-                string search;
+            }
+            else if (searchItem == "2") {
                 cout << "Enter relavant keyword (Property Name): ";
                 getline(cin >> ws, search);
                 cout << endl;
-                validInput = true;
+
                 DynamicArray<Property> result = ls.searchByPropertyName(properties, search);
                 if(result.getSize() > 0) {
                     filterProperty.displayFilteredPropertyList(result);
@@ -817,13 +813,49 @@ public:
                     cout << endl;
                 }
                 tenant_searchSelectionPage(tenant);
+            }
+        } 
+        else if (searchType == "2") {
+            BinarySearch binSearch;
 
-            } else {
-                cout << "Invalid input! Please try again." << endl;
+            if (searchItem == "1") {
+                // call binary search for ads ID
+                cout << "Enter Ads ID: ";
+                getline(cin >> ws, search);
                 cout << endl;
+
+                DynamicArray<Property> result;
+                binSearch.binarySearch_AdsId(properties, search, result);
+
+                if(result.getSize() > 0) {
+                    filterProperty.displayFilteredPropertyList(result);
+                } else {
+                    cout << "Sorry, no record found..." << endl;
+                    cout << "Please try again." << endl;
+                    cout << endl;
+                }
+
+                tenant_searchSelectionPage(tenant);
+            }
+            else if (searchItem == "2") {
+                cout << "Enter relavant keyword (Property Name): ";
+                getline(cin >> ws, search);
+                cout << endl;
+
+                DynamicArray<Property> result;
+                binSearch.binarySearch_PropertyName(properties, search, result);
+
+                if(result.getSize() > 0) {
+                    filterProperty.displayFilteredPropertyList(result);
+                } else {
+                    cout << "Sorry, no record found..." << endl;
+                    cout << "Please try again." << endl;
+                    cout << endl;
+                }
+                tenant_searchSelectionPage(tenant);
             }
         }
-    } 
+    }
 
     void tenant_favouriteList(Tenant tenant)
     {

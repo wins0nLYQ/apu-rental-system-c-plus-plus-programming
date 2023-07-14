@@ -7,8 +7,8 @@ Admin Passw: Admin@1234
 
 ------------------- Manager Account -------------------
 Manager Email: wong@gmail.com
-Manager Passw: 123123123
+Manager Passw: abc@123
 
 ------------------- Tenant Account -------------------
 Tenant Email: hello@gmail.com
-Tenant Passw: 123123123
+Tenant Passw: abc@123
