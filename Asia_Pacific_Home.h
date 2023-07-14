@@ -32,8 +32,7 @@ private:
     User user;
 
 public:
-    void homePage()
-    {
+    Asia_Pacific_Home() {
         Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "hello");
         tenantList.insertAtEnd(newTenant);
 
@@ -45,7 +44,11 @@ public:
 
         ReadCSV read;
         read.readCSV("mudah-apartment-kl-selangor.csv", properties);
+    }
 
+    void homePage()
+    {
+        cout << properties.get(10).getAdsID() << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "                      ASIA PACIFIC HOME                      " << endl;
@@ -88,7 +91,6 @@ public:
     void loginPage()
     {
         bool validInput = false;
-        // User user;
 
         while (!validInput)
         {
@@ -116,9 +118,6 @@ public:
             {
                 handleUserLogin("Admin");
                 validInput = true;
-                // if (validInput) {
-                //     admin_HomePage();
-                // }
             }
             else
             {
@@ -139,7 +138,6 @@ public:
         cout << endl;
         if (email == "-1")
         {
-            // return false;
             loginPage();
         }
         DataValidation dv;
@@ -150,7 +148,6 @@ public:
             cout << endl;
             if (email == "-1")
             {
-                // return false;
                 loginPage();
             }
         }
@@ -160,7 +157,6 @@ public:
         cout << endl;
         if (password == "-1")
         {
-            // return false;
             loginPage();
         }
 
@@ -174,7 +170,6 @@ public:
 
             if (email == "-1")
             {
-                // return false;
                 loginPage();
             }
 
@@ -186,7 +181,6 @@ public:
 
                 if (email == "-1")
                 {
-                    // return false;
                     loginPage();
                 }
             }
@@ -197,11 +191,9 @@ public:
 
             if (password == "-1")
             {
-                // return false;
                 loginPage();
             }
         }
-        // return true;
         if (userRole == "Admin")
         {
             admin_HomePage();

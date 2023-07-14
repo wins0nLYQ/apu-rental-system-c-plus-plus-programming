@@ -57,6 +57,16 @@ public:
                 break;
         }
     }
+
+    string getTodayDate() {
+        std::time_t now = std::time(nullptr);
+        std::tm* localTime = std::localtime(&now);
+
+        char buffer[11];
+        std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", localTime);
+
+        return buffer;
+    }
 };
 
 
