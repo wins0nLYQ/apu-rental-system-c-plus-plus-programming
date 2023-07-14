@@ -9,7 +9,7 @@
 #include "Property.h"
 #include "ReadCSV.h"
 #include <string>
-#include "DataConverstion.h"
+#include "DataConversion.h"
 
 using namespace std;
 

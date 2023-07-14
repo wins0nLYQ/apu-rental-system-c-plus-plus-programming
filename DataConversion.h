@@ -1,8 +1,13 @@
-#ifndef DATACONVERSTION_H
-#define DATACONVERSTION_H
+#ifndef DATACONVERSION_H
+#define DATACONVERSION_H
 
 #include <string>
 #include <algorithm>
+#include "DynamicArray.h"
+#include <ctime>
+#include <iomanip>
+
+using namespace std;
 
 class DataConversion {
 public:

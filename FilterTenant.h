@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cmath>
 #include "DataValidation.h"
-#include "DataConverstion.h"
+#include "DataConversion.h"
 #include "Tenant.h"
 
 using namespace std;
