@@ -37,8 +37,6 @@ public:
         Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-07-02");
         tenantList.insertAtEnd(newTenant2);
 
-
-
         Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Inactive");
         managerList.insertAtEnd(newManager);
 
@@ -648,27 +646,44 @@ public:
             getline(cin >> ws, userInput);
             cout << endl;
 
+            tenant_sortItemOptions(tenant, userInput);
+        }
+    }
+
+    void tenant_sortItemOptions(Tenant tenant, const string &sortTypeSelection)
+    {
+        bool validInput = false;
+        while (!validInput)
+        {
+            std::cout << "[SORTING OPTIONS]" << endl;
+            std::cout << "Please select an option (1-3):" << endl;
+            std::cout << "1. Sort by Monthly Rent" << endl;
+            std::cout << "2. Sort by Location" << endl;
+            std::cout << "3. Sort by Size as per Square Feet" << endl;
+            std::cout << "4. Back" << endl;
+            std::cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
             if (userInput == "1")
             {
-                /**
-                 * TODO: Call bubble sort function
-                */
                 validInput = true;
             }
             else if (userInput == "2")
             {
-                /**
-                 * TODO: Call merge sort function
-                */
-                validInput = true;
+
             }
             else if (userInput == "3")
             {
-                validInput = true;
-                tenant_viewProperty(tenant);
+
             }
-            else
+            else if (userInput == "4")
             {
+
+            }
+            else {
                 cout << endl
                      << "Invalid input! Please try again." 
                      << endl
@@ -694,27 +709,48 @@ public:
             getline(cin >> ws, userInput);
             cout << endl;
 
-            if (userInput == "1")
-            {
-                /**
-                 * TODO: Call linear search function
-                */
+            if (userInput == "1" || userInput == "2" || userInput == "3") {
+                tenant_searchItemOptions(tenant, userInput);
                 validInput = true;
             }
-            else if (userInput == "2")
-            {
-                /**
-                 * TODO: Call binary search function
-                */
-                validInput = true;
-            }
-            else if (userInput == "3")
-            {
+            else if (userInput == "4") {
                 validInput = true;
                 tenant_viewProperty(tenant);
             }
-            else
+            else {
+                cout << endl
+                     << "Invalid input! Please try again." 
+                     << endl
+                     << endl;
+            }
+        }
+    }
+
+    void tenant_searchItemOptions(Tenant tenant, const string &searchTypeSelection)
+    {
+        bool validInput = false;
+        while (!validInput)
+        {
+            std::cout << "[SORTING OPTIONS]" << endl;
+            std::cout << "Please select an option (1-3):" << endl;
+            std::cout << "1. Search by Property Name" << endl;
+            std::cout << "2. Search by Property Ads ID" << endl;
+            std::cout << "3. Back" << endl;
+            std::cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1" || userInput == "2")
             {
+                // call sort function
+            }
+            else if (userInput == "3") {
+                validInput = true;
+                tenant_searchSelectionPage(tenant);
+            }
+            else {
                 cout << endl
                      << "Invalid input! Please try again." 
                      << endl

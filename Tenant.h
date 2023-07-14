@@ -10,9 +10,6 @@
 #include "Property.h"
 #include "DataConversion.h"
 #include "Admin.h"
-#include "DoublyCircularLinkedList.h"
-#include "Property.h"
-
 
 using namespace std;
 

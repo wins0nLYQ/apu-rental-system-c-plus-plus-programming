@@ -97,7 +97,7 @@ class BinarySearch
       std::chrono::duration<double> duration = endTime - startTime;
 
       // Print the time spent
-      std::cout << "Time spent for binary search: " << std::fixed << std::setprecision(4) << duration.count() << " seconds" << std::endl;
+      std::cout << "Time spent for binary search: " << duration.count() << " seconds" << std::endl;
     }
 
     void binarySearch_AdsId(DynamicArray<Property> &items, const string &target, DynamicArray<Property> &property) {
