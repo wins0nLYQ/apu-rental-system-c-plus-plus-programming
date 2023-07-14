@@ -6,6 +6,7 @@
 */
 
 #include "User.h"
+#include "DoublyCircularLinkedList.h"
 #include "Property.h"
 #include "DataConversion.h"
 #include "Admin.h"
@@ -14,6 +15,8 @@
 
 
 using namespace std;
+
+class Property;
 
 class Tenant : public User {
   private:
@@ -36,6 +39,14 @@ class Tenant : public User {
 
     void setLastLoginDate(const string& lastLoginDate) {
         this->lastLoginDate = lastLoginDate;
+    }
+
+    // DoublyCircularLinkedList<Property> getFavouriteList() const {
+    //     return favouriteList;
+    // }
+
+    void addFavouriteList(Property& property) {
+        
     }
 
     bool registration(DynamicArray<Tenant>& tenantList, DynamicArray<string>& existingEmail) {

@@ -580,7 +580,7 @@ class FilterProperty {
                 std::cout << "---------------------------\n";
             }
 
-            if(user.getRole() != "Tenant") {
+            if(user.getRole() == "Admin") {
                 cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
                 cout << ">> ";
             } else {
@@ -658,7 +658,14 @@ class FilterProperty {
                     cout << endl;
                 }
 
-            } else {
+            } else if ((userInput == "F" || userInput == "f") && user.getRole()=="") {
+                cout << "-Kindly login to an active account to make rent request.-" << endl;
+                cout << "Enter any key to continue surfing: ";
+                string userInput;
+                getline(cin >> ws, userInput);
+                cout << endl;
+            }
+            else {
                 cout << "Invalid input. Please try again." << endl;
             }
         }
