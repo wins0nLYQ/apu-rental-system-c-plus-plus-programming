@@ -25,7 +25,6 @@ using namespace std;
 class Asia_Pacific_Home
 {
 private:
-    
     DynamicArray<Manager> managerList;
     DynamicArray<Tenant> tenantList;
     DynamicArray<Property> properties;
@@ -48,7 +47,6 @@ public:
 
     void homePage()
     {
-        cout << properties.get(10).getAdsID() << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "                      ASIA PACIFIC HOME                      " << endl;

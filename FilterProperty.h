@@ -11,7 +11,6 @@
 #include "Property.h"
 #include "DataConverstion.h"
 
-
 using namespace std;
 
 class FilterProperty {
@@ -587,8 +586,6 @@ class FilterProperty {
             }
         }
     }
-    
-
 };
 
 #endif
