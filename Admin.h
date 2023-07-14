@@ -44,7 +44,7 @@ public:
     //     return password;
     // }
 
-    void addManager(DynamicArray<Manager>& managerList, vector<string>& existingEmail) {
+    void addManager(DynamicArray<Manager>& managerList, DynamicArray<string>& existingEmail) {
         // Implementation for adding a manager
 
         DataValidation dv;
@@ -59,17 +59,20 @@ public:
         getline(cin >> ws, email);
         cout << endl;
 
-        while(dv.isEmailValid(email) == false) {
-            cout << "Invalid email! Please try again: ";
-            getline(cin >> ws, email);
-            cout << endl;
+        while(dv.isEmailValid(email) == false || isEmailExists(existingEmail, email) == true) {
+            if (dv.isEmailValid(email) == false) {
+                cout << "Invalid email! Please try again: ";
+                getline(cin >> ws, email);
+                cout << endl;
+
+            } else if (isEmailExists(existingEmail, email) == true){
+                cout << "Email exist! Please try another one: ";
+                getline(cin >> ws, email);
+                cout << endl;
+            }
         }
 
-        while(isEmailExists(existingEmail, email) == true) {
-            cout << "Email exist! Please try another one: ";
-            getline(cin >> ws, email);
-            cout << endl;
-        }
+        
 
         cout << "Phone Number: ";
         getline(cin >> ws, phoneNo);
@@ -150,15 +153,15 @@ public:
         cout << endl;
     }
 
-    bool isEmailExists(vector<string>& existingEmail, const std::string& email) {
+    bool isEmailExists(DynamicArray<string>& existingEmail, const std::string& email) {
         Admin admin;
         if(email == admin.getEmail()) {
             return true;
         }
 
-        int userNum = existingEmail.size();
+        int userNum = existingEmail.getSize();
         for (int i = 0; i < userNum; ++i) {
-            if (existingEmail[i] == email) {
+            if (existingEmail.get(i) == email) {
                 return true;
             }
         }
