@@ -20,7 +20,7 @@ public:
     Manager(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
                 const std::string& _identificationNo, const std::string& _gender,
                 const std::string& _dateOfBirth, const std::string& _status)
-            : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth),
+            : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth, "Manager"),
             status(_status) {
     }
 
@@ -86,6 +86,7 @@ public:
                 loginManager.setDateOfBirth(manager.getDateOfBirth());
                 loginManager.setPassword(manager.getPassword());
                 loginManager.setStatus(manager.getStatus());
+                loginManager.setRole(manager.getRole());
             }
         } return loginManager;
     }

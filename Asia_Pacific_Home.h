@@ -68,6 +68,8 @@ public:
         if (userInput == "1")
         {
             cout << "Option 1";
+            FilterProperty fp(user);
+            fp.filterProperty(properties);
         }
         else if (userInput == "2")
         {
@@ -203,7 +205,10 @@ public:
         }
         if (userRole == "Admin")
         {
-            admin_HomePage();
+            Admin admin;
+            this->user = admin;
+            cout << user.getRole();
+            admin_HomePage(admin);
         }
         else if (userRole == "Tenant")
         {
@@ -301,8 +306,9 @@ public:
      * --------------------------------------------------------------------------------------------
      */
 
-    void admin_HomePage()
+    void admin_HomePage(Admin admin)
     {
+
         bool validInput = false;
 
         cout << "-------------------------------------------------------------" << endl;
@@ -328,17 +334,17 @@ public:
 
             if (userInput == "1")
             {
-                admin_ManageManagerPage();
+                admin_ManageManagerPage(admin);
                 validInput = true;
             }
             else if (userInput == "2")
             {
-                admin_ViewTenantInfoPage();
+                admin_ViewTenantInfoPage(admin);
                 validInput = true;
             }
             else if (userInput == "3")
             {
-                admin_ViewPropertyInfoPage();
+                admin_ViewPropertyInfoPage(admin);
                 validInput = true;
             }
             else if (userInput == "4")
@@ -355,7 +361,7 @@ public:
         }
     }
 
-    void admin_ManageManagerPage()
+    void admin_ManageManagerPage(Admin admin)
     {
         bool validInput = false;
 
@@ -374,17 +380,17 @@ public:
 
             if (userInput == "1")
             {
-                admin_AddNewManagerPage();
+                admin_AddNewManagerPage(admin);
                 validInput = true;
             }
             else if (userInput == "2")
             {
-                admin_ModifyManagerStatusPage();
+                admin_ModifyManagerStatusPage(admin);
                 validInput = true;
             }
             else if (userInput == "3")
             {
-                admin_HomePage();
+                admin_HomePage(admin);
                 validInput = true;
             }
             else
@@ -396,12 +402,11 @@ public:
         }
     }
 
-    void admin_AddNewManagerPage()
+    void admin_AddNewManagerPage(Admin admin)
     {
-        Admin admin;
         DynamicArray<string> existingEmail = getExistingEmail();
         admin.addManager(managerList, existingEmail);
-        admin_ManageManagerPage();
+        admin_ManageManagerPage(admin);
     }
 
     DynamicArray<string> getExistingEmail()
@@ -425,9 +430,8 @@ public:
         return existingEmail;
     }
 
-    void admin_ModifyManagerStatusPage()
+    void admin_ModifyManagerStatusPage(Admin admin)
     {
-        Admin admin;
         if (admin.updateManagerStatus(managerList) == true)
         {
             cout << "Status has been changed successfully!" << endl;
@@ -437,16 +441,16 @@ public:
             string userInput;
             getline(cin >> ws, userInput);
             cout << endl;
-            admin_ManageManagerPage();
+            admin_ManageManagerPage(admin);
         }
         else
         {
             cout << endl;
-            admin_ManageManagerPage();
+            admin_ManageManagerPage(admin);
         }
     }
 
-    void admin_ViewTenantInfoPage()
+    void admin_ViewTenantInfoPage(Admin admin)
     {
         cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
         cout << "Available Tenant: " << tenantList.getSize() << endl;
@@ -459,24 +463,24 @@ public:
             string userInput;
             getline(cin >> ws, userInput);
             cout << endl;
-            admin_HomePage();
+            admin_HomePage(admin);
         }
         else
         {
             FilterTenant filterTenant;
             if (filterTenant.filterTenants(tenantList) == false)
             {
-                admin_HomePage();
+                admin_HomePage(admin);
             }
             // cout << "Input any key to back >> ";
             // string userInput;
             // getline(cin >> ws, userInput);
             // cout << endl;
-            admin_HomePage();
+            admin_HomePage(admin);
         }
     }
 
-    void admin_ViewPropertyInfoPage()
+    void admin_ViewPropertyInfoPage(Admin admin)
     {
         cout << "[VIEW PROPERTY INFORMATION PAGE]" << endl;
         cout << "Available Property: " << properties.getSize() << endl;
@@ -489,16 +493,16 @@ public:
             string userInput;
             getline(cin >> ws, userInput);
             cout << endl;
-            admin_HomePage();
+            admin_HomePage(admin);
         }
         else
         {
-            FilterProperty filterProperty;
+            FilterProperty filterProperty(user);
             if (filterProperty.filterProperty(properties) == false)
             {
-                admin_HomePage();
+                admin_HomePage(admin);
             }
-            admin_HomePage();
+            admin_HomePage(admin);
         }
     }
 
@@ -580,7 +584,9 @@ public:
             std::cout << "Please select an option (1-3):" << endl;
             std::cout << "1. Sort" << endl;
             std::cout << "2. Search" << endl;
-            std::cout << "3. Back" << endl;
+            std::cout << "3. Advanced Searching and Filtering Options" << endl;
+            std::cout << "4. Back" << endl;
+            std::cout << ">> " << endl;
 
             string userInput;
             getline(cin >> ws, userInput);
@@ -597,6 +603,16 @@ public:
                 validInput = true;
             }
             else if (userInput == "3")
+            {
+                FilterProperty filterProperty(user);
+                validInput = true;
+                if (filterProperty.filterProperty(properties) == false)
+                {
+                    tenant_HomePage(tenant);
+                }
+                tenant_HomePage(tenant);
+            }
+            else if (userInput == "4")
             {
                 validInput = true;
                 tenant_HomePage(tenant);
@@ -622,6 +638,7 @@ public:
             std::cout << "1. Bubble Sort" << endl;
             std::cout << "2. Merge Sort" << endl;
             std::cout << "3. Back" << endl;
+            std::cout << ">> " << endl;
 
             string userInput;
             getline(cin >> ws, userInput);
@@ -667,6 +684,7 @@ public:
             std::cout << "1. Linear Search" << endl;
             std::cout << "2. Binary Search" << endl;
             std::cout << "3. Back" << endl;
+            std::cout << ">> " << endl;
 
             string userInput;
             getline(cin >> ws, userInput);

@@ -7,6 +7,7 @@
 // #include <iostream>
 #include <cmath>
 #include "DataValidation.h"
+#include "Asia_Pacific_Home.h"
 #include "Property.h"
 #include "DataConversion.h"
 
@@ -14,8 +15,15 @@
 using namespace std;
 
 class FilterProperty {
+    private:
+        User user;
 
     public:
+    FilterProperty() {}
+
+    FilterProperty(User user) {
+        this->user = user;
+    }
 
     bool filterProperty(DynamicArray<Property>& properties) {
         // Implementation for displaying all property information
@@ -337,7 +345,7 @@ class FilterProperty {
                 validInput = true;
 
             } else if(userInput == "11") {
-                displayFilteredPropertyList(properties);
+                displayFilteredPropertyList(properties, this->user);
                 validInput = true;
 
             } else {
@@ -522,7 +530,7 @@ class FilterProperty {
                     filterProperty(temp);
                     flag = true;
                 } else if(userInput == "N" || userInput == "n") {
-                    displayFilteredPropertyList(temp);
+                    displayFilteredPropertyList(temp, this->user);
                     flag = true;
                 }
             }
@@ -530,7 +538,7 @@ class FilterProperty {
 
     }
 
-    void displayFilteredPropertyList(DynamicArray<Property>& filteredList) {
+    void displayFilteredPropertyList(DynamicArray<Property>& filteredList, User user) {
         int pageSize = 5;  // Number of items to display per page
         int currentPage = 0;  // Current page index
 
@@ -544,6 +552,7 @@ class FilterProperty {
 
             for (int i = startIdx; i < endIdx && i < filteredList.getSize(); ++i) {
                 Property property = filteredList.get(i);
+                std::cout << "NO: " << i + 1 << std::endl;
                 std::cout << "Ads ID: " << property.getAdsID() << std::endl;
                 std::cout << "Property Name: " << property.getPropName() << std::endl;
                 std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
@@ -560,8 +569,15 @@ class FilterProperty {
                 std::cout << "Region: " << property.getRegion() << std::endl;
                 std::cout << "---------------------------\n";
             }
-            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
-            cout << ">> ";
+
+            if(user.getRole() != "Tenant") {
+                cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+                cout << ">> ";
+            } else {
+                cout << "Options: (N)ext page, (P)revious page, (Q)uit, (F)avourite List" << endl;
+                cout << ">> ";
+            }
+            
 
             string userInput;
             getline(cin >> ws, userInput);
@@ -581,11 +597,16 @@ class FilterProperty {
                 }
             } else if (userInput == "Q" || userInput == "q") {
                 break;  // Exit the loop
+            } else if ((userInput == "F" || userInput == "f") && user.getRole()=="Tenant") {
+                cout << "Passsed" << endl;
+
             } else {
                 cout << "Invalid input. Please try again." << endl;
             }
         }
     }
+    
+
 };
 
 #endif

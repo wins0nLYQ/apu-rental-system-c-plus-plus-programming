@@ -26,7 +26,7 @@ class Tenant : public User {
     Tenant(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
                 const std::string& _identificationNo, const std::string& _gender, const std::string& _password,
                 const std::string& _dateOfBirth, const std::string& _lastLoginDate)
-            : User(_name, _email, _phoneNo, _identificationNo, _gender, _password, _dateOfBirth),
+            : User(_name, _email, _phoneNo, _identificationNo, _gender, _password, _dateOfBirth, "Tenant"),
               lastLoginDate(_lastLoginDate) {
         }
 
@@ -255,6 +255,7 @@ class Tenant : public User {
                 loginTenant.setLastLoginDate(tenant.getLastLoginDate());
                 loginTenant.setPassword(tenant.getPassword());
                 loginTenant.setLastLoginDate(dc.getTodayDate());
+                loginTenant.setRole(tenant.getRole());
 
                 tenantList.replace(tenant, i);
             }
