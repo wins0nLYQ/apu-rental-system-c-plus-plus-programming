@@ -9,7 +9,7 @@
 #include "DynamicArray.h"
 // #include "Manager.h"
 // #include "Tenant.h"
-// #include <iostream>
+#include <iostream>
 #include <regex>
 // #include "Admin.h"
 
@@ -92,6 +92,40 @@ public:
             return true;
         }
         return false;
+    }
+
+    bool isValidPassword(const std::string& password) {
+        // Check the password against the criteria for validity
+
+        // Criteria:
+        // - Minimum length of 8 characters
+        // - Contains at least one uppercase letter
+        // - Contains at least one lowercase letter
+        // - Contains at least one digit
+        // - Contains at least one special character
+
+        if (password.length() < 8) {
+            return false;  // Password is too short
+        }
+
+        bool hasUppercase = false;
+        bool hasLowercase = false;
+        bool hasDigit = false;
+        bool hasSpecialChar = false;
+        for (char c : password) {
+            if (std::isupper(c)) {
+                hasUppercase = true;
+            } else if (std::islower(c)) {
+                hasLowercase = true;
+            } else if (std::isdigit(c)) {
+                hasDigit = true;
+            } else if (!std::isalnum(c)) {
+                hasSpecialChar = true;
+            }
+        }
+
+        // Check if all criteria are met
+        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
     }
 };
 

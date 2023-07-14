@@ -3,7 +3,9 @@
 
 #include <string>
 #include <algorithm>
+#include "DynamicArray.h"
 #include <ctime>
+#include <iomanip>
 
 using namespace std;
 

@@ -36,13 +36,13 @@ public:
     }
 
 
-    // string getEmail() const {
-    //     return email;
-    // }
+    string getEmail() const {
+        return email;
+    }
 
-    // string getPassword() const {
-    //     return password;
-    // }
+    string getPassword() const {
+        return password;
+    }
 
     void addManager(DynamicArray<Manager>& managerList, DynamicArray<string>& existingEmail) {
         // Implementation for adding a manager
@@ -154,14 +154,14 @@ public:
     }
 
     bool isEmailExists(DynamicArray<string>& existingEmail, const std::string& email) {
-        Admin admin;
-        if(email == admin.getEmail()) {
+        Admin admin; DataConversion dc;
+        if(dc.toLowercase(email) == dc.toLowercase(admin.getEmail())) {
             return true;
         }
 
         int userNum = existingEmail.getSize();
         for (int i = 0; i < userNum; ++i) {
-            if (existingEmail.get(i) == email) {
+            if (dc.toLowercase(existingEmail.get(i)) == dc.toLowercase(email)) {
                 return true;
             }
         }

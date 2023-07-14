@@ -30,11 +30,13 @@ private:
 
 public:
     Asia_Pacific_Home() {
-        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "hello");
+        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2023-07-01");
         tenantList.insertAtEnd(newTenant);
 
-        Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "hi");
+        Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-07-02");
         tenantList.insertAtEnd(newTenant2);
+
+
 
         Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Inactive");
         managerList.insertAtEnd(newManager);
@@ -73,7 +75,7 @@ public:
         }
         else if (userInput == "3")
         {
-            cout << "Option 3";
+            signUpPage();
         }
         else
         {
@@ -94,13 +96,18 @@ public:
             cout << "1. Tenant" << endl;
             cout << "2. Manager" << endl;
             cout << "3. Admin" << endl;
+            cout << "[-1 to back]" << endl;
             cout << ">> ";
 
             string userInput;
             getline(cin >> ws, userInput);
             cout << endl;
 
-            if (userInput == "1")
+            if (userInput == "-1")
+            {
+                homePage();
+            }
+            else if (userInput == "1")
             {
                 handleUserLogin("Tenant");
                 validInput = true;
@@ -135,6 +142,7 @@ public:
         if (email == "-1")
         {
             loginPage();
+            return;
         }
         DataValidation dv;
         while (!dv.isEmailValid(email))
@@ -145,6 +153,7 @@ public:
             if (email == "-1")
             {
                 loginPage();
+                return;
             }
         }
 
@@ -154,6 +163,7 @@ public:
         if (password == "-1")
         {
             loginPage();
+            return;
         }
 
         while (!loginValidation(email, password, userRole))
@@ -165,6 +175,7 @@ public:
             cout << endl;
             {
                 loginPage();
+                return;
             }
 
             while (!dv.isEmailValid(email))
@@ -176,6 +187,7 @@ public:
                 if (email == "-1")
                 {
                     loginPage();
+                    return;
                 }
             }
 
@@ -186,6 +198,7 @@ public:
             if (password == "-1")
             {
                 loginPage();
+                return;
             }
         }
         if (userRole == "Admin")
@@ -222,13 +235,14 @@ public:
 
     bool loginValidation(string email, string password, string userRole)
     {
+        DataConversion dc;
         if (userRole == "Tenant")
         {
             Tenant tenant;
             for (int i = 0; i < tenantList.getSize(); ++i)
             {
                 tenant = tenantList.get(i);
-                if (tenant.getEmail() == email && tenant.getPassword() == password)
+                if (dc.toLowercase(tenant.getEmail()) == dc.toLowercase(email) && tenant.getPassword() == password)
                 {
                     return true;
                 }
@@ -241,7 +255,7 @@ public:
             for (int i = 0; i < managerList.getSize(); ++i)
             {
                 manager = managerList.get(i);
-                if (manager.getEmail() == email && manager.getPassword() == password)
+                if (dc.toLowercase(manager.getEmail()) == dc.toLowercase(email) && manager.getPassword() == password)
                 {
                     return true;
                 }
@@ -250,7 +264,8 @@ public:
         }
         else if (userRole == "Admin")
         {
-            if ((email == "admin@gmail.com") && (password == "Admin@1234"))
+            Admin admin;
+            if ((dc.toLowercase(email) == dc.toLowercase(admin.getEmail())) && (password == admin.getPassword()))
             {
                 return true;
             }
@@ -260,6 +275,26 @@ public:
             }
         }
         return false;
+    }
+
+    void signUpPage() {
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "                  NEW ACCOUNT SIGN UP PAGE                   " << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------" << endl;
+        cout << endl;
+        cout << endl;
+
+        Tenant tenant;
+        DynamicArray<string> existingEmail = getExistingEmail();
+        bool tenantRegistration = tenant.registration(tenantList, existingEmail);
+
+        if(tenantRegistration == false) {
+            homePage();
+        } else {
+            loginPage();
+        }
     }
 
     /**
@@ -477,7 +512,8 @@ public:
 
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
-        cout << "                            ADMIN                            " << endl;
+        cout << "                      ASIA PACIFIC HOME                      " << endl;
+        cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "Welcome Tenant: " << tenant.getName() << endl;
         cout << endl;
