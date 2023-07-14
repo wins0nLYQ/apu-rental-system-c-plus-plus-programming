@@ -15,7 +15,7 @@ using namespace std;
 int main()
 {
     Asia_Pacific_Home APH;
-    
+
     APH.homePage();
 
     // DynamicArray<Tenant> tenantList;
@@ -29,13 +29,10 @@ int main()
     // Tenant tent = tenantList.get(0);
     // cout << tent.getName() << endl;
 
-
-
     // ReadCSV read;
     // DynamicArray<Property> properties = read.readCSV("mudah-apartment-kl-selangor.csv");
     // // DynamicArray<string> test = getAvailableLocation(properties);
     // filterProperty(properties);
-
 
     //     DynamicArray<string> locationList;
 
@@ -59,12 +56,11 @@ int main()
     //         }
     //     }
 
-        // for(int i = 0; i< test.getSize(); ++i) {
-        //     cout << test.get(i) << endl;
-        // }
-        // sort(locationList.begin(), locationList.end());
-        // cout << locationList.get(0);
-  
+    // for(int i = 0; i< test.getSize(); ++i) {
+    //     cout << test.get(i) << endl;
+    // }
+    // sort(locationList.begin(), locationList.end());
+    // cout << locationList.get(0);
 
     // cout << propList.getSize() << endl;
 
@@ -73,10 +69,7 @@ int main()
 
     // Tenant tenant = propList.get(0);
 
-
     // cout << property.getAdsID() << endl;
-
-
 
     // DynamicArray<string> testList;
     // testList.insertAtEnd("Hello");

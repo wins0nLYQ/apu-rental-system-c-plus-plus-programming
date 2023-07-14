@@ -483,6 +483,7 @@ public:
 
     void tenant_HomePage(Tenant tenant)
     {
+        bool validInput = false;
         cout << "Welcome Tenant: " << tenant.getName() << endl;
         cout << "-------------------------------------------------------------" << endl;
         while (!validInput)
