@@ -515,7 +515,7 @@ public:
      * --------------------------------------------------------------------------------------------
      */
 
-    void tenant_HomePage(Tenant tenant)
+    void tenant_HomePage(Tenant &tenant)
     {
         bool validInput = false;
 
@@ -526,10 +526,10 @@ public:
         cout << "-------------------------------------------------------------" << endl;
         cout << "Welcome Tenant: " << tenant.getName() << endl;
         cout << endl;
-        cout << endl;
 
         while (!validInput)
         {
+            cout << endl;
             cout << "Please select an option (1-4):" << endl;
             cout << "1. View Property" << endl;
             cout << "2. Property Favourite List" << endl;
@@ -551,7 +551,7 @@ public:
                 /**
                  * TODO: Call tenant favourite property list
                 */
-                validInput = true;
+                tenant.viewFavouriteProperty();
             }
             else if (userInput == "3")
             {
@@ -577,7 +577,7 @@ public:
         }
     }
 
-    void tenant_viewProperty(Tenant tenant)
+    void tenant_viewProperty(Tenant &tenant)
     {
         bool validInput = false;
         /**
@@ -615,6 +615,13 @@ public:
                 {
                     tenant_HomePage(tenant);
                 }
+
+                DoublyCircularLinkedList<Property> favPropList = filterProperty.getProperty();
+
+                if (favPropList.getSize() > 0) {
+                    tenant.addFavouriteList(favPropList);
+                }
+
                 tenant_HomePage(tenant);
             }
             else if (userInput == "4")
@@ -632,7 +639,7 @@ public:
         }
     }
 
-    void tenant_sortSelectionPage(Tenant tenant)
+    void tenant_sortSelectionPage(Tenant &tenant)
     {
         bool validInput = false;
         
@@ -653,7 +660,7 @@ public:
         }
     }
 
-    void tenant_sortItemOptions(Tenant tenant, const string &sortTypeSelection)
+    void tenant_sortItemOptions(Tenant &tenant, const string &sortTypeSelection)
     {
         bool validInput = false;
         while (!validInput)
@@ -695,7 +702,7 @@ public:
         }
     }
 
-    void tenant_searchSelectionPage(Tenant tenant)
+    void tenant_searchSelectionPage(Tenant &tenant)
     {
         bool validInput = false;
         
@@ -735,7 +742,7 @@ public:
         }
     }
 
-    void tenant_searchItemOptions(Tenant tenant, const string &searchTypeSelection)
+    void tenant_searchItemOptions(Tenant &tenant, const string &searchTypeSelection)
     {
         bool validInput = false;
         while (!validInput)
@@ -771,7 +778,7 @@ public:
         }
     }
 
-    void tenant_search(Tenant tenant, const string &searchType, const string &searchItem) 
+    void tenant_search(Tenant &tenant, const string &searchType, const string &searchItem) 
     {
         FilterProperty filterProperty(user, tenant);
 
@@ -857,7 +864,7 @@ public:
         }
     }
 
-    void tenant_favouriteList(Tenant tenant)
+    void tenant_favouriteList(Tenant &tenant)
     {
         bool validInput = false;
         /**
@@ -865,7 +872,7 @@ public:
         */
     } 
 
-    void tenant_rentRequest(Tenant tenant)
+    void tenant_rentRequest(Tenant &tenant)
     {
         /**
          * TODO: Display tenant rent request list

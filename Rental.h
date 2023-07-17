@@ -2,13 +2,15 @@
 #define RENTAL_H
 
 #include <string>
+#include "Property.h"
+#include "Tenant.h"
 
 using namespace std;
 
 class Rental {
     private:
-        string adsID;
-        string tenantEmail;
+        Property property;
+        Tenant tenant;
         string requestDateTime;
         string applicationStatus;
         string paymentStatus;
@@ -19,20 +21,20 @@ class Rental {
         // default constructor, sets all member variables to empty strings or 0's.
     }
 
-    string getAdsID() const {
-        return adsID;
+    Property getProperty() const {
+        return this->property;
     }
 
-    void setAdsID(const string& newAdsID) {
-        adsID = newAdsID;
+    void setProperty(const Property &property) {
+        this->property = property;
     }
 
-    string getTenantEmail() const {
-        return tenantEmail;
+    Tenant getTenant() const {
+        return this->tenant;
     }
 
-    void setTenantEmail(const string& newTenantEmail) {
-        tenantEmail = newTenantEmail;
+    void setRentTenant(const Tenant &tenant) {
+        this->tenant = tenant;
     }
 
     string getRequestDateTime() const {

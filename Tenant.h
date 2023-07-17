@@ -10,15 +10,14 @@
 #include "Property.h"
 #include "DataConversion.h"
 #include "Admin.h"
+// #include "FilterProperty.h"
 
 using namespace std;
-
-class Property;
 
 class Tenant : public User {
   private:
     string lastLoginDate;
-    DoublyCircularLinkedList<Property> dcll;
+    DoublyCircularLinkedList<Property> favouriteList;
 
   public:
     Tenant(){}
@@ -38,12 +37,8 @@ class Tenant : public User {
         this->lastLoginDate = lastLoginDate;
     }
 
-    // DoublyCircularLinkedList<Property> getFavouriteList() const {
-    //     return favouriteList;
-    // }
-
-    void addFavouriteList(Property& property) {
-        
+    void addFavouriteList(DoublyCircularLinkedList<Property> &newFavList) {
+        this->favouriteList.mergeWith(newFavList);
     }
 
     bool registration(DynamicArray<Tenant>& tenantList, DynamicArray<string>& existingEmail) {
@@ -238,11 +233,106 @@ class Tenant : public User {
 
     void setFavoriteProperty(const Property& property) {
         // Implementation of saving favorite properties logic
-        this->dcll.insertAtEnd(property);
+        this->favouriteList.insertAtEnd(property);
+    }
+
+    void removeFavouriteProperty(const int &remIndex) {
+        // Implementation of removing favorite properties logic
+        this->favouriteList.removeAtIndex(remIndex);
+    }
+
+    void viewFavouriteProperty() {
+        if (favouriteList.getSize() > 0) {
+            int propIndex = 1;
+
+            Property property = favouriteList.getFirst();
+
+            while (true) {
+                cout << endl;
+                cout << "[FAVOURITE PROPERTY LIST]" << endl;
+                cout << "NO: " << propIndex << " OUT OF " << favouriteList.getSize() << endl;
+
+                displaySingleProperty(property);
+
+                cout << "Options: (N)ext, (P)revious, (Q)uit, (U)nfavourite, (R)ent Request" << endl;
+                cout << ">> ";
+
+                std::string choice;
+                getline(cin >> ws, choice);
+
+                if (choice == "N" || choice == "n") {
+                    if (propIndex < favouriteList.getSize()) {
+                        property = favouriteList.nextItem();
+                        propIndex++;
+                    }
+                    else {
+                        cout << "No more items. Reached the last favourite property." << endl << endl;
+                    }
+                }
+                else if (choice == "P" || choice == "p") {
+                    if (propIndex > 1) {
+                        property = favouriteList.prevItem();
+                        propIndex--;
+                    }
+                    else {
+                        cout << endl << "This is the first favourite property." << endl << endl;
+                    }
+                }
+                else if (choice == "Q" || choice == "q") {
+                    break;
+                }
+                else if (choice == "U" || choice == "u") {
+                    property = favouriteList.removeCurrent();
+                    cout << endl << "Property has been removed from favourite list." << endl << endl;
+                }
+                else if (choice == "R" || choice == "r") {
+                    // call rent request function
+                    cout << endl << "Are you sure to rent this property (Y/N)" << endl;
+                    cout << ">>> ";
+
+                    std::string rentChoice;
+                    getline(cin >> ws, rentChoice);
+                    
+                    if (rentChoice == "Y" || rentChoice == "y") {
+                        cout << endl << "Rent request has been sent to the owner." << endl << endl;
+                    }
+                    else if (rentChoice == "N" || rentChoice == "n") {
+                        cout << endl << "Rent request has been cancelled." << endl << endl;
+                    }
+                    else {
+                        cout << endl << "Invalid input! Please try again..." << endl;
+                    }
+                }
+                else {
+                    cout << endl << "Invalid input! Please try again..." << endl;
+                }
+            }
+        }
+        else {
+            cout << endl << "You have no favourite property..." << endl << endl;
+        }
+    }
+
+    void displaySingleProperty(const Property& property) {
+        std::cout << "Ads ID: " << property.getAdsID() << std::endl;
+        std::cout << "Property Name: " << property.getPropName() << std::endl;
+        std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
+        std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
+        std::cout << "Location: " << property.getLocation() << std::endl;
+        std::cout << "Property Type: " << property.getPropertyType() << std::endl;
+        std::cout << "Rooms: " << property.getRooms() << std::endl;
+        std::cout << "Parking: " << property.getParking() << std::endl;
+        std::cout << "Bathroom: " << property.getBathroom() << std::endl;
+        std::cout << "Size: " << property.getSize() << std::endl;
+        std::cout << "Furnished: " << property.getFurnished() << std::endl;
+        std::cout << "Facilities: " << property.getFacilities() << std::endl;
+        std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
+        std::cout << "Region: " << property.getRegion() << std::endl;
+        std::cout << "---------------------------\n";
     }
 
     DoublyCircularLinkedList<Property> getFavoriteProperty() const {
-        return dcll;
+        return favouriteList;
     }
 
     void placeRentRequest() {
