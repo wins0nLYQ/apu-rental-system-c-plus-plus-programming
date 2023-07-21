@@ -6,6 +6,7 @@
 */
 
 #include "User.h"
+#include "DoublyCircularLinkedList.h"
 #include "Property.h"
 #include "DataConversion.h"
 #include "Admin.h"
@@ -14,6 +15,8 @@
 
 
 using namespace std;
+
+class Property;
 
 class Tenant : public User {
   private:
@@ -26,7 +29,7 @@ class Tenant : public User {
     Tenant(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
                 const std::string& _identificationNo, const std::string& _gender, const std::string& _password,
                 const std::string& _dateOfBirth, const std::string& _lastLoginDate)
-            : User(_name, _email, _phoneNo, _identificationNo, _gender, _password, _dateOfBirth),
+            : User(_name, _email, _phoneNo, _identificationNo, _gender, _password, _dateOfBirth, "Tenant"),
               lastLoginDate(_lastLoginDate) {
         }
 
@@ -36,6 +39,14 @@ class Tenant : public User {
 
     void setLastLoginDate(const string& lastLoginDate) {
         this->lastLoginDate = lastLoginDate;
+    }
+
+    // DoublyCircularLinkedList<Property> getFavouriteList() const {
+    //     return favouriteList;
+    // }
+
+    void addFavouriteList(Property& property) {
+        
     }
 
     bool registration(DynamicArray<Tenant>& tenantList, DynamicArray<string>& existingEmail) {
@@ -228,8 +239,13 @@ class Tenant : public User {
         // Implementation of displaying property information logic
     }
 
-    void saveFavorite() {
+    void setFavoriteProperty(const Property& property) {
         // Implementation of saving favorite properties logic
+        this->dcll.insertAtEnd(property);
+    }
+
+    DoublyCircularLinkedList<Property> getFavoriteProperty() const {
+        return dcll;
     }
 
     void placeRentRequest() {
@@ -245,7 +261,7 @@ class Tenant : public User {
         for(int i = 0; i < tenantList.getSize(); ++i) {
             Tenant tenant;
             tenant = tenantList.get(i);
-            if(tenant.getEmail() == email) {
+            if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(email)) {
                 loginTenant.setName(tenant.getName());
                 loginTenant.setEmail(tenant.getEmail());
                 loginTenant.setPhoneNo(tenant.getPhoneNo());
@@ -255,6 +271,7 @@ class Tenant : public User {
                 loginTenant.setLastLoginDate(tenant.getLastLoginDate());
                 loginTenant.setPassword(tenant.getPassword());
                 loginTenant.setLastLoginDate(dc.getTodayDate());
+                loginTenant.setRole(tenant.getRole());
 
                 tenantList.replace(tenant, i);
             }

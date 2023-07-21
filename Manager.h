@@ -7,6 +7,7 @@
 
 #include "User.h"
 #include <vector>
+#include "DataConversion.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ public:
     Manager(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
                 const std::string& _identificationNo, const std::string& _gender,
                 const std::string& _dateOfBirth, const std::string& _status)
-            : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth),
+            : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth, "Manager"),
             status(_status) {
     }
 
@@ -73,11 +74,11 @@ public:
     }
 
     Manager login(const std::string& email, DynamicArray<Manager>& managerList) {
-        Manager loginManager;
+        Manager loginManager; DataConversion dc;
         for(int i = 0; i < managerList.getSize(); ++i) {
             Manager manager;
             manager = managerList.get(i);
-            if(manager.getEmail() == email) {
+            if(dc.toLowercase(manager.getEmail()) == dc.toLowercase(email)) {
                 loginManager.setName(manager.getName());
                 loginManager.setEmail(manager.getEmail());
                 loginManager.setPhoneNo(manager.getPhoneNo());
@@ -86,6 +87,7 @@ public:
                 loginManager.setDateOfBirth(manager.getDateOfBirth());
                 loginManager.setPassword(manager.getPassword());
                 loginManager.setStatus(manager.getStatus());
+                loginManager.setRole(manager.getRole());
             }
         } return loginManager;
     }
