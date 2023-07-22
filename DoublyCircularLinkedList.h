@@ -213,6 +213,10 @@ public:
     return current->data;
   }
 
+  T& getCurrent() {
+    return current->data;
+  }
+
   T& get(int index) {
     DCLListNode<T> *currentNode = head;
 
@@ -271,10 +275,59 @@ public:
     return size;
   }
 
+  int getIndex() {
+    DCLListNode<T> *currentNode = head;
+    int index = -1;
+
+    if (head != nullptr) {
+      index++;
+    }
+
+    while (currentNode != nullptr && currentNode != current)
+    {
+      currentNode = currentNode->next;
+      index++;
+    }
+
+    return index;
+  }
+
   void mergeWith(DoublyCircularLinkedList<T> &secList)
   {
     for (int size = 0; size < secList.getSize(); size++) {
       insertAtEnd(secList.get(size));
+    }
+  }
+
+  void replace(const T &object, int index) {
+    DCLListNode<T> *currentNode = head;
+
+    if (index < 0 || index > size)
+    {
+      cout << "Invalid Index";
+    }
+    else {
+      if (index == 0)
+      {
+        head->data = object;
+      }
+      else if (index == size)
+      {
+        tail->data = object;
+      }
+      else
+      {
+        for (int count = 0; count <= index; count++)
+        {
+          if (count == index)
+          {
+            currentNode->data = object;
+            break;
+          }
+
+          currentNode = currentNode->next;
+        }
+      }
     }
   }
 };

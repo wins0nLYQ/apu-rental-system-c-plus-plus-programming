@@ -10,6 +10,8 @@
 #include "Property.h"
 #include "DataConversion.h"
 #include "Admin.h"
+#include "Rental.h"
+#include <ctime>
 // #include "FilterProperty.h"
 
 using namespace std;
@@ -18,6 +20,7 @@ class Tenant : public User {
   private:
     string lastLoginDate;
     DoublyCircularLinkedList<Property> favouriteList;
+    DoublyCircularLinkedList<Rental> rentalHistory;
 
   public:
     Tenant(){}
@@ -294,10 +297,15 @@ class Tenant : public User {
                     getline(cin >> ws, rentChoice);
                     
                     if (rentChoice == "Y" || rentChoice == "y") {
-                        cout << endl << "Rent request has been sent to the owner." << endl << endl;
+                        // Add Rent Request Function
+                        addRentalRequest(favouriteList.getCurrent());
+                        cout << "Enter any key to continue: ";
+                        string userInput;
+                        getline(cin >> ws, userInput);
+                        cout << endl;
                     }
                     else if (rentChoice == "N" || rentChoice == "n") {
-                        cout << endl << "Rent request has been cancelled." << endl << endl;
+                        cout << endl << "[RENT REQUEST CANCELLED]" << endl << endl;
                     }
                     else {
                         cout << endl << "Invalid input! Please try again..." << endl;
@@ -311,6 +319,363 @@ class Tenant : public User {
         else {
             cout << endl << "You have no favourite property..." << endl << endl;
         }
+    }
+
+    void addRentalRequest(Property &propertySelected) {
+        for (int count = 0; count < rentalHistory.getSize(); count++) {
+            if (rentalHistory.get(count).getProperty() == propertySelected) {
+                cout << endl << "You have already sent a rental request for this property." << endl << endl;
+                return;
+            }
+        }
+
+        // // Get the current time
+        // std::time_t now = std::time(nullptr);
+
+        // // Convert the time to a string representation
+        // std::stringstream ss;
+        // ss << std::put_time(std::localtime(&now), "%Y-%m-%d %H:%M:%S");
+        // std::string currentDateTime = ss.str();
+
+        DataConversion dc;
+        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Approved, "");
+
+        this->rentalHistory.insertAtEnd(request);
+
+        cout << endl << "[RENT REQUEST HAS SENT]" << endl;
+    }
+
+    void extractSpecificStatusRequest(Status stat) {
+        int total = 0;
+        Rental rental;
+
+        for (int count = 0; count < rentalHistory.getSize(); count++) {
+            if (rentalHistory.get(count).getApplicationStatus() == stat) {
+                total++;
+            }
+        }
+
+        while (true) {
+            Rental eachReq = rentalHistory.getFirst();
+            if (eachReq.getApplicationStatus() == stat) {
+                rental = eachReq;
+                break;
+            }
+
+            eachReq = rentalHistory.nextItem();
+        }
+
+        int propIndex = 1;
+        std::string statStr = getStatusInString(stat);
+
+        while (true) {
+            cout << endl << "[RENTAL REQUEST: " << statStr << "]" << endl;
+
+            cout << "NO: " << propIndex << " OUT OF " << total << endl;
+
+            displaySingleProperty(rental.getProperty());
+
+            cout << "Request Date: " << rental.getRequestDateTime() << endl;
+            cout << "Application Status: " << getStatusInString(rental.getApplicationStatus()) << endl;
+            cout << "Remarks: " << rental.getRemarks() << endl;
+
+            cout << "---------------------------------------" << endl;
+
+            switch (stat) {
+                case Approved:
+                    cout << "Options: (N)ext, (P)revious, (D)elete, (Q)uit, (T)ransaction" << endl;
+                    cout << ">> ";
+                    break;
+                default:
+                    cout << "Options: (N)ext, (P)revious, (D)elete, (Q)uit" << endl;
+                    cout << ">> ";
+                    break;
+            }
+
+            std::string choice;
+            getline(cin >> ws, choice);
+
+            if (choice == "N" || choice == "n") {
+                if (propIndex < total) {
+                    rental = rentalHistory.nextItem();
+
+                    while (true) {
+                        if (rental.getApplicationStatus() == stat) {
+                            propIndex++;
+                            break;
+                        }
+
+                        rental = rentalHistory.nextItem();
+                    }
+                }
+                else {
+                    cout << "No more items. Reached the last rental history." << endl << endl;
+                }
+            }
+            else if (choice == "P" || choice == "p") {
+                if (propIndex > 1) {
+                    rental = rentalHistory.prevItem();
+
+                    while (true) {
+                        if (rental.getApplicationStatus() == stat) {
+                            propIndex--;
+                            break;
+                        }
+
+                        rental = rentalHistory.prevItem();
+                    }
+                }
+                else {
+                    cout << endl << "This is the first rental history." << endl << endl;
+                }
+            }
+            else if (choice == "D" || choice == "d") {
+                while (true) {
+                    cout << "Are you sure to remove the current rental history from the list? (Y/N)" << endl;
+                    cout << ">> ";
+                    string option;
+                    getline(cin >> ws, option);
+
+                    if (option == "Y" || option == "y") {
+                        rental = rentalHistory.removeCurrent();
+                        cout << endl << "Rental history has been removed." << endl << endl;
+                        break;
+                    }
+                    else if (option == "N" || option == "n") {
+                        cout << endl << "Rental request remove unsuccessful" << endl << endl;
+                        break;
+                    }
+                    else {
+                        cout << endl << "Invalid Option. Please Try Again..." << endl << endl;
+                    }
+                }
+            }
+            else if (choice == "T" || choice == "t") {
+                if (rental.getApplicationStatus() == 1) {
+                    cout << endl << "Going to payment page..." << endl << endl;
+
+                    if(rentalPayment(rental, rentalHistory.getIndex())) {
+                        cout << "Payment successful!" << endl << endl;
+                        break;
+                    }
+                    else {
+                        cout << "Payment Unsuccess!" << endl << endl;
+                    }
+                }
+                else {
+                    cout << "This application is not approved..." << endl;
+                }
+            }
+            else if (choice == "Q" || choice == "q") {
+                break;
+            }
+            else {
+                cout << endl << "Invalid input! Please try again..." << endl;
+            }
+        }
+    }
+
+    bool rentalPayment(Rental &rental, const int &oriItemIndex) {
+        // Implementation of rental payment logic
+        bool paidSuccessfully = false;
+
+        while (true) {
+            cout << "[PAYMENT PAGE]" << endl;
+            cout << "Property Information" << endl;
+            cout << "---------------------------------------" << endl;
+            displaySingleProperty(rental.getProperty());
+            cout << "Application Date: " << rental.getRequestDateTime() << endl;
+            cout << "Remarks: " << rental.getRemarks() << endl;
+
+            cout << "Enter 'P' to proceed payment (0 to Back): " << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+
+            if (userInput == "P" || userInput == "p") {
+                paidSuccessfully = paymentInterface();
+
+                if (paidSuccessfully) {
+                    rental.setApplicationStatus(Status::Active);
+                    this->rentalHistory.replace(rental, oriItemIndex);
+                    break;
+                }
+            }
+            else if (userInput == "0") {
+                cout << endl << "Payment Cancelled... Returning Back!" << endl << endl;
+                break;
+            }
+            else {
+                cout << endl << "Invalid Option... Please try again!" << endl << endl;
+            }
+        }
+        
+        return paidSuccessfully;
+    }
+
+    bool paymentInterface() {
+        // Implementation of payment interface logic
+        DataConversion dc;
+
+        bool paymentStatus = false;
+
+        while (true) {
+            cout  << endl << "Enter Card No. [16-Digits] (-1 to Cancel): ";
+            string cardNo;
+            getline(cin >> ws, cardNo);
+
+            if (cardNo == "-1") {
+                break;
+            }
+            else if (cardNo.size() == 16 && dc.isInteger(cardNo)) {
+                cout << endl << "Enter Card Holder Name (-1 to Cancel): ";
+                string holderName;
+                getline(cin >> ws, holderName);
+
+                if (holderName == "-1") {
+                    break;
+                }
+                else {
+                    while (true) {
+                        cout << endl << "Enter CVV [3-Digits] (-1 to Cancel): ";
+                        string cvv;
+                        getline(cin >> ws, cvv);
+
+                        if (cvv == "-1") {
+                            break;
+                        }
+                        else if (cvv.size() == 3 && dc.isInteger(cvv)) {
+                            while (true) {
+                                cout << endl << "Card Expiry Date: " << endl;
+                                cout << ">> Month [1-12] (-1 to Cancel): ";
+                                string expiryMonth;
+                                getline(cin >> ws, expiryMonth);
+                                
+                                if (expiryMonth == "-1") {
+                                    break;
+                                }
+                                else if (dc.isInteger(expiryMonth)) {
+                                    int cardMonth = stoi(expiryMonth);
+                                    
+                                    if (cardMonth > 0 && cardMonth < 13) {
+                                        while (true) {
+                                            cout << endl << ">> Year [2023 - 2028] (-1 to Cancel): ";
+                                            string expiryYear;
+                                            getline(cin >> ws, expiryYear);
+
+                                            if (expiryYear == "-1") {
+                                                cout << endl << "Payment Cancelled... Returning Back!" << endl;
+                                                paymentStatus = true;
+                                                break;
+                                            }
+                                            else if (dc.isInteger(expiryYear)) {
+                                                int cardYear = stoi(expiryYear);
+
+                                                if (expiryYear.size() == 4) {
+                                                    std::tm date = {0};
+
+                                                    date.tm_year = cardYear - 1900;
+                                                    date.tm_mon = cardMonth - 1;
+                                                    date.tm_mday = 1;
+
+                                                    std::time_t cardDate = std::mktime(&date);
+
+                                                    if (dc.comapreDate(cardDate, dc.todayDateInTimeT()) == 1) {
+                                                        paymentStatus = true;
+                                                    }
+                                                    else {
+                                                        cout << endl << "The card is expired... Please user another card" << endl;
+                                                    }
+
+                                                    break;
+                                                }
+                                                else {
+                                                    cout << endl << "Invalid Expiry Year... Please Try Again!" << endl;
+                                                }
+                                            }
+                                            else {
+                                                cout << endl << "Invalid Year... Please Try Again!" << endl;
+                                            }
+                                        }
+
+                                        break;
+                                    }
+                                    else {
+                                        cout << endl << "Invalid Expiry Date... Please Try Again!" << endl;
+                                    }
+                                }
+                                else {
+                                    cout << endl << "Invalid Expiry Date... Please Try Again!" << endl;
+                                }
+                            }
+
+                            break;
+                        }
+                        else {
+                            cout << endl << "Invalid CVV... Please Try Again!" << endl;
+                        }
+                    }
+
+                    break;
+                }
+
+                break;
+            }
+            else {
+                cout << endl << "Invalid Card...Please Try Again!" << endl;
+            }
+        }
+        
+        return paymentStatus;
+    }
+
+    std::string rentalRequestSummary() {
+        Status stat;
+        int pending = 0, approved = 0, rejected = 0, active = 0, inactive = 0;
+        // Implementation of rental request summary logic
+        for (int count = 0; count < rentalHistory.getSize(); count++) {
+            stat = rentalHistory.get(count).getApplicationStatus();
+
+            switch (stat) {
+                case Pending:
+                    pending++;
+                    break;
+                case Approved:
+                    approved++;
+                    break;
+                case Rejected:
+                    rejected++;
+                    break;
+                case Active:
+                    active++;
+                    break;
+                case Inactive:
+                    inactive++;
+                    break;
+                default:
+                    break;
+            }    
+        }
+
+        cout << "[Summary of Rental History]" << endl;
+        cout << " 1. Pending: " << pending << endl;
+        cout << " 2. Approved: " << approved << endl;
+        cout << " 3. Rejected: " << rejected << endl;
+        cout << " 4. Moved In: " << active << endl;
+        cout << " 5. Moved Out: " << inactive << endl;
+        cout << "------------------------------" << endl << endl;
+        cout << "Please select an option (-1 to Back): " << endl;
+        cout << ">> ";
+
+        string userInput;
+        getline(cin >> ws, userInput);
+        
+        return userInput;
+    }
+
+    void removeRentalRequest() {
+        // Implementation of removing rental request logic
     }
 
     void displaySingleProperty(const Property& property) {
@@ -328,11 +693,15 @@ class Tenant : public User {
         std::cout << "Facilities: " << property.getFacilities() << std::endl;
         std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
         std::cout << "Region: " << property.getRegion() << std::endl;
-        std::cout << "---------------------------\n";
+        std::cout << "---------------------------------------\n";
     }
 
     DoublyCircularLinkedList<Property> getFavoriteProperty() const {
         return favouriteList;
+    }
+
+    DoublyCircularLinkedList<Rental> getRentalHistory() const {
+        return rentalHistory;
     }
 
     void placeRentRequest() {

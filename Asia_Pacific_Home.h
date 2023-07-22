@@ -9,8 +9,9 @@
 #include <iostream>
 #include <regex>
 
-#include "User.h"
 #include "DynamicArray.h"
+
+#include "User.h"
 #include "Manager.h"
 #include "Tenant.h"
 #include "Admin.h"
@@ -61,6 +62,7 @@ public:
         cout << "1. View Property" << endl;
         cout << "2. Login" << endl;
         cout << "3. Sign Up" << endl;
+        cout << "X. Close Program" << endl;
         cout << ">> ";
 
         string userInput;
@@ -82,6 +84,10 @@ public:
         else if (userInput == "3")
         {
             signUpPage();
+        }
+        else if (userInput == "X") {
+            cout << endl << "Exiting... Bye!" << endl;
+            exit(0);
         }
         else
         {
@@ -533,7 +539,7 @@ public:
             cout << "Please select an option (1-4):" << endl;
             cout << "1. View Property" << endl;
             cout << "2. Property Favourite List" << endl;
-            cout << "3. Rent Request" << endl;
+            cout << "3. Rent Request History" << endl;
             cout << "4. Logout" << endl;
             cout << ">> ";
 
@@ -558,7 +564,7 @@ public:
                 /**
                  * TODO: Call tenant rent request function
                 */
-                validInput = true;
+                tenant_rentRequest(tenant);
             }
             else if (userInput == "4")
             {
@@ -877,6 +883,45 @@ public:
         /**
          * TODO: Display tenant rent request list
         */
+
+        DoublyCircularLinkedList<Rental> rentalHistory = tenant.getRentalHistory();
+
+        if (rentalHistory.getSize() > 0) {
+            int propIndex = 1;
+
+            while (true) {
+                cout << endl;
+                cout << "[RENTAL HISTORY]" << endl;
+
+                std::string option = tenant.rentalRequestSummary();
+
+                if (option == "1") {
+                    tenant.extractSpecificStatusRequest(Pending);
+                }
+                else if (option == "2") {
+                    tenant.extractSpecificStatusRequest(Approved);
+                }
+                else if (option == "3") {
+                    tenant.extractSpecificStatusRequest(Rejected);
+                }
+                else if (option == "4") {
+                    tenant.extractSpecificStatusRequest(Active);
+                }
+                else if (option == "5") {
+                    tenant.extractSpecificStatusRequest(Inactive);
+                }
+                else if (option == "-1") {
+                    cout << endl << "Returning back..." << endl << endl;
+                    break;
+                }
+                else {
+                    cout << endl << "Invalid input! Please try again..." << endl;
+                }
+            }
+        }
+        else {
+            cout << endl << "You have no rental history..." << endl << endl;
+        }
     }
 
     /**
