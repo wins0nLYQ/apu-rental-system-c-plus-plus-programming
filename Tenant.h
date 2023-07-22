@@ -329,14 +329,6 @@ class Tenant : public User {
             }
         }
 
-        // // Get the current time
-        // std::time_t now = std::time(nullptr);
-
-        // // Convert the time to a string representation
-        // std::stringstream ss;
-        // ss << std::put_time(std::localtime(&now), "%Y-%m-%d %H:%M:%S");
-        // std::string currentDateTime = ss.str();
-
         DataConversion dc;
         Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Approved, "");
 
