@@ -12,22 +12,22 @@
 #include "User.h"
 #include "Tenant.h"
 
-
 using namespace std;
 
 class FilterProperty {
     private:
         User user;
         Tenant tenant;
+        DoublyCircularLinkedList<Property> propertyList;
 
     public:
     FilterProperty() {}
 
-    FilterProperty(User user) {
+    FilterProperty(User &user) {
         this->user = user;
     }
 
-    FilterProperty(User user, Tenant tenant) {
+    FilterProperty(User &user, Tenant &tenant) {
         this->user = user;
         this->tenant = tenant;
     }
@@ -544,7 +544,6 @@ class FilterProperty {
         } else if(temp.getSize() == 1) {
             displayFilteredPropertyList(temp);
         }
-
     }
 
     void displayFilteredPropertyList(DynamicArray<Property>& filteredList) {
@@ -586,7 +585,6 @@ class FilterProperty {
                 cout << "Options: (N)ext page, (P)revious page, (Q)uit, (F)avourite List" << endl;
                 cout << ">> ";
             }
-            
 
             string userInput;
             getline(cin >> ws, userInput);
@@ -629,7 +627,8 @@ class FilterProperty {
                         cout << endl;
 
                         if(confirm == "Y" || confirm == "y") {
-                            tenant.setFavoriteProperty(filteredList.get(stoi(choice) - 1));
+                            propertyList.insertAtEnd(filteredList.get(stoi(choice) - 1));
+
                             cout << endl;
                             cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;
                             cout << "Enter any key to continue surfing: ";
@@ -657,7 +656,8 @@ class FilterProperty {
                     cout << endl;
                 }
 
-            } else if ((userInput == "F" || userInput == "f") && user.getRole()=="") {
+            } 
+            else if ((userInput == "F" || userInput == "f") && user.getRole()=="") {
                 cout << "-Kindly login to an active account to make rent request.-" << endl;
                 cout << "Enter any key to continue surfing: ";
                 string userInput;
@@ -687,8 +687,10 @@ class FilterProperty {
         std::cout << "Region: " << property.getRegion() << std::endl;
         std::cout << "---------------------------\n";
     }
-    
 
+    DoublyCircularLinkedList<Property> getProperty() {
+        return this->propertyList;
+    }
 };
 
 #endif
