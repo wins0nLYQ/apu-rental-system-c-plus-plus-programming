@@ -78,6 +78,55 @@ public:
 
         return buffer;
     }
+
+    std::time_t todayDateInTimeT() {
+        // Get the current time as std::time_t
+        std::time_t now = std::time(nullptr);
+
+        // Convert to local time representation (std::tm)
+        std::tm localTime = *std::localtime(&now);
+
+        // Reset the time components to represent midnight (00:00:00)
+        localTime.tm_hour = 0;
+        localTime.tm_min = 0;
+        localTime.tm_sec = 0;
+
+        // Convert the modified std::tm back to std::time_t
+        std::time_t todayTimeT = std::mktime(&localTime);
+
+        return todayTimeT;
+    }
+
+    bool isInteger(const std::string& input) {
+        if (input.empty() || ((!isdigit(input[0])) && (input[0] != '-') && (input[0] != '+'))) {
+            return false; // Invalid input, not an integer
+        }
+
+        char* endPtr; // Pointer to the character following the parsed integer
+        std::strtol(input.c_str(), &endPtr, 10);
+
+        // Check if all characters after the integer are whitespaces (endPtr should point to the null terminator)
+        for (char ch : std::string(endPtr)) {
+            if (!isspace(ch)) {
+                return false; // Not an integer (contains non-whitespace characters after the integer)
+            }
+        }
+
+        return true; // Valid integer input
+    }
+
+    int comapreDate(std::time_t dateInput, std::time_t dateToCompare) {
+        // Compare dates
+        if (dateInput < dateToCompare) {
+            return -1;
+        } 
+        else if (dateInput > dateToCompare) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
 };
 
 #endif
