@@ -46,7 +46,8 @@ class Tenant : public User {
     // }
 
     void addFavouriteList(Property& property) {
-        
+        this->dcll.insertAtEnd(property);
+        cout << property.getAdsID();
     }
 
     bool registration(DynamicArray<Tenant>& tenantList, DynamicArray<string>& existingEmail) {
