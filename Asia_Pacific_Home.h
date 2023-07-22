@@ -808,6 +808,7 @@ public:
     void manager_HomePage(Manager manager)
     {
         bool validInput = false;
+        Tenant tenant;
         
         while (!validInput)
         {
