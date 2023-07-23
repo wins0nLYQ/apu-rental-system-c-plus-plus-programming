@@ -945,7 +945,7 @@ public:
             std::cout << std::endl;
 
             std::cout << "Please select an option (1-3):" << std::endl;
-            std::cout << "1. Display All Registered Tenant' Details" << std::endl;
+            std::cout << "1. Display All Registered Tenant Details" << std::endl;
             std::cout << "2. Favorite Property List" << std::endl;
             std::cout << "3. View Property Information" << std::endl;
             std::cout << "4. Logout" << std::endl;

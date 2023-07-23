@@ -151,12 +151,12 @@ public:
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "ID") {
-                string idNo = dc.toLowercase(tenant.getIdentificationNo());
+                string idNo = tenant.getIdentificationNo();
                 if(idNo.find(search) != std::string::npos) {
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "Gender") {
-                if(dc.toLowercase(tenant.getGender()) == search) {
+                if(tenant.getGender() == search) {
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "DOB") {
