@@ -41,7 +41,7 @@ public:
         Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-07-02");
         tenantList.insertAtEnd(newTenant2);
 
-        Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Inactive");
+        Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Active");
         managerList.insertAtEnd(newManager);
 
         ReadCSV read;
@@ -232,6 +232,7 @@ public:
             Manager manager = manager.login(email, managerList);
             if (manager.getStatus() == "Active")
             {
+                this->user = manager;
                 manager_HomePage(manager);
             }
             else
@@ -956,9 +957,7 @@ public:
 
                 if (userInput == "1")
                 {
-                    /**
-                     * TODO: display tenant detail
-                    */
+                    manager_ViewTenantInfoPage(manager);
                     validInput = true;
                 }
                 else if (userInput == "2")
@@ -987,6 +986,66 @@ public:
                         << endl
                         << endl;
                 }
+        }
+    }
+
+    void manager_ViewTenantInfoPage(Manager& manager)
+    {
+        cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
+        cout << "Available Tenant: " << tenantList.getSize() << endl;
+        cout << endl;
+
+        if (tenantList.getSize() == 0)
+        {
+            cout << "Tenant information not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            FilterTenant filterTenant;
+            if (filterTenant.filterTenants(tenantList) == false)
+            {
+                manager_HomePage(manager);
+            }
+            // cout << "Input any key to back >> ";
+            // string userInput;
+            // getline(cin >> ws, userInput);
+            // cout << endl;
+            manager_HomePage(manager);
+        }
+    }
+
+    void manager_RemoveTenant(Manager& manager)
+    {
+        cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
+        cout << "Available Tenant: " << tenantList.getSize() << endl;
+        cout << endl;
+
+        if (tenantList.getSize() == 0)
+        {
+            cout << "Tenant information not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            FilterTenant filterTenant;
+            if (filterTenant.filterTenants(tenantList) == false)
+            {
+                manager_HomePage(manager);
+            }
+            // cout << "Input any key to back >> ";
+            // string userInput;
+            // getline(cin >> ws, userInput);
+            // cout << endl;
+            manager_HomePage(manager);
         }
     }
 

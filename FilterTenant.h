@@ -7,11 +7,18 @@
 #include "DataValidation.h"
 #include "DataConversion.h"
 #include "Tenant.h"
+#include "User.h"
 
 using namespace std;
 
 class FilterTenant {
+private:
+    User user;
 public:
+    FilterTenant() {}
+    FilterTenant(User &user) {
+        this->user = user;
+    }
     bool filterTenants(DynamicArray<Tenant>& tenantList) {
         // Implementation for displaying all tenants
         DataValidation dv;
@@ -225,8 +232,14 @@ public:
                 // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
                 std::cout << "---------------------------\n";
             }
-            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
-            cout << ">> ";
+            if(user.getRole() == "Manager") {
+                cout << "Options: (N)ext page, (P)revious page, (D)elete Account, (Q)uit" << endl;
+                cout << ">> ";
+            } else {
+                cout << user.getRole() << endl;
+                cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+                cout << ">> ";
+            }
 
             string userInput;
             getline(cin >> ws, userInput);

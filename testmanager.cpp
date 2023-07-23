@@ -17,7 +17,7 @@ using namespace std;
 int main()
 {
     DynamicArray<Manager> managerList;
-    Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Inactive");
+    Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Active");
     managerList.insertAtEnd(newManager);
     Asia_Pacific_Home APH;
     APH.manager_HomePage(newManager);
