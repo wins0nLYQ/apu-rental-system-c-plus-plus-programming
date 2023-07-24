@@ -35,7 +35,7 @@ private:
 
 public:
     Asia_Pacific_Home() {
-        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2023-07-01");
+        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2022-06-01");
         tenantList.insertAtEnd(newTenant);
 
         Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-07-02");
@@ -1006,7 +1006,7 @@ public:
         }
         else
         {
-            FilterTenant filterTenant;
+            FilterTenant filterTenant(user);
             if (filterTenant.filterTenants(tenantList) == false)
             {
                 manager_HomePage(manager);
