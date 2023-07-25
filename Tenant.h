@@ -330,7 +330,7 @@ class Tenant : public User {
         }
 
         DataConversion dc;
-        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Approved, "");
+        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Pending, "");
 
         this->rentalHistory.insertAtEnd(request);
 
