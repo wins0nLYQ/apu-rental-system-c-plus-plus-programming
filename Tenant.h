@@ -330,7 +330,7 @@ class Tenant : public User {
         }
 
         DataConversion dc;
-        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Approved, "");
+        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Pending, "");
 
         this->rentalHistory.insertAtEnd(request);
 
@@ -721,7 +721,7 @@ class Tenant : public User {
                 loginTenant.setLastLoginDate(dc.getTodayDate());
                 loginTenant.setRole(tenant.getRole());
 
-                tenantList.replace(tenant, i);
+                tenantList.replace(loginTenant, i);
             }
         } return loginTenant;
     } 
