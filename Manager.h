@@ -5,9 +5,13 @@
  * FILENAME: Manager.h
 */
 
+#include "string"
 #include "User.h"
-#include <vector>
+#include "DynamicArray.h"
 #include "DataConversion.h"
+// #include <vector>
+// #include "DataConversion.h"
+#include "Tenant.h"
 
 using namespace std;
 
@@ -90,6 +94,19 @@ public:
                 loginManager.setRole(manager.getRole());
             }
         } return loginManager;
+    }
+
+    void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
+        cout << "Testing" << endl;
+        for (int count = 0; count < tenantList.getSize(); count++) {
+            Tenant tenant = tenantList.get(count);
+            cout << "Testing1" << endl;
+
+            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
+                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
+                cout << "Testing2" << endl;
+            }
+        } cout << "Testing3" << endl;
     }
 };
 

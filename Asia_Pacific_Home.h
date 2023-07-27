@@ -5,12 +5,11 @@
  * FILENAME: Asia_Pacific_Home.h
  */
 
-#include <string>
-#include <iostream>
-#include <regex>
+// #include <string>
+// #include <iostream>
+// #include <regex>
 
 #include "DynamicArray.h"
-
 #include "User.h"
 #include "Manager.h"
 #include "Tenant.h"
@@ -19,9 +18,12 @@
 #include "FilterProperty.h"
 #include "ReadCSV.h"
 #include "Property.h"
-
+#include "DataValidation.h"
+#include "DataConversion.h"
 #include "LinearSearch.h"
 #include "BinarySearch.h"
+#include "DoublyCircularLinkedList.h"
+#include "Rental.h"
 
 using namespace std;
 
@@ -218,7 +220,6 @@ public:
         {
             Admin admin;
             this->user = admin;
-            cout << user.getRole();
             admin_HomePage(admin);
         }
         else if (userRole == "Tenant")
@@ -522,6 +523,15 @@ public:
      * --------------------------------------------------------------------------------------------
      */
 
+    void updateTenantList(Tenant &tenant) {
+        for (int count = 0; count < tenantList.getSize(); count++) {
+            Tenant &tempTenant = tenantList.get(count);
+            if (tempTenant.getEmail() == tenant.getEmail()) {
+                tenantList.replace(tenant, count);
+            }
+        }
+    }
+
     void tenant_HomePage(Tenant &tenant)
     {
         bool validInput = false;
@@ -551,6 +561,7 @@ public:
             if (userInput == "1")
             {
                 tenant_viewProperty(tenant);
+
                 validInput = true;
             }
             else if (userInput == "2")
@@ -569,6 +580,8 @@ public:
             }
             else if (userInput == "4")
             {
+                updateTenantList(tenant);
+                updateTenantList(tenant);
                 User emptyUser;
                 this->user = emptyUser;
                 homePage();
@@ -931,6 +944,8 @@ public:
 
     void manager_HomePage(Manager manager)
     {
+        cout << tenantList.get(0).getFavoriteProperty().getSize() << endl;
+
         bool validInput = false;
         Tenant tenant;
         
@@ -962,7 +977,16 @@ public:
                 }
                 else if (userInput == "2")
                 {
-                    manager_FavProperty(manager);
+                    /**
+                     * TODO: favoratie property list
+                    */
+                    DynamicArray<Property> allFavouriteList;
+                    manager.getAllFavouriteList(tenantList, allFavouriteList);
+                    cout << allFavouriteList.getSize() << endl;
+                    FilterProperty fp;
+                    fp.displayFilteredPropertyList(allFavouriteList);
+                    
+
                     validInput = true;
                 }
                 else if (userInput == "3")
@@ -1051,6 +1075,16 @@ public:
 
     }
 
+
+    void getAllFavouriteList(DynamicArray<Tenant> &tenantList, DynamicArray<Property> &allFavouriteProperty) {
+        for (int count = 0; count < tenantList.getSize(); count++) {
+            Tenant tenant = tenantList.get(count);
+
+            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
+                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
+            }
+        }
+    }
 
     /**
      * --------------------------------------------------------------------------------------------
