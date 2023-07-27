@@ -10,6 +10,7 @@
 // #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include "DataConverstion.h"
 
 using namespace std;
 
@@ -265,7 +266,7 @@ public:
                 }
             }
 
-            if (!flag && furnishedType!="")
+            if (!flag && furnishedType != "")
             {
                 furnishedTypeList.insertAtEnd(furnishedType);
             }
@@ -305,8 +306,6 @@ public:
         dc.sort(regionList);
         return regionList;
     }
-
-    
 };
 
 #endif

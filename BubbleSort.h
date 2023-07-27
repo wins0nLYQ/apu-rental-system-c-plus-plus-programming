@@ -15,7 +15,7 @@ class BubbleSort
 
 public:
     // Bubble Sort algorithm
-    Property property;
+    // Property property;
     void bubbleSortPropertyName(DynamicArray<Property> &properties)
     {
 
@@ -31,6 +31,9 @@ public:
                     Property temp = properties.get(j);
                     properties.get(j) = properties.get(j + 1);
                     properties.get(j + 1) = temp;
+
+                    // properties.replace(properties.get(j + 1), j);
+                    // properties.replace(temp, j + 1);
                 }
             }
         }

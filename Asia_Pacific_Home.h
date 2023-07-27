@@ -480,6 +480,7 @@ public:
 
     void tenant_HomePage(Tenant tenant)
     {
+        bool validInput = false;
         cout << user.isAuthorised() << endl;
         cout << "Welcome Tenant: " << tenant.getName() << endl;
         cout << "-------------------------------------------------------------" << endl;
