@@ -26,13 +26,13 @@ using namespace std;
 class Asia_Pacific_Home
 {
 private:
-    ReadCSV read;
     DynamicArray<Manager> managerList;
     DynamicArray<Tenant> tenantList;
-    DynamicArray<Property> properties = read.readCSV("mudah-apartment-kl-selangor.csv");
+    DynamicArray<Property> properties;
+    User user;
 
 public:
-    void homePage()
+    Asia_Pacific_Home()
     {
         Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "2022-09-01", "hello");
         tenantList.insertAtEnd(newTenant);
@@ -43,6 +43,13 @@ public:
         Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Inactive");
         managerList.insertAtEnd(newManager);
 
+        ReadCSV read;
+        read.readCSV("mudah-apartment-kl-selangor.csv", properties);
+    }
+
+    void homePage()
+    {
+        cout << properties.get(10).getAdsID() << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "                      ASIA PACIFIC HOME                      " << endl;
@@ -85,7 +92,6 @@ public:
     void loginPage()
     {
         bool validInput = false;
-        // User user;
 
         while (!validInput)
         {
@@ -113,9 +119,6 @@ public:
             {
                 handleUserLogin("Admin");
                 validInput = true;
-                // if (validInput) {
-                //     admin_HomePage();
-                // }
             }
             else
             {
@@ -136,7 +139,6 @@ public:
         cout << endl;
         if (email == "-1")
         {
-            // return false;
             loginPage();
         }
         DataValidation dv;
@@ -147,7 +149,6 @@ public:
             cout << endl;
             if (email == "-1")
             {
-                // return false;
                 loginPage();
             }
         }
@@ -157,7 +158,6 @@ public:
         cout << endl;
         if (password == "-1")
         {
-            // return false;
             loginPage();
         }
 
@@ -171,7 +171,6 @@ public:
 
             if (email == "-1")
             {
-                // return false;
                 loginPage();
             }
 
@@ -183,7 +182,6 @@ public:
 
                 if (email == "-1")
                 {
-                    // return false;
                     loginPage();
                 }
             }
@@ -194,11 +192,9 @@ public:
 
             if (password == "-1")
             {
-                // return false;
                 loginPage();
             }
         }
-        // return true;
         if (userRole == "Admin")
         {
             admin_HomePage();
@@ -206,6 +202,7 @@ public:
         else if (userRole == "Tenant")
         {
             Tenant tenant = tenant.login(email, tenantList);
+            this->user = tenant;
             tenant_HomePage(tenant);
         }
         else if (userRole == "Manager")
@@ -374,14 +371,14 @@ public:
     void admin_AddNewManagerPage()
     {
         Admin admin;
-        vector<string> existingEmail = getExistingEmail();
+        DynamicArray<string> existingEmail = getExistingEmail();
         admin.addManager(managerList, existingEmail);
         admin_ManageManagerPage();
     }
 
-    vector<string> getExistingEmail()
+    DynamicArray<string> getExistingEmail()
     {
-        vector<string> existingEmail;
+        DynamicArray<string> existingEmail;
 
         int managerNum = managerList.getSize();
         int tenantNum = tenantList.getSize();
@@ -389,13 +386,13 @@ public:
         for (int i = 0; i < managerNum; ++i)
         {
             Manager manager = managerList.get(i);
-            existingEmail.push_back(manager.getEmail());
+            existingEmail.insertAtEnd(manager.getEmail());
         }
 
         for (int i = 0; i < tenantNum; ++i)
         {
             Tenant tenant = tenantList.get(i);
-            existingEmail.push_back(tenant.getEmail());
+            existingEmail.insertAtEnd(tenant.getEmail());
         }
         return existingEmail;
     }
@@ -443,10 +440,10 @@ public:
             {
                 admin_HomePage();
             }
-            cout << "Input any key to back >> ";
-            string userInput;
-            getline(cin >> ws, userInput);
-            cout << endl;
+            // cout << "Input any key to back >> ";
+            // string userInput;
+            // getline(cin >> ws, userInput);
+            // cout << endl;
             admin_HomePage();
         }
     }
@@ -483,7 +480,7 @@ public:
 
     void tenant_HomePage(Tenant tenant)
     {
-        bool validInput = false;
+        cout << user.isAuthorised() << endl;
         cout << "Welcome Tenant: " << tenant.getName() << endl;
         cout << "-------------------------------------------------------------" << endl;
         while (!validInput)

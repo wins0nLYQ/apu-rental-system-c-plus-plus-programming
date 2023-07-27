@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <cmath>
 #include "DataValidation.h"
 #include "DataConverstion.h"
 #include "Tenant.h"
@@ -167,7 +168,7 @@ public:
             bool flag = false;
             while(!flag) {
                 string userInput;
-                cout << "Additional Searching and Sorting Options? (Y/N): ";
+                cout << "Additional Searching and Filtering Options? (Y/N): ";
                 getline(cin >> ws, userInput);
                 cout << endl;
 
@@ -182,18 +183,68 @@ public:
         }
     }
 
+    // void displayFilteredTenantList(DynamicArray<Tenant>& filteredList) {
+    //     cout << "[RESULT]" << endl;
+    //     for(int i=0; i<filteredList.getSize(); ++i) {
+    //         Tenant tenant = filteredList.get(i);
+    //         std::cout << "Name: " << tenant.getName() << std::endl;
+    //         std::cout << "Email: " << tenant.getEmail() << std::endl;
+    //         std::cout << "Phone Number: " << tenant.getPhoneNo() << std::endl;
+    //         std::cout << "Identification No: " << tenant.getIdentificationNo() << std::endl;
+    //         std::cout << "Gender: " << tenant.getGender() << std::endl;
+    //         std::cout << "Date of Birth: " << tenant.getDateOfBirth() << std::endl;
+    //         // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
+    //         std::cout << "---------------------------\n";
+    //     }
+    // }
+
     void displayFilteredTenantList(DynamicArray<Tenant>& filteredList) {
-        cout << "[RESULT]" << endl;
-        for(int i=0; i<filteredList.getSize(); ++i) {
-            Tenant tenant = filteredList.get(i);
-            std::cout << "Name: " << tenant.getName() << std::endl;
-            std::cout << "Email: " << tenant.getEmail() << std::endl;
-            std::cout << "Phone Number: " << tenant.getPhoneNo() << std::endl;
-            std::cout << "Identification No: " << tenant.getIdentificationNo() << std::endl;
-            std::cout << "Gender: " << tenant.getGender() << std::endl;
-            std::cout << "Date of Birth: " << tenant.getDateOfBirth() << std::endl;
-            // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
-            std::cout << "---------------------------\n";
+        int pageSize = 5;  // Number of items to display per page
+        int currentPage = 0;  // Current page index
+
+        while (true) {
+            int startIdx = currentPage * pageSize;
+            int endIdx = startIdx + pageSize;
+
+            cout << "[RESULT]" << endl;
+            cout << "Page " << currentPage + 1 << " / " << ceil(static_cast<double>(filteredList.getSize())/pageSize) << endl;
+            cout << "---------------------------\n";
+
+            for (int i = startIdx; i < endIdx && i < filteredList.getSize(); ++i) {
+                Tenant tenant = filteredList.get(i);
+                std::cout << "Name: " << tenant.getName() << std::endl;
+                std::cout << "Email: " << tenant.getEmail() << std::endl;
+                std::cout << "Phone Number: " << tenant.getPhoneNo() << std::endl;
+                std::cout << "Identification No: " << tenant.getIdentificationNo() << std::endl;
+                std::cout << "Gender: " << tenant.getGender() << std::endl;
+                std::cout << "Date of Birth: " << tenant.getDateOfBirth() << std::endl;
+                // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
+                std::cout << "---------------------------\n";
+            }
+            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+            cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "N" || userInput == "n") {
+                if (endIdx < filteredList.getSize()) {
+                    currentPage++;
+                } else {
+                    cout << "No more items. Reached the last page." << endl;
+                }
+            } else if (userInput == "P" || userInput == "p") {
+                if (currentPage > 0) {
+                    currentPage--;
+                } else {
+                    cout << "Already on the first page." << endl;
+                }
+            } else if (userInput == "Q" || userInput == "q") {
+                break;  // Exit the loop
+            } else {
+                cout << "Invalid input. Please try again." << endl;
+            }
         }
     }
 

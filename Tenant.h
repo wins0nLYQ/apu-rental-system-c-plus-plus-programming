@@ -6,6 +6,8 @@
 */
 
 #include "User.h"
+#include "DataConverstion.h"
+
 
 using namespace std;
 
@@ -60,7 +62,7 @@ class Tenant : public User {
     }
 
     Tenant login(const std::string& email, DynamicArray<Tenant>& tenantList) {
-        Tenant loginTenant;
+        Tenant loginTenant; DataConversion dc;
         for(int i = 0; i < tenantList.getSize(); ++i) {
             Tenant tenant;
             tenant = tenantList.get(i);
@@ -73,9 +75,11 @@ class Tenant : public User {
                 loginTenant.setDateOfBirth(tenant.getDateOfBirth());
                 loginTenant.setLastLoginDate(tenant.getLastLoginDate());
                 loginTenant.setPassword(tenant.getPassword());
+                loginTenant.setLastLoginDate(dc.getTodayDate());
             }
         } return loginTenant;
     } 
+
 };
 
 #endif
