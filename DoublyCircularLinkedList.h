@@ -17,11 +17,11 @@ class DoublyCircularLinkedList
 {
 private:
   int size;
+  DCLListNode<T> *current;
 
 public:
   DCLListNode<T> *head;
   DCLListNode<T> *tail;
-  DCLListNode<T> *current;
 
   DoublyCircularLinkedList()
   {
@@ -36,9 +36,9 @@ public:
         return;
       }
 
-      DCLListNode<T> current = head;
+      DCLListNode<T> *current = head;
       do {
-        DCLListNode<T>nextNode = current->next;
+        DCLListNode<T> *nextNode = current->next;
         delete current;
         current = nextNode;
       } while (current != head);
@@ -93,6 +93,7 @@ public:
       // Link the head object previous pointer to the new object
       head->prev = node;
     }
+
     size++;
   };
 
@@ -133,6 +134,87 @@ public:
         }
       }
     }
+  }
+
+  void removeAtBegin() {
+    if (size > 0)
+    {
+      DCLListNode<T> *toBeDeleted = head;
+      toBeDeleted->next->prev = toBeDeleted->prev;
+      toBeDeleted->prev->next = toBeDeleted->next;
+      head = toBeDeleted->next;
+      delete toBeDeleted;
+      size--;
+    }
+    else {
+      throw std::out_of_range("Index Out of Bound...");
+    }
+  }
+
+  void removeAtEnd() {
+    if (size > 0) {
+      DCLListNode<T> *toBeDeleted = tail;
+      toBeDeleted->next->prev = toBeDeleted->prev;
+      toBeDeleted->prev->next = toBeDeleted->next;
+      tail = toBeDeleted->prev;
+      delete toBeDeleted;
+      size--;
+    }
+    else {
+      throw std::out_of_range("Index Out of Bound...");
+    }
+  }
+
+  void removeAtIndex(const int index) {
+    DCLListNode<T> *currentNode = head;
+
+    if (index < 0 || index > size)
+    {
+      throw std::out_of_range("Index Out of Bound...");
+    }
+    else {
+      for (int count = 0; count <= index; count++)
+      {
+        if (count == index)
+        {
+          currentNode->prev->next = currentNode->next;
+          currentNode->next->prev = currentNode->prev;
+          delete currentNode;
+          size--;
+        }
+
+        currentNode = currentNode->next;
+      }
+    }
+  }
+
+  T& removeCurrent() {
+    if (size > 0) {
+      DCLListNode<T> *toBeDeleted = current;
+      toBeDeleted->next->prev = toBeDeleted->prev;
+      toBeDeleted->prev->next = toBeDeleted->next;
+      current = toBeDeleted->next;
+      delete toBeDeleted;
+      size--;
+      return current->data;
+    }
+    else {
+      throw std::out_of_range("Index Out of Bound...");
+    }
+  }
+
+  T& getFirst() {
+    current = head;
+    return current->data;
+  }
+
+  T& getLast() {
+    current = tail;
+    return current->data;
+  }
+
+  T& getCurrent() {
+    return current->data;
   }
 
   T& get(int index) {
@@ -191,6 +273,62 @@ public:
   int getSize()
   {
     return size;
+  }
+
+  int getIndex() {
+    DCLListNode<T> *currentNode = head;
+    int index = -1;
+
+    if (head != nullptr) {
+      index++;
+    }
+
+    while (currentNode != nullptr && currentNode != current)
+    {
+      currentNode = currentNode->next;
+      index++;
+    }
+
+    return index;
+  }
+
+  void mergeWith(DoublyCircularLinkedList<T> &secList)
+  {
+    for (int size = 0; size < secList.getSize(); size++) {
+      insertAtEnd(secList.get(size));
+    }
+  }
+
+  void replace(const T &object, int index) {
+    DCLListNode<T> *currentNode = head;
+
+    if (index < 0 || index > size)
+    {
+      cout << "Invalid Index";
+    }
+    else {
+      if (index == 0)
+      {
+        head->data = object;
+      }
+      else if (index == size)
+      {
+        tail->data = object;
+      }
+      else
+      {
+        for (int count = 0; count <= index; count++)
+        {
+          if (count == index)
+          {
+            currentNode->data = object;
+            break;
+          }
+
+          currentNode = currentNode->next;
+        }
+      }
+    }
   }
 };
 

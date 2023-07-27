@@ -6,11 +6,11 @@
  */
 
 // #include <string>
-// #include <vector>
+#include <vector>
 // #include <iostream>
-#include <algorithm>
-#include <cmath>
-#include "DataConverstion.h"
+// #include <algorithm>
+// #include <cmath>
+// #include "DataConversion.h"
 
 using namespace std;
 
@@ -255,7 +255,7 @@ public:
         for (int i = 0; i < properties.getSize(); ++i)
         {
             Property property = properties.get(i);
-            string furnishedType = property.getFurnished();
+            std::string furnishedType = property.getFurnished();
 
             bool flag = false;
             for (int j = 0; j < furnishedTypeList.getSize(); ++j)
@@ -305,6 +305,43 @@ public:
         DataConversion dc;
         dc.sort(regionList);
         return regionList;
+    }
+
+    // Equality comparison operator
+    bool operator==(const Property &other) const
+    {
+        return this->adsID == other.adsID &&
+               this->propName == other.propName &&
+               this->completionYear == other.completionYear &&
+               this->monthlyRent == other.monthlyRent &&
+               this->location == other.location &&
+               this->propertyType == other.propertyType &&
+               this->rooms == other.rooms &&
+               this->parking == other.parking &&
+               this->bathroom == other.bathroom &&
+               this->size == other.size &&
+               this->furnished == other.furnished &&
+               this->facilities == other.facilities &&
+               this->additionalFacilities == other.additionalFacilities &&
+               this->region == other.region;
+    }
+
+    bool isEmpty()
+    {
+        return this->adsID == "" &&
+               this->propName == "" &&
+               this->completionYear == "" &&
+               this->monthlyRent == "" &&
+               this->location == "" &&
+               this->propertyType == "" &&
+               this->rooms == "" &&
+               this->parking == "" &&
+               this->bathroom == "" &&
+               this->size == "" &&
+               this->furnished == "" &&
+               this->facilities == "" &&
+               this->additionalFacilities == "" &&
+               this->region == "";
     }
 };
 

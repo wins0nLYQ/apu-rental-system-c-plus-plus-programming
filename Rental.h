@@ -1,34 +1,65 @@
 #ifndef RENTAL_H
 #define RENTAL_H
 
-#include <string>
+// #include <string>
+// #include "Property.h"
 
 using namespace std;
 
+enum Status { Pending, Approved, Rejected, Active, Inactive };
+
+std::string getStatusInString(Status status) {
+    switch (status) {
+        case Pending:
+            return "Pending";
+        case Approved:
+            return "Approved";
+        case Rejected:
+            return "Rejected";
+        case Active:
+            return "Moved In";
+        case Inactive:
+            return "Moved Out";
+        default:
+            return "-";
+    }
+}
+
 class Rental {
     private:
-        string adsID;
+        Property property;
         string tenantEmail;
         string requestDateTime;
-        string applicationStatus;
-        string paymentStatus;
+        Status applicationStatus;
         string remarks;
 
     public:
-        string getAdsID() const {
-        return adsID;
+    Rental() {}
+
+    Rental(const Property &property, const string &tenant, const string &requestDateTime, const Status &applicationStatus, const string &remarks) 
+    {
+        // default constructor, sets all member variables to empty strings or 0's.
+        this->property = property;
+        this->tenantEmail = tenant;
+        this->requestDateTime = requestDateTime;
+        this->applicationStatus = applicationStatus;
+        this->remarks = remarks;
     }
 
-    void setAdsID(const string& newAdsID) {
-        adsID = newAdsID;
+    Property getProperty() const {
+        return this->property;
+    }
+
+    void setProperty(const Property &property) {
+        this->property = property;
     }
 
     string getTenantEmail() const {
-        return tenantEmail;
+        return this->tenantEmail;
     }
 
-    void setTenantEmail(const string& newTenantEmail) {
-        tenantEmail = newTenantEmail;
+    void setRentTenantEmail(string &tenant) {
+        this->tenantEmail = tenant;
     }
 
     string getRequestDateTime() const {
@@ -39,20 +70,12 @@ class Rental {
         requestDateTime = newRequestDateTime;
     }
 
-    string getApplicationStatus() const {
+    Status getApplicationStatus() const {
         return applicationStatus;
     }
 
-    void setApplicationStatus(const string& newApplicationStatus) {
+    void setApplicationStatus(const Status& newApplicationStatus) {
         applicationStatus = newApplicationStatus;
-    }
-
-    string getPaymentStatus() const {
-        return paymentStatus;
-    }
-
-    void setPaymentStatus(const string& newPaymentStatus) {
-        paymentStatus = newPaymentStatus;
     }
 
     string getRemarks() const {
@@ -62,7 +85,36 @@ class Rental {
     void setRemarks(const string& newRemarks) {
         remarks = newRemarks;
     }
+
+    // Equality comparison operator
+    bool operator==(const Rental& other) const {
+        return this->property == other.getProperty() &&
+               this->tenantEmail == other.getTenantEmail();
+    }
+
+    // string getPaymentStatus() const {
+    //     return paymentStatus;
+    // }
+
+    // void setPaymentStatus(const string& newPaymentStatus) {
+    //     paymentStatus = newPaymentStatus;
+    // }
+
+    // string getMoveInDate() const {
+    //     return moveInDate;
+    // }
     
+    // void setMoveInDate(const string& newMoveInDate) {
+    //     moveInDate = newMoveInDate;
+    // }
+
+    // string getMoveOutDate() const {
+    //     return moveOutDate;
+    // }
+
+    // void setMoveOutDate(const string& newMoveOutDate) {
+    //     this->moveOutDate = newMoveOutDate;
+    // }
 };
 
 #endif

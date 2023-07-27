@@ -1,4 +1,14 @@
-1. At main.cpp > ctrl+shift+b
-2. make sure it build successfully
-3. click on the (+) to go terminal
-4. type .\Main.exe to run
+1. Remove "main.exe" before push or commit
+
+2. User Account
+------------------- Admin Account -------------------
+Admin Email: admin@gmail.com
+Admin Passw: Admin@1234
+
+------------------- Manager Account -------------------
+Manager Email: wong@gmail.com
+Manager Passw: abc@123
+
+------------------- Tenant Account -------------------
+Tenant Email: hello@gmail.com
+Tenant Passw: abc@123

@@ -1,11 +1,12 @@
 #ifndef FILTERTENANT_H
 #define FILTERTENANT_H
 
-#include <string>
+// #include <string>
 #include <iostream>
 #include <cmath>
-#include "DataValidation.h"
-#include "DataConverstion.h"
+// #include "DynamicArray.h"
+// #include "DataValidation.h"
+// #include "DataConversion.h"
 #include "Tenant.h"
 
 using namespace std;
@@ -144,12 +145,12 @@ public:
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "ID") {
-                string idNo = tenant.getIdentificationNo();
+                string idNo = dc.toLowercase(tenant.getIdentificationNo());
                 if(idNo.find(search) != std::string::npos) {
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "Gender") {
-                if(tenant.getGender() == search) {
+                if(dc.toLowercase(tenant.getGender()) == search) {
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "DOB") {
@@ -164,7 +165,7 @@ public:
             cout << "Please try again." << endl;
             cout << endl;
             filterTenants(tenantList);
-        } else {
+        } else if(temp.getSize() > 1){
             bool flag = false;
             while(!flag) {
                 string userInput;
@@ -172,14 +173,18 @@ public:
                 getline(cin >> ws, userInput);
                 cout << endl;
 
-                if(userInput == "Y") {
+                if(userInput == "Y" || userInput == "y") {
                     filterTenants(temp);
                     flag = true;
-                } else if(userInput == "N") {
+                } else if(userInput == "N" || userInput == "n") {
                     displayFilteredTenantList(temp);
                     flag = true;
+                } else {
+                    cout << "Invalid input! Please try again..." << endl;
                 }
             }
+        } else if(temp.getSize() == 1) {
+            displayFilteredTenantList(temp);
         }
     }
 

@@ -2,15 +2,15 @@
 #define USER_H
 
 #include <string>
-#include <regex>
-#include <iostream>
-#include "DataValidation.h"
+// #include <regex>
+// #include <iostream>
+// #include "DataValidation.h"
 
 
 using namespace std;
 
-class Manager;
-class Tenant;
+// class Manager;
+// class Tenant;
 
 class User {
 private:
@@ -21,15 +21,17 @@ private:
     string identificationNo;
     string gender;
     string dateOfBirth;
+    string role;
 
 public:
     User(){}
 
     User(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
             const std::string& _identificationNo, const std::string& _gender,const std::string& _password,
-            const std::string& _dateOfBirth)
+            const std::string& _dateOfBirth, const std::string& _role)
             : name(_name), email(_email), password(_password), phoneNo(_phoneNo),
-            identificationNo(_identificationNo), gender(_gender), dateOfBirth(_dateOfBirth) {
+            identificationNo(_identificationNo), gender(_gender), dateOfBirth(_dateOfBirth),
+            role(_role) {
     }
 
     string getName() const {
@@ -86,6 +88,14 @@ public:
 
     void setDateOfBirth(const string& dateOfBirth) {
         this->dateOfBirth = dateOfBirth;
+    }
+
+    string getRole() const {
+        return role;
+    }
+
+    void setRole(const string& role) {
+        this->role = role;
     }
 
     bool isAuthorised() {

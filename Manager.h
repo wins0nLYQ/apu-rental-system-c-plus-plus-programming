@@ -5,8 +5,13 @@
  * FILENAME: Manager.h
 */
 
+#include "string"
 #include "User.h"
-#include <vector>
+#include "DynamicArray.h"
+#include "DataConversion.h"
+// #include <vector>
+// #include "DataConversion.h"
+#include "Tenant.h"
 
 using namespace std;
 
@@ -20,7 +25,7 @@ public:
     Manager(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
                 const std::string& _identificationNo, const std::string& _gender,
                 const std::string& _dateOfBirth, const std::string& _status)
-            : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth),
+            : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth, "Manager"),
             status(_status) {
     }
 
@@ -73,11 +78,11 @@ public:
     }
 
     Manager login(const std::string& email, DynamicArray<Manager>& managerList) {
-        Manager loginManager;
+        Manager loginManager; DataConversion dc;
         for(int i = 0; i < managerList.getSize(); ++i) {
             Manager manager;
             manager = managerList.get(i);
-            if(manager.getEmail() == email) {
+            if(dc.toLowercase(manager.getEmail()) == dc.toLowercase(email)) {
                 loginManager.setName(manager.getName());
                 loginManager.setEmail(manager.getEmail());
                 loginManager.setPhoneNo(manager.getPhoneNo());
@@ -86,8 +91,22 @@ public:
                 loginManager.setDateOfBirth(manager.getDateOfBirth());
                 loginManager.setPassword(manager.getPassword());
                 loginManager.setStatus(manager.getStatus());
+                loginManager.setRole(manager.getRole());
             }
         } return loginManager;
+    }
+
+    void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
+        cout << "Testing" << endl;
+        for (int count = 0; count < tenantList.getSize(); count++) {
+            Tenant tenant = tenantList.get(count);
+            cout << "Testing1" << endl;
+
+            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
+                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
+                cout << "Testing2" << endl;
+            }
+        } cout << "Testing3" << endl;
     }
 };
 
