@@ -41,7 +41,7 @@ public:
         Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-07-02");
         tenantList.insertAtEnd(newTenant2);
 
-        Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Inactive");
+        Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Active");
         managerList.insertAtEnd(newManager);
 
         ReadCSV read;
@@ -521,6 +521,15 @@ public:
      * --------------------------------------------------------------------------------------------
      */
 
+    void updateTenantList(Tenant &tenant) {
+        for (int count = 0; count < tenantList.getSize(); count++) {
+            Tenant &tempTenant = tenantList.get(count);
+            if (tempTenant.getEmail() == tenant.getEmail()) {
+                tenantList.replace(tenant, count);
+            }
+        }
+    }
+
     void tenant_HomePage(Tenant &tenant)
     {
         bool validInput = false;
@@ -550,6 +559,7 @@ public:
             if (userInput == "1")
             {
                 tenant_viewProperty(tenant);
+
                 validInput = true;
             }
             else if (userInput == "2")
@@ -568,6 +578,7 @@ public:
             }
             else if (userInput == "4")
             {
+                updateTenantList(tenant);
                 User emptyUser;
                 this->user = emptyUser;
                 homePage();
@@ -930,6 +941,8 @@ public:
 
     void manager_HomePage(Manager manager)
     {
+        cout << tenantList.get(0).getFavoriteProperty().getSize() << endl;
+
         bool validInput = false;
         
         while (!validInput)
@@ -965,6 +978,12 @@ public:
                     /**
                      * TODO: favoratie property list
                     */
+                    DynamicArray<Property> allFavouriteList;
+                    getAllFavouriteList(tenantList, allFavouriteList);
+
+                    FilterProperty fp;
+                    fp.displayFilteredPropertyList(allFavouriteList);
+
                     validInput = true;
                 }
                 else if (userInput == "3")
@@ -986,6 +1005,16 @@ public:
                         << endl
                         << endl;
                 }
+        }
+    }
+
+    void getAllFavouriteList(DynamicArray<Tenant> &tenantList, DynamicArray<Property> &allFavouriteProperty) {
+        for (int count = 0; count < tenantList.getSize(); count++) {
+            Tenant tenant = tenantList.get(count);
+
+            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
+                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
+            }
         }
     }
 
