@@ -8,6 +8,7 @@
 #include "User.h"
 #include <vector>
 #include "DataConversion.h"
+#include "Tenant.h"
 
 using namespace std;
 

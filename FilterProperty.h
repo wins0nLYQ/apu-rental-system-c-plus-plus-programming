@@ -9,6 +9,7 @@
 #include "DataValidation.h"
 #include "Property.h"
 #include "DataConversion.h"
+#include "DoublyCircularLinkedList.h"
 #include "User.h"
 #include "Tenant.h"
 

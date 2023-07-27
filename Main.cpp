@@ -5,11 +5,7 @@
 #include <iostream>
 
 #include "Asia_Pacific_Home.h"
-#include "DynamicArray.h"
-#include "Property.h"
-#include "ReadCSV.h"
 #include <string>
-#include "DataConversion.h"
 
 using namespace std;
 
