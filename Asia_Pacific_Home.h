@@ -962,9 +962,7 @@ public:
                 }
                 else if (userInput == "2")
                 {
-                    /**
-                     * TODO: favoratie property list
-                    */
+                    manager_FavProperty(manager);
                     validInput = true;
                 }
                 else if (userInput == "3")
@@ -1048,6 +1046,11 @@ public:
             manager_HomePage(manager);
         }
     }
+
+    void manager_FavProperty(Manager& manager) {
+
+    }
+
 
     /**
      * --------------------------------------------------------------------------------------------

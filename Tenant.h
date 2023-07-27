@@ -724,7 +724,7 @@ class Tenant : public User {
                 tenantList.replace(loginTenant, i);
             }
         } return loginTenant;
-    } 
+    }
 
 };
 
