@@ -5,23 +5,25 @@
  * FILENAME: Asia_Pacific_Home.h
  */
 
-#include <string>
-#include <iostream>
-#include <regex>
+// #include <string>
+// #include <iostream>
+// #include <regex>
 
 #include "DynamicArray.h"
-
-// #include "User.h"
-// #include "Manager.h"
-// #include "Tenant.h"
-// #include "Admin.h"
+#include "User.h"
+#include "Manager.h"
+#include "Tenant.h"
+#include "Admin.h"
 #include "FilterTenant.h"
 #include "FilterProperty.h"
 #include "ReadCSV.h"
 #include "Property.h"
-
+#include "DataValidation.h"
+#include "DataConversion.h"
 #include "LinearSearch.h"
 #include "BinarySearch.h"
+#include "DoublyCircularLinkedList.h"
+#include "Rental.h"
 
 using namespace std;
 
@@ -578,6 +580,7 @@ public:
             else if (userInput == "4")
             {
                 updateTenantList(tenant);
+                updateTenantList(tenant);
                 User emptyUser;
                 this->user = emptyUser;
                 homePage();
@@ -978,10 +981,11 @@ public:
                      * TODO: favoratie property list
                     */
                     DynamicArray<Property> allFavouriteList;
-                    getAllFavouriteList(tenantList, allFavouriteList);
-
+                    manager.getAllFavouriteList(tenantList, allFavouriteList);
+                    cout << allFavouriteList.getSize() << endl;
                     FilterProperty fp;
                     fp.displayFilteredPropertyList(allFavouriteList);
+                    
 
                     validInput = true;
                 }

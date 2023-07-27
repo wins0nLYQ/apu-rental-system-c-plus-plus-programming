@@ -1,8 +1,8 @@
 #ifndef RENTAL_H
 #define RENTAL_H
 
-#include <string>
-#include "Property.h"
+// #include <string>
+// #include "Property.h"
 
 using namespace std;
 

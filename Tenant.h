@@ -5,12 +5,15 @@
  * FILENAME: Tenant.h
 */
 
+#include "string"
 #include "User.h"
 #include "DoublyCircularLinkedList.h"
 #include "Property.h"
-#include "DataConversion.h"
-#include "Admin.h"
 #include "Rental.h"
+#include "DynamicArray.h"
+#include "DataValidation.h"
+#include "DataConversion.h"
+// #include "Admin.h"
 #include <ctime>
 // #include "FilterProperty.h"
 
@@ -208,8 +211,9 @@ class Tenant : public User {
     }
 
     bool isEmailExists(DynamicArray<string>& existingEmail, const std::string& email) {
-        Admin admin; DataConversion dc;
-        if(dc.toLowercase(email) == dc.toLowercase(admin.getEmail())) {
+        // Admin admin; 
+        DataConversion dc;
+        if(dc.toLowercase(email) == "admin@gmail.com") {
             return true;
         }
 

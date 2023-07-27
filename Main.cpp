@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include "Asia_Pacific_Home.h"
-#include <string>
 
 using namespace std;
 

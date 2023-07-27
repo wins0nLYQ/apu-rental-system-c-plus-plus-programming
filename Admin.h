@@ -5,14 +5,14 @@
  * FILENAME: Admin.h
  */
 
-#include <string>
+// #include <string>
 #include <iomanip>
-#include <iostream>
-#include "DynamicArray.h"
-#include "User.h"
+// #include <iostream>
+// #include "DynamicArray.h"
+// #include "User.h"
 // #include "DataValidation.h"
 // #include "DataConversion.h"
-#include "Manager.h"
+// #include "Manager.h"
 
 using namespace std;
 
@@ -245,14 +245,14 @@ public:
         getline(cin >> ws, userInput);
         cout << endl;
 
-        while (userInput != "Y" && userInput != "N")
+        while ((userInput != "Y" || userInput != "y") && (userInput != "N" || userInput != "n"))
         {
             cout << "-1 to Back" << endl;
             cout << "Invalid input! Please try again >> ";
             getline(cin >> ws, userInput);
             cout << endl;
         }
-        if (userInput == "Y")
+        if (userInput == "Y" || userInput == "y")
         {
             Manager &manager = managerList.get(inputNum);
             string status = manager.getStatus();
@@ -277,7 +277,7 @@ public:
 
             return true;
         }
-        else if (userInput == "N")
+        else if (userInput == "N" || userInput == "n")
         {
             return false;
         }
