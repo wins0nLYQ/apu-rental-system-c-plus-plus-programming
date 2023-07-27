@@ -8,16 +8,13 @@
 #include <string>
 #include <iomanip>
 #include <iostream>
-
 #include "DynamicArray.h"
 #include "User.h"
-#include "DataValidation.h"
-#include "DataConversion.h"
+// #include "DataValidation.h"
+// #include "DataConversion.h"
+#include "Manager.h"
 
 using namespace std;
-
-class Tenant;
-class Manager;
 
 class Admin : public User
 {

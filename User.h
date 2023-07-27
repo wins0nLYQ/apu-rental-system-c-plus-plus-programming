@@ -9,8 +9,8 @@
 
 using namespace std;
 
-class Manager;
-class Tenant;
+// class Manager;
+// class Tenant;
 
 class User {
 private:

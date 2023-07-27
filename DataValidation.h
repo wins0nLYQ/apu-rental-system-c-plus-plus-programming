@@ -7,16 +7,12 @@
 
 #include <string>
 #include "DynamicArray.h"
-// #include "Manager.h"
-// #include "Tenant.h"
 // #include <iostream>
 #include <regex>
 // #include "Admin.h"
 
 using namespace std;
 
-class Manager;
-class Tenant;
 
 class DataValidation {
 public:

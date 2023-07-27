@@ -11,10 +11,10 @@
 
 #include "DynamicArray.h"
 
-#include "User.h"
-#include "Manager.h"
-#include "Tenant.h"
-#include "Admin.h"
+// #include "User.h"
+// #include "Manager.h"
+// #include "Tenant.h"
+// #include "Admin.h"
 #include "FilterTenant.h"
 #include "FilterProperty.h"
 #include "ReadCSV.h"
@@ -218,7 +218,6 @@ public:
         {
             Admin admin;
             this->user = admin;
-            cout << user.getRole();
             admin_HomePage(admin);
         }
         else if (userRole == "Tenant")
