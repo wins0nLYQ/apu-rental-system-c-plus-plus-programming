@@ -580,7 +580,6 @@ public:
             else if (userInput == "4")
             {
                 updateTenantList(tenant);
-                updateTenantList(tenant);
                 User emptyUser;
                 this->user = emptyUser;
                 homePage();
