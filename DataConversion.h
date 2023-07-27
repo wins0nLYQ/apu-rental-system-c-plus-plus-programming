@@ -1,11 +1,11 @@
 #ifndef DATACONVERSION_H
 #define DATACONVERSION_H
 
-#include <string>
-#include <algorithm>
-#include "DynamicArray.h"
+// #include <string>
+// #include <algorithm>
+// #include "DynamicArray.h"
 #include <ctime>
-#include <iomanip>
+// #include <iomanip>
 
 using namespace std;
 
