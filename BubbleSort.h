@@ -5,7 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include "Property.h"
-#include "DataConverstion.h"
+#include "DataConversion.h"
 #include "ReadCSV.h"
 #include "DynamicArray.h"
 using namespace std;
