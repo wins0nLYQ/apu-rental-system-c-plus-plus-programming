@@ -944,8 +944,6 @@ public:
 
     void manager_HomePage(Manager manager)
     {
-        cout << tenantList.get(0).getFavoriteProperty().getSize() << endl;
-
         bool validInput = false;
         Tenant tenant;
         
@@ -977,16 +975,9 @@ public:
                 }
                 else if (userInput == "2")
                 {
-                    /**
-                     * TODO: favoratie property list
-                    */
                     DynamicArray<Property> allFavouriteList;
                     manager.getAllFavouriteList(tenantList, allFavouriteList);
-                    cout << allFavouriteList.getSize() << endl;
-                    FilterProperty fp;
-                    fp.displayFilteredPropertyList(allFavouriteList);
-                    
-
+                    manager_FavProperty(manager,allFavouriteList );
                     validInput = true;
                 }
                 else if (userInput == "3")
@@ -1033,10 +1024,6 @@ public:
             {
                 manager_HomePage(manager);
             }
-            // cout << "Input any key to back >> ";
-            // string userInput;
-            // getline(cin >> ws, userInput);
-            // cout << endl;
             manager_HomePage(manager);
         }
     }
@@ -1063,28 +1050,28 @@ public:
             {
                 manager_HomePage(manager);
             }
-            // cout << "Input any key to back >> ";
-            // string userInput;
-            // getline(cin >> ws, userInput);
-            // cout << endl;
             manager_HomePage(manager);
         }
     }
 
-    void manager_FavProperty(Manager& manager) {
-
-    }
-
-
-    void getAllFavouriteList(DynamicArray<Tenant> &tenantList, DynamicArray<Property> &allFavouriteProperty) {
-        for (int count = 0; count < tenantList.getSize(); count++) {
-            Tenant tenant = tenantList.get(count);
-
-            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
-                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
-            }
+    void manager_FavProperty(Manager& manager, DynamicArray<Property> allFavouriteList) {
+        if (allFavouriteList.getSize() == 0)
+        {
+            cout << "Favourite Property not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            manager.printTopFavouriteProperties(allFavouriteList);
         }
     }
+
+
+    
 
     /**
      * --------------------------------------------------------------------------------------------
