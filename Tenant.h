@@ -334,7 +334,7 @@ class Tenant : public User {
         }
 
         DataConversion dc;
-        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Pending, "");
+        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Approved, "");
 
         this->rentalHistory.insertAtEnd(request);
 
