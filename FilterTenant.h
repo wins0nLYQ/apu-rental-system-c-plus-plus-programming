@@ -4,15 +4,25 @@
 // #include <string>
 #include <iostream>
 #include <cmath>
+#include <chrono>
+#include <ctime>
 // #include "DynamicArray.h"
 // #include "DataValidation.h"
 // #include "DataConversion.h"
 #include "Tenant.h"
+#include "User.h"
 
 using namespace std;
 
 class FilterTenant {
+private:
+    User user;
+    DynamicArray<Tenant> tenantList;
 public:
+    FilterTenant() {}
+    FilterTenant(User &user) {
+        this->user = user;
+    }
     bool filterTenants(DynamicArray<Tenant>& tenantList) {
         // Implementation for displaying all tenants
         DataValidation dv;
@@ -145,12 +155,12 @@ public:
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "ID") {
-                string idNo = dc.toLowercase(tenant.getIdentificationNo());
+                string idNo = tenant.getIdentificationNo();
                 if(idNo.find(search) != std::string::npos) {
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "Gender") {
-                if(dc.toLowercase(tenant.getGender()) == search) {
+                if(tenant.getGender() == search) {
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "DOB") {
@@ -206,6 +216,7 @@ public:
     void displayFilteredTenantList(DynamicArray<Tenant>& filteredList) {
         int pageSize = 5;  // Number of items to display per page
         int currentPage = 0;  // Current page index
+        string status;
 
         while (true) {
             int startIdx = currentPage * pageSize;
@@ -217,17 +228,32 @@ public:
 
             for (int i = startIdx; i < endIdx && i < filteredList.getSize(); ++i) {
                 Tenant tenant = filteredList.get(i);
+                std::cout << "NO: " << i + 1 << std::endl;
                 std::cout << "Name: " << tenant.getName() << std::endl;
                 std::cout << "Email: " << tenant.getEmail() << std::endl;
                 std::cout << "Phone Number: " << tenant.getPhoneNo() << std::endl;
                 std::cout << "Identification No: " << tenant.getIdentificationNo() << std::endl;
                 std::cout << "Gender: " << tenant.getGender() << std::endl;
                 std::cout << "Date of Birth: " << tenant.getDateOfBirth() << std::endl;
-                // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
+                std::cout << "Last Login: " << tenant.getLastLoginDate() << std::endl;
+                std::tm givenDate = parseDateString(tenant.getLastLoginDate());
+                int daysDifference = calculateDaysDifference(givenDate);
+                if (daysDifference > 30){
+                    status = "Inactive";
+                }else{
+                    status = "Active";
+                }
+                std::cout << "Status: " << status << std::endl;
                 std::cout << "---------------------------\n";
             }
-            cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
-            cout << ">> ";
+            if(user.getRole() == "Manager") {
+                cout << "Options: (N)ext page, (P)revious page, (D)elete Account, (Q)uit" << endl;
+                cout << ">> ";
+            } else {
+                cout << user.getRole() << endl;
+                cout << "Options: (N)ext page, (P)revious page, (Q)uit" << endl;
+                cout << ">> ";
+            }
 
             string userInput;
             getline(cin >> ws, userInput);
@@ -247,11 +273,115 @@ public:
                 }
             } else if (userInput == "Q" || userInput == "q") {
                 break;  // Exit the loop
+            }else if (userInput == "D" || userInput == "d" && user.getRole()=="Manager") {
+                 cout << endl;
+                cout << "Please enter the respective Tenant no: ";
+
+                DataValidation dv;
+                string choice;
+                getline(cin >> ws, choice);
+                cout << endl;
+
+                if(dv.isNumber(choice)) {
+                    if(stoi(choice) -1 >= startIdx && stoi(choice) -1 < endIdx && stoi(choice) -1 < filteredList.getSize()) {
+                        cout << "[SELECTED TENANT]" << endl;
+                        displaySingleFilteredTenantList(filteredList.get(stoi(choice) - 1));
+                        cout << endl;
+                        cout << "Are you sure to delete the above Tenant account? (Y/N)" << endl;
+                        cout << ">> ";
+
+                        string confirm;
+                        getline(cin >> ws, confirm);
+                        cout << endl;
+
+                        if(confirm == "Y" || confirm == "y") {
+                            removeTenant(filteredList,stoi(choice)-1);
+                            cout << endl;
+                            cout << "[TENANT ACCOUNT DELETED]" << endl;
+                            cout << "Enter any key to continue surfing: ";
+                            string userInput;
+                            getline(cin >> ws, userInput);
+                            cout << endl;
+
+                        } else if(confirm == "N" || confirm == "n") {
+                            cout << "Enter any key to continue surfing: ";
+                            string userInput;
+                            getline(cin >> ws, userInput);
+                            cout << endl;
+
+                        } else {
+                            cout << "Invalid input! Please try again..." << endl;
+                            cout << endl;
+                        }
+
+                    } else {
+                        cout << "Invalid input! Please try again..." << endl;
+                        cout << endl;
+                    }
+                } else {
+                    cout << "Enter digit ONLY! Please try again..." << endl;
+                    cout << endl;
+                }
             } else {
                 cout << "Invalid input. Please try again." << endl;
             }
         }
     }
+
+    tm parseDateString(const string& dateString) {
+        tm dateStruct = {};
+        istringstream dateStream(dateString);
+        dateStream >> get_time(&dateStruct, "%Y-%m-%d");
+        if (dateStream.fail()) {
+            cerr << "Error parsing date string: " << dateString << endl;
+        }
+        return dateStruct;
+    }
+
+    int calculateDaysDifference(const tm& givenDate) {
+        time_t now = chrono::system_clock::to_time_t(chrono::system_clock::now());
+        tm currentDate = *localtime(&now);
+
+        chrono::system_clock::time_point currentTimePoint =
+            chrono::system_clock::from_time_t(mktime(&currentDate));
+
+        chrono::system_clock::time_point givenTimePoint =
+            chrono::system_clock::from_time_t(mktime(const_cast<tm*>(&givenDate)));
+
+        chrono::duration<double> diff = currentTimePoint - givenTimePoint;
+        int daysDifference = static_cast<int>(chrono::duration_cast<chrono::hours>(diff).count() / 24);
+
+        return daysDifference;
+    }
+
+    void displaySingleFilteredTenantList(const Tenant& tenant) {
+        string status;
+        std::cout << "Name: " << tenant.getName() << std::endl;
+        std::cout << "Email: " << tenant.getEmail() << std::endl;
+        std::cout << "Phone Number: " << tenant.getPhoneNo() << std::endl;
+        std::cout << "Identification No: " << tenant.getIdentificationNo() << std::endl;
+        std::cout << "Gender: " << tenant.getGender() << std::endl;
+        std::cout << "Date of Birth: " << tenant.getDateOfBirth() << std::endl;
+        std::cout << "Last Login: " << tenant.getLastLoginDate() << std::endl;
+        std::tm givenDate = parseDateString(tenant.getLastLoginDate());
+        int daysDifference = calculateDaysDifference(givenDate);
+        if (daysDifference > 30){
+            status = "Inactive";
+        }else{
+            status = "Active";
+        }
+        std::cout << "Status: " << status << std::endl;
+        std::cout << "---------------------------\n";
+    }
+
+    void removeTenant(DynamicArray<Tenant>& tenantList, int index) {
+    if (index >= 0 && index < tenantList.getSize()) {
+        tenantList.removeAt(index);
+    } else {
+        // Handle invalid index error
+        throw std::out_of_range("Invalid index");
+    }
+}
 
 };
 
