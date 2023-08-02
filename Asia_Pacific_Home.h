@@ -39,7 +39,7 @@ private:
 public:
     Asia_Pacific_Home()
     {
-        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2023-07-01");
+        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2022-06-01");
         tenantList.insertAtEnd(newTenant);
 
         Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-07-02");
@@ -238,6 +238,7 @@ public:
             Manager manager = manager.login(email, managerList);
             if (manager.getStatus() == "Active")
             {
+                this->user = manager;
                 manager_HomePage(manager);
             }
             else
@@ -991,9 +992,8 @@ public:
 
     void manager_HomePage(Manager manager)
     {
-        cout << tenantList.get(0).getFavoriteProperty().getSize() << endl;
-
         bool validInput = false;
+        Tenant tenant;
 
         while (!validInput)
         {
@@ -1006,7 +1006,7 @@ public:
             std::cout << std::endl;
 
             std::cout << "Please select an option (1-3):" << std::endl;
-            std::cout << "1. Display All Registered Tenant' Details" << std::endl;
+            std::cout << "1. Display All Registered Tenant Details" << std::endl;
             std::cout << "2. Favorite Property List" << std::endl;
             std::cout << "3. View Property Information" << std::endl;
             std::cout << "4. Manage Rental Request" << std::endl;
@@ -1019,22 +1019,14 @@ public:
 
             if (userInput == "1")
             {
-                /**
-                 * TODO: display tenant detail
-                 */
+                manager_ViewTenantInfoPage(manager);
                 validInput = true;
             }
             else if (userInput == "2")
             {
-                /**
-                 * TODO: favoratie property list
-                 */
                 DynamicArray<Property> allFavouriteList;
                 manager.getAllFavouriteList(tenantList, allFavouriteList);
-                cout << allFavouriteList.getSize() << endl;
-                FilterProperty fp;
-                fp.displayFilteredPropertyList(allFavouriteList);
-
+                manager_FavProperty(manager, allFavouriteList);
                 validInput = true;
             }
             else if (userInput == "3")
@@ -1046,13 +1038,6 @@ public:
             }
             else if (userInput == "4")
             {
-                DynamicArray<Rental> allRentHistory;
-                manager.getAllRentHistoryList(tenantList, allRentHistory);
-                manager.printRentHistory(allRentHistory);
-                validInput = true;
-            }
-            else if (userInput == "5")
-            {
                 validInput = true;
                 homePage();
             }
@@ -1063,6 +1048,75 @@ public:
                      << endl
                      << endl;
             }
+        }
+    }
+
+    void manager_ViewTenantInfoPage(Manager &manager)
+    {
+        cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
+        cout << "Available Tenant: " << tenantList.getSize() << endl;
+        cout << endl;
+
+        if (tenantList.getSize() == 0)
+        {
+            cout << "Tenant information not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            FilterTenant filterTenant(user);
+            if (filterTenant.filterTenants(tenantList) == false)
+            {
+                manager_HomePage(manager);
+            }
+            manager_HomePage(manager);
+        }
+    }
+
+    void manager_RemoveTenant(Manager &manager)
+    {
+        cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
+        cout << "Available Tenant: " << tenantList.getSize() << endl;
+        cout << endl;
+
+        if (tenantList.getSize() == 0)
+        {
+            cout << "Tenant information not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            FilterTenant filterTenant;
+            if (filterTenant.filterTenants(tenantList) == false)
+            {
+                manager_HomePage(manager);
+            }
+            manager_HomePage(manager);
+        }
+    }
+
+    void manager_FavProperty(Manager &manager, DynamicArray<Property> allFavouriteList)
+    {
+        if (allFavouriteList.getSize() == 0)
+        {
+            cout << "Favourite Property not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            manager.printTopFavouriteProperties(allFavouriteList);
         }
     }
 
