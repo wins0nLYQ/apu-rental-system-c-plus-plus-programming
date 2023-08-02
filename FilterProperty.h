@@ -1,15 +1,7 @@
 #ifndef FILTERPROPERTY_H
 #define FILTERPROPERTY_H
 
-// #include <string>
-// #include <vector>
-// #include "Property.h"
-// #include <iostream>
 #include <cmath>
-// #include "DataValidation.h"
-// #include "Property.h"
-// #include "DataConversion.h"
-// #include "DoublyCircularLinkedList.h"
 #include "User.h"
 #include "Tenant.h"
 
@@ -18,8 +10,7 @@ using namespace std;
 class FilterProperty {
     private:
         User user;
-        Tenant tenant;
-        DoublyCircularLinkedList<Property> propertyList;
+        Tenant* tenant;
 
     public:
     FilterProperty() {}
@@ -30,7 +21,7 @@ class FilterProperty {
 
     FilterProperty(User &user, Tenant &tenant) {
         this->user = user;
-        this->tenant = tenant;
+        this->tenant = &tenant;
     }
 
     bool filterProperty(DynamicArray<Property>& properties) {
@@ -628,7 +619,8 @@ class FilterProperty {
                         cout << endl;
 
                         if(confirm == "Y" || confirm == "y") {
-                            propertyList.insertAtEnd(filteredList.get(stoi(choice) - 1));
+                            // propertyList.insertAtEnd(filteredList.get(stoi(choice) - 1));
+                            tenant->addFavList(filteredList.get(stoi(choice) - 1));
 
                             cout << endl;
                             cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;
@@ -689,9 +681,9 @@ class FilterProperty {
         std::cout << "---------------------------\n";
     }
 
-    DoublyCircularLinkedList<Property> getProperty() {
-        return this->propertyList;
-    }
+    // DoublyCircularLinkedList<Property> getProperty() {
+    //     return this->propertyList;
+    // }
 };
 
 #endif

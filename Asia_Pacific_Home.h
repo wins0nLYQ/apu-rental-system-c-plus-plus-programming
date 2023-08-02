@@ -581,7 +581,6 @@ public:
             else if (userInput == "4")
             {
                 updateTenantList(tenant);
-                updateTenantList(tenant);
                 User emptyUser;
                 this->user = emptyUser;
                 homePage();
@@ -636,11 +635,11 @@ public:
                     tenant_HomePage(tenant);
                 }
 
-                DoublyCircularLinkedList<Property> favPropList = filterProperty.getProperty();
+                // DoublyCircularLinkedList<Property> favPropList = filterProperty.getProperty();
 
-                if (favPropList.getSize() > 0) {
-                    tenant.addFavouriteList(favPropList);
-                }
+                // if (favPropList.getSize() > 0) {
+                //     tenant.addFavouriteList(favPropList);
+                // }
 
                 tenant_HomePage(tenant);
             }
@@ -824,6 +823,7 @@ public:
                     cout << "Please try again." << endl;
                     cout << endl;
                 }
+
                 tenant_searchSelectionPage(tenant);
             }
             else if (searchItem == "2") {

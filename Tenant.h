@@ -47,6 +47,10 @@ class Tenant : public User {
         this->favouriteList.mergeWith(newFavList);
     }
 
+    void addFavList(Property &prop) {
+        this->favouriteList.insertAtEnd(prop);
+    }
+
     bool registration(DynamicArray<Tenant>& tenantList, DynamicArray<string>& existingEmail) {
         // Implementation of tenant registration logic
         DataValidation dv;
