@@ -619,7 +619,6 @@ class FilterProperty {
                         cout << endl;
 
                         if(confirm == "Y" || confirm == "y") {
-                            // propertyList.insertAtEnd(filteredList.get(stoi(choice) - 1));
                             tenant->addFavList(filteredList.get(stoi(choice) - 1));
 
                             cout << endl;

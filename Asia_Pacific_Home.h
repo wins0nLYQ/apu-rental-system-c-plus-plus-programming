@@ -5,10 +5,6 @@
  * FILENAME: Asia_Pacific_Home.h
  */
 
-// #include <string>
-// #include <iostream>
-// #include <regex>
-
 #include "DynamicArray.h"
 #include "User.h"
 #include "Manager.h"
@@ -634,12 +630,6 @@ public:
                 {
                     tenant_HomePage(tenant);
                 }
-
-                // DoublyCircularLinkedList<Property> favPropList = filterProperty.getProperty();
-
-                // if (favPropList.getSize() > 0) {
-                //     tenant.addFavouriteList(favPropList);
-                // }
 
                 tenant_HomePage(tenant);
             }

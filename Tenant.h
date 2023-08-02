@@ -13,9 +13,7 @@
 #include "DynamicArray.h"
 #include "DataValidation.h"
 #include "DataConversion.h"
-// #include "Admin.h"
 #include <ctime>
-// #include "FilterProperty.h"
 
 using namespace std;
 
@@ -41,10 +39,6 @@ class Tenant : public User {
 
     void setLastLoginDate(const string& lastLoginDate) {
         this->lastLoginDate = lastLoginDate;
-    }
-
-    void addFavouriteList(DoublyCircularLinkedList<Property> &newFavList) {
-        this->favouriteList.mergeWith(newFavList);
     }
 
     void addFavList(Property &prop) {
