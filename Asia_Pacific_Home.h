@@ -1009,7 +1009,8 @@ public:
             std::cout << "1. Display All Registered Tenant' Details" << std::endl;
             std::cout << "2. Favorite Property List" << std::endl;
             std::cout << "3. View Property Information" << std::endl;
-            std::cout << "4. Logout" << std::endl;
+            std::cout << "4. Manage Rental Request" << std::endl;
+            std::cout << "5. Logout" << std::endl;
             std::cout << ">> ";
 
             string userInput;
@@ -1045,6 +1046,13 @@ public:
             }
             else if (userInput == "4")
             {
+                DynamicArray<Rental> allRentHistory;
+                manager.getAllRentHistoryList(tenantList, allRentHistory);
+                manager.printRentHistory(allRentHistory);
+                validInput = true;
+            }
+            else if (userInput == "5")
+            {
                 validInput = true;
                 homePage();
             }
@@ -1054,19 +1062,6 @@ public:
                      << "Invalid input! Please try again."
                      << endl
                      << endl;
-            }
-        }
-    }
-
-    void getAllFavouriteList(DynamicArray<Tenant> &tenantList, DynamicArray<Property> &allFavouriteProperty)
-    {
-        for (int count = 0; count < tenantList.getSize(); count++)
-        {
-            Tenant tenant = tenantList.get(count);
-
-            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++)
-            {
-                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
             }
         }
     }
