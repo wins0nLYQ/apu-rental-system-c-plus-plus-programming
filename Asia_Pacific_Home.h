@@ -1038,6 +1038,13 @@ public:
             }
             else if (userInput == "4")
             {
+                DynamicArray<Rental> allRentHistory;
+                manager.getAllRentHistoryList(tenantList, allRentHistory);
+                manager_RentRequest(manager, allRentHistory);
+                validInput = true;
+            }
+            else if (userInput == "5")
+            {
                 validInput = true;
                 homePage();
             }
@@ -1117,6 +1124,23 @@ public:
         else
         {
             manager.printTopFavouriteProperties(allFavouriteList);
+        }
+    }
+
+    void manager_RentRequest(Manager &manager, DynamicArray<Rental> allRentHistory)
+    {
+        if (allRentHistory.getSize() == 0)
+        {
+            cout << "Renting Request not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            manager.printRentHistory(allRentHistory);
         }
     }
 

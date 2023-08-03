@@ -228,19 +228,15 @@ public:
 
     void getAllRentHistoryList(DynamicArray<Tenant> tenantList, DynamicArray<Rental> &allRentHistory)
     {
-        cout << "Testing" << endl;
         for (int count = 0; count < tenantList.getSize(); count++)
         {
             Tenant tenant = tenantList.get(count);
-            cout << "Testing1" << endl;
 
             for (int count2 = 0; count2 < tenant.getRentalHistory().getSize(); count2++)
             {
                 allRentHistory.insertAtEnd(tenant.getRentalHistory().get(count2));
-                cout << "Testing2" << endl;
             }
         }
-        cout << "Testing3" << endl;
     }
 
     void printRentHistory(DynamicArray<Rental> &allRentHistory)
