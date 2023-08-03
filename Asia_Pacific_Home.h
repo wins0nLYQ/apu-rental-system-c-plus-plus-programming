@@ -5,10 +5,6 @@
  * FILENAME: Asia_Pacific_Home.h
  */
 
-// #include <string>
-// #include <iostream>
-// #include <regex>
-
 #include "DynamicArray.h"
 #include "User.h"
 #include "Manager.h"
@@ -37,7 +33,7 @@ private:
 
 public:
     Asia_Pacific_Home() {
-        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2023-07-01");
+        Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2022-06-01");
         tenantList.insertAtEnd(newTenant);
 
         Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-07-02");
@@ -233,6 +229,7 @@ public:
             Manager manager = manager.login(email, managerList);
             if (manager.getStatus() == "Active")
             {
+                this->user = manager;
                 manager_HomePage(manager);
             }
             else
@@ -632,12 +629,6 @@ public:
                     tenant_HomePage(tenant);
                 }
 
-                DoublyCircularLinkedList<Property> favPropList = filterProperty.getProperty();
-
-                if (favPropList.getSize() > 0) {
-                    tenant.addFavouriteList(favPropList);
-                }
-
                 tenant_HomePage(tenant);
             }
             else if (userInput == "4")
@@ -695,19 +686,141 @@ public:
 
             if (userInput == "1")
             {
+                tenant_sortItemOrder(tenant, sortTypeSelection, userInput);
                 validInput = true;
             }
             else if (userInput == "2")
             {
-
+                tenant_sortItemOrder(tenant, sortTypeSelection, userInput);
+                validInput = true;
             }
             else if (userInput == "3")
             {
-
+                tenant_sortItemOrder(tenant, sortTypeSelection, userInput);
+                validInput = true;
             }
             else if (userInput == "4")
             {
+                tenant_sortSelectionPage(tenant);
+            }
+            else {
+                cout << endl
+                     << "Invalid input! Please try again." 
+                     << endl
+                     << endl;
+            }
+        }
+    }
 
+    void tenant_sortItemOrder(Tenant &tenant, const string &sortTypeSelection, const string &sortOption)
+    {
+        std::function<bool(const Property&, const Property&)> compareFunction;
+        MergeSort mergeSortObj;
+        bool validInput = false;
+        while (!validInput)
+        {
+            std::cout << "[SORTING IN]" << endl;
+            std::cout << "Please select an option (1-2):" << endl;
+            std::cout << "1. Sort in Ascending Order" << endl;
+            std::cout << "2. Sort in Descending Order" << endl;
+            std::cout << "3. Back" << endl;
+            std::cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1") // ascending order
+            {
+                if(sortTypeSelection == "1"){ // bubbleSort
+                    if(sortOption == "1"){ //monthy rent
+
+                    }else if (sortOption == "2"){ //location
+
+                    }else if(sortOption == "3"){ //size
+
+                    }else{
+                        cout << "Invalid Input! Try Again! " << endl;
+                        tenant_sortSelectionPage(tenant);
+                    }
+                }else if (sortTypeSelection == "2"){ //mergeSOrt
+                    if(sortOption == "1"){ //monthy rent
+                        cout << " " << endl;
+                        cout << "Sorting based on Monthly Rent in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareMonthlyRentAsc;
+                    }else if (sortOption == "2"){ //location
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Location in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareLocationAsc;
+                    }else if(sortOption == "3"){ //size
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Size in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareSizeAsc;
+                    }else{
+                        cout << "Invalid Input! Try Again! " << endl;
+                        tenant_sortSelectionPage(tenant);
+                    }
+                    // Sort properties based on the user's choice using merge sort
+                    mergeSortObj.mergeSort(properties, 0, properties.getSize() - 1, compareFunction);
+                    // Calculate the time spent for merge sort
+                    mergeSortObj.calculateMergeSortTime(properties, compareFunction);
+
+                    // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
+                    FilterProperty fp;
+                    fp.displayFilteredPropertyList(properties);
+                }else{
+                    cout << "Invalid Input! Try Again! " << endl;
+                    tenant_sortSelectionPage(tenant);
+                }
+                validInput = true;
+            }
+            else if (userInput == "2") // descending order
+            {
+                if(sortTypeSelection == "1"){ // bubbleSort
+                    if(sortOption == "1"){ //monthy rent
+
+                    }else if (sortOption == "2"){ //location
+
+                    }else if(sortOption == "3"){ //size
+
+                    }else{
+                        cout << "Invalid Input! Try Again! " << endl;
+                        tenant_sortSelectionPage(tenant);
+                    }
+                }else if (sortTypeSelection == "2"){ //mergeSOrt
+                    if(sortOption == "1"){ //monthy rent
+                        cout << " " << endl;
+                        cout << "Sorting based on Monthly Rent in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareMonthlyRentDesc;
+                    }else if (sortOption == "2"){ //location
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Location in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareLocationDesc;
+                    }else if(sortOption == "3"){ //size
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Size in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareSizeDesc;
+                    }else{
+                        cout << "Invalid Input! Try Again! " << endl;
+                        tenant_sortSelectionPage(tenant);
+                    }
+                    // Sort properties based on the user's choice using merge sort
+                    mergeSortObj.mergeSort(properties, 0, properties.getSize() - 1, compareFunction);
+                    // Calculate the time spent for merge sort
+                    mergeSortObj.calculateMergeSortTime(properties, compareFunction);
+
+                    // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
+                    FilterProperty fp;
+                    fp.displayFilteredPropertyList(properties);
+                }else{
+                    cout << "Invalid Input! Try Again! " << endl;
+                    tenant_sortSelectionPage(tenant);
+                }
+                validInput = true;
+            }
+            else if (userInput == "3")
+            {
+                tenant_sortItemOptions(tenant, sortTypeSelection);
             }
             else {
                 cout << endl
@@ -820,6 +933,7 @@ public:
                     cout << "Please try again." << endl;
                     cout << endl;
                 }
+
                 tenant_searchSelectionPage(tenant);
             }
             else if (searchItem == "2") {
@@ -940,9 +1054,8 @@ public:
 
     void manager_HomePage(Manager manager)
     {
-        cout << tenantList.get(0).getFavoriteProperty().getSize() << endl;
-
         bool validInput = false;
+        Tenant tenant;
         
         while (!validInput)
         {
@@ -955,7 +1068,7 @@ public:
             std::cout << std::endl;
 
             std::cout << "Please select an option (1-3):" << std::endl;
-            std::cout << "1. Display All Registered Tenant' Details" << std::endl;
+            std::cout << "1. Display All Registered Tenant Details" << std::endl;
             std::cout << "2. Favorite Property List" << std::endl;
             std::cout << "3. View Property Information" << std::endl;
             std::cout << "4. Logout" << std::endl;
@@ -967,23 +1080,14 @@ public:
 
                 if (userInput == "1")
                 {
-                    /**
-                     * TODO: display tenant detail
-                    */
+                    manager_ViewTenantInfoPage(manager);
                     validInput = true;
                 }
                 else if (userInput == "2")
                 {
-                    /**
-                     * TODO: favoratie property list
-                    */
                     DynamicArray<Property> allFavouriteList;
                     manager.getAllFavouriteList(tenantList, allFavouriteList);
-                    cout << allFavouriteList.getSize() << endl;
-                    FilterProperty fp;
-                    fp.displayFilteredPropertyList(allFavouriteList);
-                    
-
+                    manager_FavProperty(manager,allFavouriteList );
                     validInput = true;
                 }
                 else if (userInput == "3")
@@ -1008,15 +1112,76 @@ public:
         }
     }
 
-    void getAllFavouriteList(DynamicArray<Tenant> &tenantList, DynamicArray<Property> &allFavouriteProperty) {
-        for (int count = 0; count < tenantList.getSize(); count++) {
-            Tenant tenant = tenantList.get(count);
+    void manager_ViewTenantInfoPage(Manager& manager)
+    {
+        cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
+        cout << "Available Tenant: " << tenantList.getSize() << endl;
+        cout << endl;
 
-            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
-                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
+        if (tenantList.getSize() == 0)
+        {
+            cout << "Tenant information not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            FilterTenant filterTenant(user);
+            if (filterTenant.filterTenants(tenantList) == false)
+            {
+                manager_HomePage(manager);
             }
+            manager_HomePage(manager);
         }
     }
+
+    void manager_RemoveTenant(Manager& manager)
+    {
+        cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
+        cout << "Available Tenant: " << tenantList.getSize() << endl;
+        cout << endl;
+
+        if (tenantList.getSize() == 0)
+        {
+            cout << "Tenant information not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            FilterTenant filterTenant;
+            if (filterTenant.filterTenants(tenantList) == false)
+            {
+                manager_HomePage(manager);
+            }
+            manager_HomePage(manager);
+        }
+    }
+
+    void manager_FavProperty(Manager& manager, DynamicArray<Property> allFavouriteList) {
+        if (allFavouriteList.getSize() == 0)
+        {
+            cout << "Favourite Property not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            manager.printTopFavouriteProperties(allFavouriteList);
+        }
+    }
+
+
+    
 
     /**
      * --------------------------------------------------------------------------------------------

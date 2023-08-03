@@ -13,9 +13,7 @@
 #include "DynamicArray.h"
 #include "DataValidation.h"
 #include "DataConversion.h"
-// #include "Admin.h"
 #include <ctime>
-// #include "FilterProperty.h"
 
 using namespace std;
 
@@ -43,8 +41,8 @@ class Tenant : public User {
         this->lastLoginDate = lastLoginDate;
     }
 
-    void addFavouriteList(DoublyCircularLinkedList<Property> &newFavList) {
-        this->favouriteList.mergeWith(newFavList);
+    void addFavList(Property &prop) {
+        this->favouriteList.insertAtEnd(prop);
     }
 
     bool registration(DynamicArray<Tenant>& tenantList, DynamicArray<string>& existingEmail) {
@@ -334,7 +332,7 @@ class Tenant : public User {
         }
 
         DataConversion dc;
-        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Pending, "");
+        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Approved, "");
 
         this->rentalHistory.insertAtEnd(request);
 
@@ -728,7 +726,7 @@ class Tenant : public User {
                 tenantList.set(i, loginTenant);
             }
         } return loginTenant;
-    } 
+    }
 
 };
 

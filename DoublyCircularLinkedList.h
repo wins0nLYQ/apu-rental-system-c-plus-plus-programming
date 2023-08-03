@@ -220,7 +220,7 @@ public:
   T& get(int index) {
     DCLListNode<T> *currentNode = head;
 
-    if (index < 0 || index > size)
+    if (index < 0 || index >= size)
     {
       cout << "Item Not Found...";
     }

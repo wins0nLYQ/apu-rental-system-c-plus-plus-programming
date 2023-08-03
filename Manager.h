@@ -6,12 +6,19 @@
 */
 
 #include "string"
+#include <iostream>
+#include <utility>
 #include "User.h"
 #include "DynamicArray.h"
 #include "DataConversion.h"
 // #include <vector>
 // #include "DataConversion.h"
 #include "Tenant.h"
+#include "FilterProperty.h"
+#include <unordered_map> //is a container that stores elements formed by a combination of key value and a mapped value. 
+                        //It uses a hash table internally for its implementation, and searching for elements in it is very efficient.
+#include <queue> // is a container adapter that provides constant time lookup of the largest (by default) element.
+
 
 using namespace std;
 
@@ -97,17 +104,99 @@ public:
     }
 
     void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
-        cout << "Testing" << endl;
-        for (int count = 0; count < tenantList.getSize(); count++) {
-            Tenant tenant = tenantList.get(count);
-            cout << "Testing1" << endl;
-
-            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
-                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
-                cout << "Testing2" << endl;
-            }
-        } cout << "Testing3" << endl;
+            for (int count = 0; count < tenantList.getSize(); count++) {
+                Tenant tenant = tenantList.get(count);
+                for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
+                    allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));   
+                }
+            } 
     }
+
+
+
+    void printTopFavouriteProperties(DynamicArray<Property> allFavouriteList) {
+            // Create an unordered_map to store property names and their corresponding properties and counts
+            std::unordered_map<std::string, std::pair<Property, int>> propertyFrequency;
+
+            // Iterate through the list of favorite properties
+            for(int i = 0; i < allFavouriteList.getSize(); i++) {
+                // Get the current property
+                Property property = allFavouriteList.get(i);
+                // Get the name of the property
+                std::string propertyName = property.getPropName();
+                // Increment the count for this property in the map and store the property
+                propertyFrequency[propertyName].first = property;
+                propertyFrequency[propertyName].second++;
+            }
+
+            // Define a comparison function for the priority queue
+            // It compares pairs of property name and count
+            auto compare = [](const std::pair<std::string, std::pair<Property, int>>& a, const std::pair<std::string, std::pair<Property, int>>& b) {
+                // Properties with higher counts are considered smaller
+                // If counts are equal, properties with lexicographically smaller names are considered smaller
+                return a.second.second < b.second.second || (a.second.second == b.second.second && a.first < b.first);
+            };
+
+            // Create a priority queue to store the top 10 properties
+            // The queue contains pairs of property name and a pair of Property and count
+            // The property with the highest count (and smallest name if counts are equal) is always at the top
+            std::priority_queue<std::pair<std::string, std::pair<Property, int>>, std::vector<std::pair<std::string, std::pair<Property, int>>>, decltype(compare)> topFavourites(compare);
+
+        while (true) {
+            // Iterate through the map of property counts
+            for (const auto& pair : propertyFrequency) {
+                // Add each property to the priority queue
+                topFavourites.push(pair);
+                // If the queue has more than 10 properties, remove the one with the lowest count (and largest name if counts are equal)
+                if (topFavourites.size() > 10) {
+                    topFavourites.pop();
+                }
+            }
+            cout << "[TOP 10 FAVOURITE PROPERTY PAGE]" << endl;
+            for (int rank = 10; !topFavourites.empty(); --rank) {
+                // Get the property at the top of the queue
+                auto top = topFavourites.top();
+                // Print the property's rank, name, and count
+                std::cout << "\t" << "\t" << "[TOP " << 11 - rank << "]\n";
+                std::cout << "-----------------------------------------\n";
+                std::cout << "Property Name : " << top.first << "\n";
+                std::cout << "Favorited Amount : " << top.second.second << "\n";
+                std::cout << "-----------------------------------------\n";
+                // Remove the property from the queue
+                topFavourites.pop();
+            }
+            std::cout << "Options: (G)enerate Report, (Q)uit\n>>";
+            cout << ">>";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "G" || userInput == "g") {
+                FilterProperty property;
+                cout << "[TOP 10 FAVOURITE PROPERTY REPORT PAGE]" << endl;
+                for (const auto& pair : propertyFrequency) {
+                    std::cout << "---------------------------\n";
+                    property.displaySingleProperty(pair.second.first);
+                }   
+                cout << "Enter any key to continue to go back: ";
+                string userInput;
+                getline(cin >> ws, userInput);
+                cout << endl;
+            } else if (userInput == "Q" || userInput == "q"){
+
+                break;
+            }else {
+                cout << "Invalid input. Please try again." << endl;
+            }
+        }
+    }
+
+
+
+
+
+
+
 };
 
 #endif
