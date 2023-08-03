@@ -10,6 +10,7 @@ enum Status { Pending, Approved, Rejected, Active, Inactive };
 
 std::string getStatusInString(Status status) {
     switch (status) {
+        // Status: Pending, Approved, Rejected, Active, Refunded
         case Pending:
             return "Pending";
         case Approved:
@@ -32,6 +33,8 @@ class Rental {
         string requestDateTime;
         Status applicationStatus;
         string remarks;
+        string paymentAmount;
+        string paymentDate;
 
     public:
     Rental() {}
