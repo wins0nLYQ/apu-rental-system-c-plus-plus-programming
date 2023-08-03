@@ -320,7 +320,6 @@ public:
 
     void admin_HomePage(Admin admin)
     {
-
         bool validInput = false;
 
         cout << "-------------------------------------------------------------" << endl;
@@ -526,7 +525,7 @@ public:
         for (int count = 0; count < tenantList.getSize(); count++) {
             Tenant &tempTenant = tenantList.get(count);
             if (tempTenant.getEmail() == tenant.getEmail()) {
-                tenantList.replace(tenant, count);
+                tenantList.set(count, tenant);
             }
         }
     }
@@ -534,7 +533,6 @@ public:
     void tenant_HomePage(Tenant &tenant)
     {
         bool validInput = false;
-
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "                      ASIA PACIFIC HOME                      " << endl;

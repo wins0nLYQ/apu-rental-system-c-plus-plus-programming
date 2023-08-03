@@ -725,7 +725,7 @@ class Tenant : public User {
                 loginTenant.setLastLoginDate(dc.getTodayDate());
                 loginTenant.setRole(tenant.getRole());
 
-                tenantList.replace(loginTenant, i);
+                tenantList.set(i, loginTenant);
             }
         } return loginTenant;
     } 
