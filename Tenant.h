@@ -13,9 +13,7 @@
 #include "DynamicArray.h"
 #include "DataValidation.h"
 #include "DataConversion.h"
-// #include "Admin.h"
 #include <ctime>
-// #include "FilterProperty.h"
 
 using namespace std;
 
@@ -47,9 +45,9 @@ public:
         this->lastLoginDate = lastLoginDate;
     }
 
-    void addFavouriteList(DoublyCircularLinkedList<Property> &newFavList)
+    void addFavList(Property &prop)
     {
-        this->favouriteList.mergeWith(newFavList);
+        this->favouriteList.insertAtEnd(prop);
     }
 
     bool registration(DynamicArray<Tenant> &tenantList, DynamicArray<string> &existingEmail)

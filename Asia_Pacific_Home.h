@@ -5,10 +5,6 @@
  * FILENAME: Asia_Pacific_Home.h
  */
 
-// #include <string>
-// #include <iostream>
-// #include <regex>
-
 #include "DynamicArray.h"
 #include "User.h"
 #include "Manager.h"
@@ -593,7 +589,6 @@ public:
             else if (userInput == "4")
             {
                 updateTenantList(tenant);
-                updateTenantList(tenant);
                 User emptyUser;
                 this->user = emptyUser;
                 homePage();
@@ -646,13 +641,6 @@ public:
                 if (filterProperty.filterProperty(properties) == false)
                 {
                     tenant_HomePage(tenant);
-                }
-
-                DoublyCircularLinkedList<Property> favPropList = filterProperty.getProperty();
-
-                if (favPropList.getSize() > 0)
-                {
-                    tenant.addFavouriteList(favPropList);
                 }
 
                 tenant_HomePage(tenant);
@@ -712,16 +700,174 @@ public:
 
             if (userInput == "1")
             {
+                tenant_sortItemOrder(tenant, sortTypeSelection, userInput);
                 validInput = true;
             }
             else if (userInput == "2")
             {
+                tenant_sortItemOrder(tenant, sortTypeSelection, userInput);
+                validInput = true;
             }
             else if (userInput == "3")
             {
+                tenant_sortItemOrder(tenant, sortTypeSelection, userInput);
+                validInput = true;
             }
             else if (userInput == "4")
             {
+                tenant_sortSelectionPage(tenant);
+            }
+            else
+            {
+                cout << endl
+                     << "Invalid input! Please try again."
+                     << endl
+                     << endl;
+            }
+        }
+    }
+
+    void tenant_sortItemOrder(Tenant &tenant, const string &sortTypeSelection, const string &sortOption)
+    {
+        std::function<bool(const Property &, const Property &)> compareFunction;
+        MergeSort mergeSortObj;
+        bool validInput = false;
+        while (!validInput)
+        {
+            std::cout << "[SORTING IN]" << endl;
+            std::cout << "Please select an option (1-2):" << endl;
+            std::cout << "1. Sort in Ascending Order" << endl;
+            std::cout << "2. Sort in Descending Order" << endl;
+            std::cout << "3. Back" << endl;
+            std::cout << ">> ";
+
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+
+            if (userInput == "1") // ascending order
+            {
+                if (sortTypeSelection == "1")
+                { // bubbleSort
+                    if (sortOption == "1")
+                    { // monthy rent
+                    }
+                    else if (sortOption == "2")
+                    { // location
+                    }
+                    else if (sortOption == "3")
+                    { // size
+                    }
+                    else
+                    {
+                        cout << "Invalid Input! Try Again! " << endl;
+                        tenant_sortSelectionPage(tenant);
+                    }
+                }
+                else if (sortTypeSelection == "2")
+                { // mergeSOrt
+                    if (sortOption == "1")
+                    { // monthy rent
+                        cout << " " << endl;
+                        cout << "Sorting based on Monthly Rent in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareMonthlyRentAsc;
+                    }
+                    else if (sortOption == "2")
+                    { // location
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Location in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareLocationAsc;
+                    }
+                    else if (sortOption == "3")
+                    { // size
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Size in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareSizeAsc;
+                    }
+                    else
+                    {
+                        cout << "Invalid Input! Try Again! " << endl;
+                        tenant_sortSelectionPage(tenant);
+                    }
+                    // Sort properties based on the user's choice using merge sort
+                    mergeSortObj.mergeSort(properties, 0, properties.getSize() - 1, compareFunction);
+                    // Calculate the time spent for merge sort
+                    mergeSortObj.calculateMergeSortTime(properties, compareFunction);
+
+                    // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
+                    FilterProperty fp;
+                    fp.displayFilteredPropertyList(properties);
+                }
+                else
+                {
+                    cout << "Invalid Input! Try Again! " << endl;
+                    tenant_sortSelectionPage(tenant);
+                }
+                validInput = true;
+            }
+            else if (userInput == "2") // descending order
+            {
+                if (sortTypeSelection == "1")
+                { // bubbleSort
+                    if (sortOption == "1")
+                    { // monthy rent
+                    }
+                    else if (sortOption == "2")
+                    { // location
+                    }
+                    else if (sortOption == "3")
+                    { // size
+                    }
+                    else
+                    {
+                        cout << "Invalid Input! Try Again! " << endl;
+                        tenant_sortSelectionPage(tenant);
+                    }
+                }
+                else if (sortTypeSelection == "2")
+                { // mergeSOrt
+                    if (sortOption == "1")
+                    { // monthy rent
+                        cout << " " << endl;
+                        cout << "Sorting based on Monthly Rent in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareMonthlyRentDesc;
+                    }
+                    else if (sortOption == "2")
+                    { // location
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Location in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareLocationDesc;
+                    }
+                    else if (sortOption == "3")
+                    { // size
+                        cout << " " << endl;
+                        std::cout << "Sorting based on Size in ascending order" << std::endl;
+                        compareFunction = MergeSort::compareSizeDesc;
+                    }
+                    else
+                    {
+                        cout << "Invalid Input! Try Again! " << endl;
+                        tenant_sortSelectionPage(tenant);
+                    }
+                    // Sort properties based on the user's choice using merge sort
+                    mergeSortObj.mergeSort(properties, 0, properties.getSize() - 1, compareFunction);
+                    // Calculate the time spent for merge sort
+                    mergeSortObj.calculateMergeSortTime(properties, compareFunction);
+
+                    // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
+                    FilterProperty fp;
+                    fp.displayFilteredPropertyList(properties);
+                }
+                else
+                {
+                    cout << "Invalid Input! Try Again! " << endl;
+                    tenant_sortSelectionPage(tenant);
+                }
+                validInput = true;
+            }
+            else if (userInput == "3")
+            {
+                tenant_sortItemOptions(tenant, sortTypeSelection);
             }
             else
             {
@@ -844,6 +990,7 @@ public:
                     cout << "Please try again." << endl;
                     cout << endl;
                 }
+
                 tenant_searchSelectionPage(tenant);
             }
             else if (searchItem == "2")
