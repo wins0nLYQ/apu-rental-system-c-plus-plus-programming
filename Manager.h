@@ -103,14 +103,14 @@ public:
         } return loginManager;
     }
 
-    void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
-            for (int count = 0; count < tenantList.getSize(); count++) {
-                Tenant tenant = tenantList.get(count);
-                for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
-                    allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));   
-                }
-            } 
-    }
+    // void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
+    //         for (int count = 0; count < tenantList.getSize(); count++) {
+    //             Tenant tenant = tenantList.get(count);
+    //             for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
+    //                 allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));   
+    //             }
+    //         } 
+    // }
 
 
 

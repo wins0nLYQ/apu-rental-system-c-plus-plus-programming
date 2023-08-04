@@ -41,9 +41,9 @@ class Tenant : public User {
         this->lastLoginDate = lastLoginDate;
     }
 
-    void addFavList(Property &prop) {
-        this->favouriteList.insertAtEnd(prop);
-    }
+    // void addFavList(Property &prop) {
+    //     this->favouriteList.insertAtEnd(prop);
+    // }
 
     bool registration(DynamicArray<Tenant>& tenantList, DynamicArray<string>& existingEmail) {
         // Implementation of tenant registration logic
@@ -246,82 +246,82 @@ class Tenant : public User {
         this->favouriteList.removeAtIndex(remIndex);
     }
 
-    void viewFavouriteProperty() {
-        if (favouriteList.getSize() > 0) {
-            int propIndex = 1;
+    // void viewFavouriteProperty() {
+    //     if (favouriteList.getSize() > 0) {
+    //         int propIndex = 1;
 
-            Property property = favouriteList.getFirst();
+    //         Property property = favouriteList.getFirst();
 
-            while (true) {
-                cout << endl;
-                cout << "[FAVOURITE PROPERTY LIST]" << endl;
-                cout << "NO: " << propIndex << " OUT OF " << favouriteList.getSize() << endl;
+    //         while (true) {
+    //             cout << endl;
+    //             cout << "[FAVOURITE PROPERTY LIST]" << endl;
+    //             cout << "NO: " << propIndex << " OUT OF " << favouriteList.getSize() << endl;
 
-                displaySingleProperty(property);
+    //             displaySingleProperty(property);
 
-                cout << "Options: (N)ext, (P)revious, (Q)uit, (U)nfavourite, (R)ent Request" << endl;
-                cout << ">> ";
+    //             cout << "Options: (N)ext, (P)revious, (Q)uit, (U)nfavourite, (R)ent Request" << endl;
+    //             cout << ">> ";
 
-                std::string choice;
-                getline(cin >> ws, choice);
+    //             std::string choice;
+    //             getline(cin >> ws, choice);
 
-                if (choice == "N" || choice == "n") {
-                    if (propIndex < favouriteList.getSize()) {
-                        property = favouriteList.nextItem();
-                        propIndex++;
-                    }
-                    else {
-                        cout << "No more items. Reached the last favourite property." << endl << endl;
-                    }
-                }
-                else if (choice == "P" || choice == "p") {
-                    if (propIndex > 1) {
-                        property = favouriteList.prevItem();
-                        propIndex--;
-                    }
-                    else {
-                        cout << endl << "This is the first favourite property." << endl << endl;
-                    }
-                }
-                else if (choice == "Q" || choice == "q") {
-                    break;
-                }
-                else if (choice == "U" || choice == "u") {
-                    property = favouriteList.removeCurrent();
-                    cout << endl << "Property has been removed from favourite list." << endl << endl;
-                }
-                else if (choice == "R" || choice == "r") {
-                    // call rent request function
-                    cout << endl << "Are you sure to rent this property (Y/N)" << endl;
-                    cout << ">>> ";
+    //             if (choice == "N" || choice == "n") {
+    //                 if (propIndex < favouriteList.getSize()) {
+    //                     property = favouriteList.nextItem();
+    //                     propIndex++;
+    //                 }
+    //                 else {
+    //                     cout << "No more items. Reached the last favourite property." << endl << endl;
+    //                 }
+    //             }
+    //             else if (choice == "P" || choice == "p") {
+    //                 if (propIndex > 1) {
+    //                     property = favouriteList.prevItem();
+    //                     propIndex--;
+    //                 }
+    //                 else {
+    //                     cout << endl << "This is the first favourite property." << endl << endl;
+    //                 }
+    //             }
+    //             else if (choice == "Q" || choice == "q") {
+    //                 break;
+    //             }
+    //             else if (choice == "U" || choice == "u") {
+    //                 property = favouriteList.removeCurrent();
+    //                 cout << endl << "Property has been removed from favourite list." << endl << endl;
+    //             }
+    //             else if (choice == "R" || choice == "r") {
+    //                 // call rent request function
+    //                 cout << endl << "Are you sure to rent this property (Y/N)" << endl;
+    //                 cout << ">>> ";
 
-                    std::string rentChoice;
-                    getline(cin >> ws, rentChoice);
+    //                 std::string rentChoice;
+    //                 getline(cin >> ws, rentChoice);
                     
-                    if (rentChoice == "Y" || rentChoice == "y") {
-                        // Add Rent Request Function
-                        addRentalRequest(favouriteList.getCurrent());
-                        cout << "Enter any key to continue: ";
-                        string userInput;
-                        getline(cin >> ws, userInput);
-                        cout << endl;
-                    }
-                    else if (rentChoice == "N" || rentChoice == "n") {
-                        cout << endl << "[RENT REQUEST CANCELLED]" << endl << endl;
-                    }
-                    else {
-                        cout << endl << "Invalid input! Please try again..." << endl;
-                    }
-                }
-                else {
-                    cout << endl << "Invalid input! Please try again..." << endl;
-                }
-            }
-        }
-        else {
-            cout << endl << "You have no favourite property..." << endl << endl;
-        }
-    }
+    //                 if (rentChoice == "Y" || rentChoice == "y") {
+    //                     // Add Rent Request Function
+    //                     addRentalRequest(favouriteList.getCurrent());
+    //                     cout << "Enter any key to continue: ";
+    //                     string userInput;
+    //                     getline(cin >> ws, userInput);
+    //                     cout << endl;
+    //                 }
+    //                 else if (rentChoice == "N" || rentChoice == "n") {
+    //                     cout << endl << "[RENT REQUEST CANCELLED]" << endl << endl;
+    //                 }
+    //                 else {
+    //                     cout << endl << "Invalid input! Please try again..." << endl;
+    //                 }
+    //             }
+    //             else {
+    //                 cout << endl << "Invalid input! Please try again..." << endl;
+    //             }
+    //         }
+    //     }
+    //     else {
+    //         cout << endl << "You have no favourite property..." << endl << endl;
+    //     }
+    // }
 
     void addRentalRequest(Property &propertySelected) {
         for (int count = 0; count < rentalHistory.getSize(); count++) {
