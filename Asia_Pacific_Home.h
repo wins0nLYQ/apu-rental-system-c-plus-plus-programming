@@ -20,6 +20,7 @@
 #include "BinarySearch.h"
 #include "DoublyCircularLinkedList.h"
 #include "Rental.h"
+#include "FavouriteProperty.h"
 
 using namespace std;
 
@@ -29,6 +30,9 @@ private:
     DynamicArray<Manager> managerList;
     DynamicArray<Tenant> tenantList;
     DynamicArray<Property> properties;
+
+    DoublyCircularLinkedList<FavouriteProperty> favouriteList;
+
     User user;
 
 public:
@@ -317,7 +321,6 @@ public:
 
     void admin_HomePage(Admin admin)
     {
-
         bool validInput = false;
 
         cout << "-------------------------------------------------------------" << endl;
@@ -523,7 +526,7 @@ public:
         for (int count = 0; count < tenantList.getSize(); count++) {
             Tenant &tempTenant = tenantList.get(count);
             if (tempTenant.getEmail() == tenant.getEmail()) {
-                tenantList.replace(tenant, count);
+                tenantList.set(count, tenant);
             }
         }
     }
@@ -531,7 +534,6 @@ public:
     void tenant_HomePage(Tenant &tenant)
     {
         bool validInput = false;
-
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "                      ASIA PACIFIC HOME                      " << endl;
@@ -565,7 +567,8 @@ public:
                 /**
                  * TODO: Call tenant favourite property list
                 */
-                tenant.viewFavouriteProperty();
+                viewFavouriteProperty(tenant);
+                // validInput = true;
             }
             else if (userInput == "3")
             {
@@ -624,7 +627,8 @@ public:
             }
             else if (userInput == "3")
             {
-                FilterProperty filterProperty(user, tenant);
+                cout << "Hello: " << tenant.getEmail() << endl;
+                FilterProperty filterProperty(user, tenant, favouriteList);
                 validInput = true;
                 if (filterProperty.filterProperty(properties) == false)
                 {
@@ -647,6 +651,145 @@ public:
             }
         }
     }
+
+
+
+
+
+
+    
+
+
+
+
+
+    void viewFavouriteProperty(Tenant &tenant) {
+        DataConversion dc;
+        DoublyCircularLinkedList <Property> selectedFavP;
+        for(int i = 0; i < favouriteList.getSize(); ++i) {
+            cout << favouriteList.get(i).getTenantEmail() << endl;
+            if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(favouriteList.get(i).getTenantEmail())) {
+                selectedFavP.insertAtEnd(favouriteList.get(i).getProperty());
+            }
+        }
+
+        if (selectedFavP.getSize() > 0) {
+            int propIndex = 1;
+
+            Property property = selectedFavP.getFirst();
+
+            while (true) {
+                cout << endl;
+                cout << "[FAVOURITE PROPERTY LIST]" << endl;
+                cout << "NO: " << propIndex << " OUT OF " << selectedFavP.getSize() << endl;
+
+                FilterProperty fp;
+                fp.displaySingleProperty(property);
+
+                // cout << "Options: (N)ext, (P)revious, (Q)uit, (U)nfavourite, (R)ent Request" << endl;
+                cout << "Options: (N)ext, (P)revious, (Q)uit, (R)ent Request" << endl;
+                cout << ">> ";
+
+                std::string choice;
+                getline(cin >> ws, choice);
+
+                if (choice == "N" || choice == "n") {
+                    if (propIndex < selectedFavP.getSize()) {
+                        property = selectedFavP.nextItem();
+                        propIndex++;
+                    }
+                    else {
+                        cout << "No more items. Reached the last favourite property." << endl << endl;
+                    }
+                }
+                else if (choice == "P" || choice == "p") {
+                    if (propIndex > 1) {
+                        property = selectedFavP.prevItem();
+                        propIndex--;
+                    }
+                    else {
+                        cout << endl << "This is the first favourite property." << endl << endl;
+                    }
+                }
+                else if (choice == "Q" || choice == "q") {
+                    break;
+                }
+                // else if (choice == "U" || choice == "u") {
+                //     property = selectedFavP.removeCurrent();
+                //     cout << selectedFavP.getSize() << endl;
+                //     unfavouriteProperty(tenant, selectedFavP);
+                //     cout << endl << "Property has been removed from favourite list." << endl << endl;
+                //     // unfavouriteProperty(tenant, selectedFavP);
+                //     // break;
+                //     if(selectedFavP.getSize() == 0) {
+                //         break;
+                //     }
+                    
+                // }
+                else if (choice == "R" || choice == "r") {
+                    // call rent request function
+                    cout << endl << "Are you sure to rent this property (Y/N)" << endl;
+                    cout << ">>> ";
+
+                    std::string rentChoice;
+                    getline(cin >> ws, rentChoice);
+                    
+                    if (rentChoice == "Y" || rentChoice == "y") {
+                        // Add Rent Request Function
+                        // addRentalRequest(favouriteList.getCurrent());
+                        cout << "Enter any key to continue: ";
+                        string userInput;
+                        getline(cin >> ws, userInput);
+                        cout << endl;
+                    }
+                    else if (rentChoice == "N" || rentChoice == "n") {
+                        cout << endl << "[RENT REQUEST CANCELLED]" << endl << endl;
+                    }
+                    else {
+                        cout << endl << "Invalid input! Please try again..." << endl;
+                    }
+                }
+                else {
+                    cout << endl << "Invalid input! Please try again..." << endl;
+                }
+            } 
+        }
+        else {
+            cout << endl << "You have no favourite property..." << endl << endl;
+        }
+        tenant_HomePage(tenant);
+    }
+
+    // void unfavouriteProperty(Tenant &tenant, DoublyCircularLinkedList<Property> &selectedFavP) {
+    //     DataConversion dc;
+    //     cout << "Outside: " << tenant.getEmail() << endl;
+    //     for (int j = 0; j < favouriteList.getSize(); ++j) {
+    //         cout << "Middle: " << favouriteList.get(j).getTenantEmail() << endl;
+    //         if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(favouriteList.get(j).getTenantEmail())){
+    //             favouriteList.removeAtIndex(j);
+    //             --j;
+    //         }
+
+    //     }
+    //     cout << favouriteList.getSize() << endl;
+
+    //     for(int i = 0; i < selectedFavP.getSize(); ++i) {
+    //         FavouriteProperty favProp(selectedFavP.get(i), tenant.getEmail());
+    //         favouriteList.insertAtEnd(favProp);
+    //     }
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
 
     void tenant_sortSelectionPage(Tenant &tenant)
     {
@@ -911,7 +1054,7 @@ public:
 
     void tenant_search(Tenant &tenant, const string &searchType, const string &searchItem) 
     {
-        FilterProperty filterProperty(user, tenant);
+        FilterProperty filterProperty(user, tenant, favouriteList);
 
         std::string search;
 
@@ -1088,8 +1231,12 @@ public:
                 else if (userInput == "2")
                 {
                     DynamicArray<Property> allFavouriteList;
-                    manager.getAllFavouriteList(tenantList, allFavouriteList);
-                    manager_FavProperty(manager,allFavouriteList );
+                    // manager.getAllFavouriteList(tenantList, allFavouriteList);
+                    for(int i = 0; i < favouriteList.getSize(); ++i) {
+                        Property prop = favouriteList.get(i).getProperty();
+                        allFavouriteList.insertAtEnd(prop);
+                    }
+                    manager_FavProperty(manager, allFavouriteList);
                     validInput = true;
                 }
                 else if (userInput == "3")

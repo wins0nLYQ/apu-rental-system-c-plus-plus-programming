@@ -58,7 +58,7 @@ public:
             for (int j = 0; j < size - i - 1; ++j) {
                 if (array.get(j) > array.get(j + 1)) {  // Compare adjacent elements
                     std::string temp = array.get(j);  // Use a temporary variable to swap elements
-                    array.replace(array.get(j+1), j);
+                    array.set(j, array.get(j+1));
                     array.get(j+1) = temp;
                     swapped = true;
                 }

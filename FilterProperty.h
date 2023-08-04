@@ -4,6 +4,7 @@
 #include <cmath>
 #include "User.h"
 #include "Tenant.h"
+#include "FavouriteProperty.h"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ class FilterProperty {
     private:
         User user;
         Tenant* tenant;
+        DoublyCircularLinkedList<FavouriteProperty>* favouriteList;
 
     public:
     FilterProperty() {}
@@ -19,9 +21,10 @@ class FilterProperty {
         this->user = user;
     }
 
-    FilterProperty(User &user, Tenant &tenant) {
+    FilterProperty(User &user, Tenant &tenant, DoublyCircularLinkedList<FavouriteProperty> &favouriteList) {
         this->user = user;
         this->tenant = &tenant;
+        this->favouriteList = &favouriteList;
     }
 
     bool filterProperty(DynamicArray<Property>& properties) {
@@ -619,7 +622,12 @@ class FilterProperty {
                         cout << endl;
 
                         if(confirm == "Y" || confirm == "y") {
-                            tenant->addFavList(filteredList.get(stoi(choice) - 1));
+                            // tenant->addFavList(filteredList.get(stoi(choice) - 1));
+                            cout << "Hello 2: " << tenant->getEmail() << endl;
+                            FavouriteProperty favP(filteredList.get(stoi(choice) - 1), tenant->getEmail());
+                            favouriteList->insertAtEnd(favP);
+
+                            tenant->setFavoriteProperty(filteredList.get(stoi(choice) - 1));
 
                             cout << endl;
                             cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;
