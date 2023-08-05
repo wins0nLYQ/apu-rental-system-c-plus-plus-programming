@@ -991,7 +991,7 @@ public:
         while (!validInput)
         {
             std::cout << "[Searching Algorithm Selection]" << endl;
-            std::cout << "Please select an option (1-3):" << endl;
+            std::cout << "Please select an option (1-2):" << endl;
             std::cout << "1. Linear Search" << endl;
             std::cout << "2. Binary Search" << endl;
             std::cout << endl;
@@ -1116,6 +1116,7 @@ public:
 
                 DynamicArray<Property> result;
                 binSearch.binarySearch_AdsId(properties, search, result);
+                
 
                 if(result.getSize() > 0) {
                     filterProperty.displayFilteredPropertyList(result);
