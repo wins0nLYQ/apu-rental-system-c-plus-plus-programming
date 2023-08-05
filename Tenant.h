@@ -21,7 +21,7 @@ class Tenant : public User {
   private:
     string lastLoginDate;
     DoublyCircularLinkedList<Property> favouriteList;
-    DoublyCircularLinkedList<Rental> rentalHistory;
+    DoublyCircularLinkedList<Rental> *rentalHistory;
 
   public:
     Tenant(){}
@@ -323,7 +323,7 @@ class Tenant : public User {
     //     }
     // }
 
-    void addRentalRequest(Property &propertySelected) {
+    void addRentalRequest(Property &propertySelected, DoublyCircularLinkedList<Rental> &rentalHistory) {
         for (int count = 0; count < rentalHistory.getSize(); count++) {
             if (rentalHistory.get(count).getProperty() == propertySelected) {
                 cout << endl << "You have already sent a rental request for this property." << endl << endl;
@@ -332,31 +332,32 @@ class Tenant : public User {
         }
 
         DataConversion dc;
-        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Approved, "");
+        Rental request(propertySelected, this->getEmail(), dc.getTodayDate(), Status::Pending, "");
 
-        this->rentalHistory.insertAtEnd(request);
+        rentalHistory.insertAtEnd(request);
 
         cout << endl << "[RENT REQUEST HAS SENT]" << endl;
     }
 
-    void extractSpecificStatusRequest(Status stat) {
+    void extractSpecificStatusRequest(Status stat, Status stat2, DoublyCircularLinkedList<Rental> &tenantRentalHistory) {
         int total = 0;
         Rental rental;
 
-        for (int count = 0; count < rentalHistory.getSize(); count++) {
-            if (rentalHistory.get(count).getApplicationStatus() == stat) {
+        for (int count = 0; count < tenantRentalHistory.getSize(); count++) {
+            if (tenantRentalHistory.get(count).getApplicationStatus() == stat || 
+                tenantRentalHistory.get(count).getApplicationStatus() == stat2) {
                 total++;
             }
         }
 
         while (true) {
-            Rental eachReq = rentalHistory.getFirst();
-            if (eachReq.getApplicationStatus() == stat) {
+            Rental eachReq = tenantRentalHistory.getFirst();
+            if (eachReq.getApplicationStatus() == stat || eachReq.getApplicationStatus() == stat2) {
                 rental = eachReq;
                 break;
             }
 
-            eachReq = rentalHistory.nextItem();
+            eachReq = tenantRentalHistory.nextItem();
         }
 
         int propIndex = 1;
@@ -375,23 +376,26 @@ class Tenant : public User {
 
             cout << "---------------------------------------" << endl;
 
-            switch (stat) {
-                case Approved:
-                    cout << "Options: (N)ext, (P)revious, (D)elete, (Q)uit, (T)ransaction" << endl;
-                    cout << ">> ";
-                    break;
-                default:
-                    cout << "Options: (N)ext, (P)revious, (D)elete, (Q)uit" << endl;
-                    cout << ">> ";
-                    break;
-            }
+            // switch (stat) {
+            //     case Approved:
+            //         cout << "Options: (N)ext, (P)revious, (D)elete, (Q)uit, (T)ransaction" << endl;
+            //         cout << ">> ";
+            //         break;
+            //     default:
+            //         cout << "Options: (N)ext, (P)revious, (D)elete, (Q)uit" << endl;
+            //         cout << ">> ";
+            //         break;
+            // }
+
+            cout << "Options: (N)ext, (P)revious, (Q)uit" << endl;
+            cout << ">> ";
 
             std::string choice;
             getline(cin >> ws, choice);
 
             if (choice == "N" || choice == "n") {
                 if (propIndex < total) {
-                    rental = rentalHistory.nextItem();
+                    rental = tenantRentalHistory.nextItem();
 
                     while (true) {
                         if (rental.getApplicationStatus() == stat) {
@@ -399,7 +403,7 @@ class Tenant : public User {
                             break;
                         }
 
-                        rental = rentalHistory.nextItem();
+                        rental = tenantRentalHistory.nextItem();
                     }
                 }
                 else {
@@ -408,7 +412,7 @@ class Tenant : public User {
             }
             else if (choice == "P" || choice == "p") {
                 if (propIndex > 1) {
-                    rental = rentalHistory.prevItem();
+                    rental = tenantRentalHistory.prevItem();
 
                     while (true) {
                         if (rental.getApplicationStatus() == stat) {
@@ -416,50 +420,50 @@ class Tenant : public User {
                             break;
                         }
 
-                        rental = rentalHistory.prevItem();
+                        rental = tenantRentalHistory.prevItem();
                     }
                 }
                 else {
                     cout << endl << "This is the first rental history." << endl << endl;
                 }
             }
-            else if (choice == "D" || choice == "d") {
-                while (true) {
-                    cout << "Are you sure to remove the current rental history from the list? (Y/N)" << endl;
-                    cout << ">> ";
-                    string option;
-                    getline(cin >> ws, option);
+            // else if (choice == "D" || choice == "d") {
+            //     while (true) {
+            //         cout << "Are you sure to remove the current rental history from the list? (Y/N)" << endl;
+            //         cout << ">> ";
+            //         string option;
+            //         getline(cin >> ws, option);
 
-                    if (option == "Y" || option == "y") {
-                        rental = rentalHistory.removeCurrent();
-                        cout << endl << "Rental history has been removed." << endl << endl;
-                        break;
-                    }
-                    else if (option == "N" || option == "n") {
-                        cout << endl << "Rental request remove unsuccessful" << endl << endl;
-                        break;
-                    }
-                    else {
-                        cout << endl << "Invalid Option. Please Try Again..." << endl << endl;
-                    }
-                }
-            }
-            else if (choice == "T" || choice == "t") {
-                if (rental.getApplicationStatus() == 1) {
-                    cout << endl << "Going to payment page..." << endl << endl;
+            //         if (option == "Y" || option == "y") {
+            //             rental = tenantRentalHistory.removeCurrent();
+            //             cout << endl << "Rental history has been removed." << endl << endl;
+            //             break;
+            //         }
+            //         else if (option == "N" || option == "n") {
+            //             cout << endl << "Rental request remove unsuccessful" << endl << endl;
+            //             break;
+            //         }
+            //         else {
+            //             cout << endl << "Invalid Option. Please Try Again..." << endl << endl;
+            //         }
+            //     }
+            // }
+            // else if (choice == "T" || choice == "t") {
+            //     if (rental.getApplicationStatus() == 1) {
+            //         cout << endl << "Going to payment page..." << endl << endl;
 
-                    if(rentalPayment(rental, rentalHistory.getIndex())) {
-                        cout << "Payment successful!" << endl << endl;
-                        break;
-                    }
-                    else {
-                        cout << "Payment Unsuccess!" << endl << endl;
-                    }
-                }
-                else {
-                    cout << "This application is not approved..." << endl;
-                }
-            }
+            //         if(rentalPayment(rental, rentalHistory.getIndex())) {
+            //             cout << "Payment successful!" << endl << endl;
+            //             break;
+            //         }
+            //         else {
+            //             cout << "Payment Unsuccess!" << endl << endl;
+            //         }
+            //     }
+            //     else {
+            //         cout << "This application is not approved..." << endl;
+            //     }
+            // }
             else if (choice == "Q" || choice == "q") {
                 break;
             }
@@ -469,17 +473,18 @@ class Tenant : public User {
         }
     }
 
-    bool rentalPayment(Rental &rental, const int &oriItemIndex) {
+    bool rentalPayment(Property &property, const int &oriItemIndex) {
         // Implementation of rental payment logic
         bool paidSuccessfully = false;
 
         while (true) {
+            cout << endl;
+            cout << endl;
             cout << "[PAYMENT PAGE]" << endl;
+            cout << "---------------------------------------" << endl;
             cout << "Property Information" << endl;
             cout << "---------------------------------------" << endl;
-            displaySingleProperty(rental.getProperty());
-            cout << "Application Date: " << rental.getRequestDateTime() << endl;
-            cout << "Remarks: " << rental.getRemarks() << endl;
+            displaySingleProperty(property);
 
             cout << "Enter 'P' to proceed payment (0 to Back): " << endl;
             cout << ">> ";
@@ -489,12 +494,7 @@ class Tenant : public User {
 
             if (userInput == "P" || userInput == "p") {
                 paidSuccessfully = paymentInterface();
-
-                if (paidSuccessfully) {
-                    rental.setApplicationStatus(Status::Active);
-                    this->rentalHistory.replace(rental, oriItemIndex);
-                    break;
-                }
+                break;
             }
             else if (userInput == "0") {
                 cout << endl << "Payment Cancelled... Returning Back!" << endl << endl;
@@ -624,12 +624,12 @@ class Tenant : public User {
         return paymentStatus;
     }
 
-    std::string rentalRequestSummary() {
+    std::string rentalRequestSummary(DoublyCircularLinkedList<Rental> &tenantRequestRental) {
         Status stat;
-        int pending = 0, approved = 0, rejected = 0, active = 0, inactive = 0;
+        int pending = 0, approved = 0, rejected = 0;
         // Implementation of rental request summary logic
-        for (int count = 0; count < rentalHistory.getSize(); count++) {
-            stat = rentalHistory.get(count).getApplicationStatus();
+        for (int count = 0; count < tenantRequestRental.getSize(); count++) {
+            stat = tenantRequestRental.get(count).getApplicationStatus();
 
             switch (stat) {
                 case Pending:
@@ -642,10 +642,10 @@ class Tenant : public User {
                     rejected++;
                     break;
                 case Active:
-                    active++;
+                    approved++;
                     break;
-                case Inactive:
-                    inactive++;
+                case Refunded:
+                    rejected++;
                     break;
                 default:
                     break;
@@ -653,11 +653,9 @@ class Tenant : public User {
         }
 
         cout << "[Summary of Rental History]" << endl;
-        cout << " 1. Pending: " << pending << endl;
+        cout << " 1. Requested: " << pending << endl;
         cout << " 2. Approved: " << approved << endl;
         cout << " 3. Rejected: " << rejected << endl;
-        cout << " 4. Moved In: " << active << endl;
-        cout << " 5. Moved Out: " << inactive << endl;
         cout << "------------------------------" << endl << endl;
         cout << "Please select an option (-1 to Back): " << endl;
         cout << ">> ";
@@ -694,9 +692,9 @@ class Tenant : public User {
         return favouriteList;
     }
 
-    DoublyCircularLinkedList<Rental> getRentalHistory() const {
-        return rentalHistory;
-    }
+    // DoublyCircularLinkedList<Rental> getRentalHistory() const {
+    //     return &rentalHistory;
+    // }
 
     void placeRentRequest() {
         // Implementation of placing a rent request logic
@@ -725,7 +723,9 @@ class Tenant : public User {
 
                 tenantList.set(i, loginTenant);
             }
-        } return loginTenant;
+        } 
+        
+        return loginTenant;
     }
 
 };

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum Status { Pending, Approved, Rejected, Active, Inactive };
+enum Status { Pending, Approved, Rejected, Active, Refunded };
 
 std::string getStatusInString(Status status) {
     switch (status) {
@@ -18,9 +18,9 @@ std::string getStatusInString(Status status) {
         case Rejected:
             return "Rejected";
         case Active:
-            return "Moved In";
-        case Inactive:
-            return "Moved Out";
+            return "Paid";
+        case Refunded:
+            return "Refunded";
         default:
             return "-";
     }

@@ -21,6 +21,7 @@
 #include "DoublyCircularLinkedList.h"
 #include "Rental.h"
 #include "FavouriteProperty.h"
+#include "Rental.h"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ private:
     DynamicArray<Property> properties;
 
     DoublyCircularLinkedList<FavouriteProperty> favouriteList;
+    DoublyCircularLinkedList<Rental> rentalHistory;
 
     User user;
 
@@ -736,7 +738,12 @@ public:
                     
                     if (rentChoice == "Y" || rentChoice == "y") {
                         // Add Rent Request Function
-                        // addRentalRequest(favouriteList.getCurrent());
+                        if(tenant.rentalPayment(property, rentalHistory.getIndex())) {
+                            cout << endl << "PAYMENT SUCCESSFUL!" << endl << endl;
+                            tenant.addRentalRequest(property, rentalHistory);
+                            break;
+                        }
+
                         cout << "Enter any key to continue: ";
                         string userInput;
                         getline(cin >> ws, userInput);
@@ -757,6 +764,7 @@ public:
         else {
             cout << endl << "You have no favourite property..." << endl << endl;
         }
+
         tenant_HomePage(tenant);
     }
 
@@ -1124,8 +1132,7 @@ public:
                 getline(cin >> ws, search);
                 cout << endl;
 
-                DynamicArray<Property> result;
-                binSearch.binarySearch_PropertyName(properties, search, result);
+                DynamicArray<Property> result = binSearch.binarySearch_PropertyName(properties, search);
 
                 if(result.getSize() > 0) {
                     filterProperty.displayFilteredPropertyList(result);
@@ -1152,8 +1159,14 @@ public:
         /**
          * TODO: Display tenant rent request list
         */
-
-        DoublyCircularLinkedList<Rental> rentalHistory = tenant.getRentalHistory();
+        DataConversion dc;
+        DoublyCircularLinkedList <Rental> tenantRequestRental;
+        for(int i = 0; i < rentalHistory.getSize(); ++i) {
+            cout << rentalHistory.get(i).getTenantEmail() << endl;
+            if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(rentalHistory.get(i).getTenantEmail())) {
+                tenantRequestRental.insertAtEnd(rentalHistory.get(i));
+            }
+        }
 
         if (rentalHistory.getSize() > 0) {
             int propIndex = 1;
@@ -1162,22 +1175,16 @@ public:
                 cout << endl;
                 cout << "[RENTAL HISTORY]" << endl;
 
-                std::string option = tenant.rentalRequestSummary();
+                std::string option = tenant.rentalRequestSummary(tenantRequestRental);
 
                 if (option == "1") {
-                    tenant.extractSpecificStatusRequest(Pending);
+                    tenant.extractSpecificStatusRequest(Pending, Pending, tenantRequestRental);
                 }
                 else if (option == "2") {
-                    tenant.extractSpecificStatusRequest(Approved);
+                    tenant.extractSpecificStatusRequest(Approved, Active, tenantRequestRental);
                 }
                 else if (option == "3") {
-                    tenant.extractSpecificStatusRequest(Rejected);
-                }
-                else if (option == "4") {
-                    tenant.extractSpecificStatusRequest(Active);
-                }
-                else if (option == "5") {
-                    tenant.extractSpecificStatusRequest(Inactive);
+                    tenant.extractSpecificStatusRequest(Rejected, Refunded, tenantRequestRental);
                 }
                 else if (option == "-1") {
                     cout << endl << "Returning back..." << endl << endl;

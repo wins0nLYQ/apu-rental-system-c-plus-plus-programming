@@ -2,22 +2,26 @@
 #define BINARYSEARCH_H
 
 #include <iomanip>
-// #include <chrono>
-// #include <ctime>
-// #include <sstream>
-// #include <iostream>
+#include <chrono>
+#include <ctime>
+#include <sstream>
+#include <iostream>
 
 #include "DynamicArray.h"
 #include "Property.h"
 #include "MergeSort.h"
+#include "DataConversion.h"
 
 class BinarySearch 
 {
+  private:
+    DataConversion dc;
+    
   public:
     BinarySearch(){};
 
-    bool hasSubstring_PropName(Property prop, const string& target) {
-      string str = prop.getPropName();
+    bool hasSubstring_PropName(Property& prop, const string& target) {
+      string str = dc.toLowercase(prop.getPropName());
       return str.find(target) != string::npos;
     }
 
@@ -26,7 +30,7 @@ class BinarySearch
       return str.find(target) != string::npos;
     }
 
-    void binarySearchPropertyName(DynamicArray<Property> &items, const string& target, Property &property) {
+    Property binarySearchPropertyName(DynamicArray<Property> &items, const string& target) {
       int left = 0;
       int right = items.getSize() - 1;
 
@@ -35,14 +39,16 @@ class BinarySearch
 
           if (hasSubstring_PropName(items.get(mid), target)) {
               // Target item found
-              property = items.get(mid);
-              break;
-          } else if (items.get(mid).getPropName() < target) {
+              return items.get(mid);
+          } else if (dc.toLowercase(items.get(mid).getPropName()) < target) {
               left = mid + 1;  // Target is in the right half
           } else {
               right = mid - 1;  // Target is in the left half
           }
       }
+
+      Property prop;
+      return prop;
     }
 
     void binarySearchAdsId(DynamicArray<Property> &items, const string& target, Property &property) {
@@ -64,31 +70,42 @@ class BinarySearch
       }
     }
 
-    void binarySearch_PropertyName(DynamicArray<Property> &items, const string &target, DynamicArray<Property> &property) {
-      MergeSort ms;
-      ms.mergeSort(items, 0, items.getSize()-1, MergeSort::compareNameAsc);
-
+    DynamicArray<Property> binarySearch_PropertyName(DynamicArray<Property> &items, const string &target) {
+      MergeSort ms; 
+  
+      DynamicArray<Property> property;
+      
       DynamicArray<Property> copyOf = items;
 
+      cout << "OKOKOKOKOK" << endl;
+
+      // ms.mergeSort(items, 0, items.getSize()-1, MergeSort::compareNameAsc);
+      // sort(copyOf.get(0), copyOf.get(copyOf.getSize()));
+
+      cout << "LALALALALA" << endl;
+      
       bool found = true;
 
       // Start Timer
       auto startTime = std::chrono::steady_clock::now();
 
-      // Perform binary search
-      while (found) {
-        Property prop;
+      // Property prop;
 
-        binarySearchPropertyName(copyOf, target, prop);
+      // // Perform binary search
+      // while (found) {
+      //   Property prop = binarySearchPropertyName(copyOf, dc.toLowercase(target));
 
-        if (!prop.isEmpty()) {
-          property.insertAtEnd(prop);
-          copyOf.removeAt(copyOf.getIndex(prop));
-        }
-        else {
-          found = false;
-        }
-      }
+      //   if (!prop.isEmpty()) {
+      //     property.insertAtEnd(prop);
+      //     copyOf.removeAt(copyOf.getIndex(prop));
+      //   }
+      //   else {
+      //     found = false;
+      //   }
+      // }
+
+      Property prop = binarySearchPropertyName(copyOf, dc.toLowercase(target));
+      property.insertAtEnd(prop);
 
       // End the timer
       auto endTime = std::chrono::steady_clock::now();
@@ -98,6 +115,8 @@ class BinarySearch
 
       // Print the time spent
       std::cout << "Time spent for binary search: " << duration.count() << " seconds" << std::endl;
+
+      return property;
     }
 
     void binarySearch_AdsId(DynamicArray<Property> &items, const string &target, DynamicArray<Property> &property) {
@@ -134,26 +153,6 @@ class BinarySearch
 
       // Print the time spent
       std::cout << "Time spent for binary search: " << duration.count() << " seconds" << std::endl;
-    }
-
-    void binarySearchSingleResult(DynamicArray<Property> &items, const string &target, Property &prop) {
-      // Sort the array in ascending order
-      MergeSort ms;
-      ms.mergeSort(items, 0, items.getSize()-1, MergeSort::compareNameAsc);
-
-      // Start Timer
-      auto startTime = std::chrono::steady_clock::now();
-
-      binarySearchPropertyName(items, target, prop);
-
-      // End the timer
-      auto endTime = std::chrono::steady_clock::now();
-
-      // Calculate the duration in seconds
-      std::chrono::duration<double> duration = endTime - startTime;
-
-      // Print the time spent
-      std::cout << "Time spent for binary search: " << std::fixed << std::setprecision(4) << duration.count() << " seconds" << std::endl;
     }
 };
 

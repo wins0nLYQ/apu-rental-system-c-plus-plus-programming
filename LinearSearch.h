@@ -21,6 +21,7 @@ class LinearSearch {
         string formattedTarget = dc.toLowercase(target);
         // Start Timer
         auto startTime = std::chrono::steady_clock::now();
+        
         for(int i = 0; i < arr.getSize(); ++i) {
             Property property = arr.get(i);
             string name = dc.toLowercase(property.getPropName());
