@@ -1106,7 +1106,7 @@ public:
             }
         } 
         else if (searchType == "2") {
-            BinarySearch binSearch;
+            BinarySearch binSearch(properties);
 
             if (searchItem == "1") {
                 // call binary search for ads ID
@@ -1114,10 +1114,8 @@ public:
                 getline(cin >> ws, search);
                 cout << endl;
 
-                DynamicArray<Property> result;
-                binSearch.binarySearch_AdsId(properties, search, result);
+                DynamicArray<Property> result = binSearch.binarySearch_AdsId(search);
                 
-
                 if(result.getSize() > 0) {
                     filterProperty.displayFilteredPropertyList(result);
                 } else {
@@ -1133,7 +1131,7 @@ public:
                 getline(cin >> ws, search);
                 cout << endl;
 
-                DynamicArray<Property> result = binSearch.binarySearch_PropertyName(properties, search);
+                DynamicArray<Property> result = binSearch.binarySearch_PropertyName(search);
 
                 if(result.getSize() > 0) {
                     filterProperty.displayFilteredPropertyList(result);
