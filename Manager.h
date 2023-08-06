@@ -103,14 +103,14 @@ public:
         } return loginManager;
     }
 
-    void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
-            for (int count = 0; count < tenantList.getSize(); count++) {
-                Tenant tenant = tenantList.get(count);
-                for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
-                    allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));   
-                }
-            } 
-    }
+    // void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
+    //         for (int count = 0; count < tenantList.getSize(); count++) {
+    //             Tenant tenant = tenantList.get(count);
+    //             for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
+    //                 allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));   
+    //             }
+    //         } 
+    // }
 
 
 
@@ -191,7 +191,73 @@ public:
         }
     }
 
+    void resetPassword(DynamicArray<Manager>& managerList) {
+        DataValidation dv;
+        string currentPassword = this->getPassword();
+        string newPassword;
+        string confirmPassword;
 
+        // Loop until the user enters correct current password or "-1" to exit
+        string enteredPassword;
+        while (true) {
+            cout << "Enter current password (Enter -1 to exit): ";
+            getline(cin >> ws, enteredPassword);
+            cout << endl;
+
+            if (enteredPassword == "-1") {
+                return;
+            }
+
+            if (enteredPassword == currentPassword) {
+                break;
+            } else {
+                cout << "Incorrect current password. Please try again." << endl << endl;
+            }
+        }
+
+        // Prompt user for new password and confirm
+         while (true) {
+            cout << "[ENTER NEW PASSWORD] (Enter -1 to exit)" << endl;
+            cout << "- Minimum length of 8 characters." << endl;
+            cout << "- At least one UPPERCASE." << endl;
+            cout << "- At least one lowercase." << endl;
+            cout << "- At least one digit." << endl;
+            cout << "- At least one special character." << endl;
+            cout << ">>> ";
+            getline(cin >> ws, newPassword);
+            cout << endl;
+
+            if (newPassword == "-1") {
+                return;
+            }
+
+            if(dv.isValidPassword(newPassword)) {
+                cout << "Re-enter new password to confirm: ";
+                getline(cin >> ws, confirmPassword);
+                cout << endl;
+
+                if (newPassword != confirmPassword) {
+                    cout << "Passwords do not match. Please try again." << endl << endl;
+                } else {
+                    break;
+                }
+            } else {
+                cout << "Invalid password! Please try again." << endl << endl;
+            }
+        }
+
+        // Update the password
+        for (int count = 0; count < managerList.getSize(); count++) {
+            Manager &tempManager = managerList.get(count);
+            if (tempManager.getEmail() == this->getEmail()) {
+                tempManager.setPassword(newPassword);
+                this->setPassword(newPassword);
+                managerList.set(count, tempManager);
+                break;
+            }
+        }
+        cout << "Password successfully changed." << endl;
+    }
 
 
 

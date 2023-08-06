@@ -6,10 +6,11 @@
 
 using namespace std;
 
-enum Status { Pending, Approved, Rejected, Active, Inactive };
+enum Status { Pending, Approved, Rejected, Active, Refunded };
 
 std::string getStatusInString(Status status) {
     switch (status) {
+        // Status: Pending, Approved, Rejected, Active, Refunded
         case Pending:
             return "Pending";
         case Approved:
@@ -17,9 +18,9 @@ std::string getStatusInString(Status status) {
         case Rejected:
             return "Rejected";
         case Active:
-            return "Moved In";
-        case Inactive:
-            return "Moved Out";
+            return "Paid";
+        case Refunded:
+            return "Refunded";
         default:
             return "-";
     }
@@ -32,6 +33,8 @@ class Rental {
         string requestDateTime;
         Status applicationStatus;
         string remarks;
+        string paymentAmount;
+        string paymentDate;
 
     public:
     Rental() {}

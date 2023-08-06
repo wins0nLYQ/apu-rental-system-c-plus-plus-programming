@@ -4,6 +4,7 @@
 #include <cmath>
 #include "User.h"
 #include "Tenant.h"
+#include "FavouriteProperty.h"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ class FilterProperty {
     private:
         User user;
         Tenant* tenant;
+        DoublyCircularLinkedList<FavouriteProperty>* favouriteList;
 
     public:
     FilterProperty() {}
@@ -19,9 +21,10 @@ class FilterProperty {
         this->user = user;
     }
 
-    FilterProperty(User &user, Tenant &tenant) {
+    FilterProperty(User &user, Tenant &tenant, DoublyCircularLinkedList<FavouriteProperty> &favouriteList) {
         this->user = user;
         this->tenant = &tenant;
+        this->favouriteList = &favouriteList;
     }
 
     bool filterProperty(DynamicArray<Property>& properties) {
@@ -611,6 +614,19 @@ class FilterProperty {
                         cout << "[SELECTED PROPERTY]" << endl;
                         displaySingleProperty(filteredList.get(stoi(choice) - 1));
                         cout << endl;
+
+                        string email = tenant->getEmail();
+                        if(isFavPropExist(email, filteredList.get(stoi(choice) - 1))) {
+                            cout << "The property is already in your favourite list." << endl;
+                            cout << "Input any key to continue: ";
+                            
+                            string input;
+                            getline(cin >> ws, input);
+                            cout << endl << endl;
+                        }
+
+                        else 
+                        {
                         cout << "Are you sure to add above property to your favourite list? (Y/N)" << endl;
                         cout << ">> ";
 
@@ -619,7 +635,11 @@ class FilterProperty {
                         cout << endl;
 
                         if(confirm == "Y" || confirm == "y") {
-                            tenant->addFavList(filteredList.get(stoi(choice) - 1));
+                            // tenant->addFavList(filteredList.get(stoi(choice) - 1));
+                            FavouriteProperty favP(filteredList.get(stoi(choice) - 1), tenant->getEmail());
+                            favouriteList->insertAtEnd(favP);
+
+                            tenant->setFavoriteProperty(filteredList.get(stoi(choice) - 1));
 
                             cout << endl;
                             cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;
@@ -637,13 +657,14 @@ class FilterProperty {
                         } else {
                             cout << "Invalid input! Please try again..." << endl;
                             cout << endl;
-                        }
+                        } }
 
                     } else {
                         cout << "Invalid input! Please try again..." << endl;
                         cout << endl;
                     }
-                } else {
+                } 
+                else {
                     cout << "Enter digit ONLY! Please try again..." << endl;
                     cout << endl;
                 }
@@ -660,6 +681,18 @@ class FilterProperty {
                 cout << "Invalid input. Please try again." << endl;
             }
         }
+    }
+
+    bool isFavPropExist(string &email, Property &property) {
+          
+        DataConversion dc;
+        for (int i = 0; i < favouriteList->getSize(); ++i) {
+
+            if(dc.toLowercase(email) == dc.toLowercase(favouriteList->get(i).getTenantEmail()) && favouriteList->get(i).getProperty() == property){
+                return true;
+            }
+        }
+        return false;
     }
 
     void displaySingleProperty(const Property& property) {

@@ -14,15 +14,20 @@ class LinearSearch {
     public:
     LinearSearch(){}
 
-    DynamicArray<Property> searchByPropertyName(DynamicArray<Property>& arr, const string& target) {
+    DynamicArray<Property> searchByPropertyName(DynamicArray<Property>& propertyList, const string& target) {
         DataConversion dc;
 
+        // Dynamic Array to Store Matched Property Objects
         DynamicArray<Property> filteredList;
+
         string formattedTarget = dc.toLowercase(target);
+
         // Start Timer
         auto startTime = std::chrono::steady_clock::now();
-        for(int i = 0; i < arr.getSize(); ++i) {
-            Property property = arr.get(i);
+        
+        // Searching Process
+        for(int i = 0; i < propertyList.getSize(); ++i) {
+            Property property = propertyList.get(i);
             string name = dc.toLowercase(property.getPropName());
             if(name.find(formattedTarget) != std::string::npos) {
                     filteredList.insertAtEnd(property);
@@ -40,14 +45,14 @@ class LinearSearch {
         return filteredList; 
     }
 
-    DynamicArray<Property> searchByAdsID(DynamicArray<Property>& arr, const string& target) {
+    DynamicArray<Property> searchByAdsID(DynamicArray<Property>& propertyList, const string& target) {
         // Start Timer
         auto startTime = std::chrono::steady_clock::now();
 
         DynamicArray<Property> filteredList;
 
-        for(int i = 0; i < arr.getSize(); ++i) {
-            Property property = arr.get(i);
+        for(int i = 0; i < propertyList.getSize(); ++i) {
+            Property property = propertyList.get(i);
             string adsID = property.getAdsID();
             if(adsID.find(target) != std::string::npos) {
                     filteredList.insertAtEnd(property);
@@ -64,8 +69,6 @@ class LinearSearch {
         std::cout << "Time spent for linear search: " << duration.count() << " seconds" << std::endl;
         return filteredList; 
     }
-
-
 };
 
 
