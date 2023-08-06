@@ -156,7 +156,7 @@ public:
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "Gender") {
-                if(tenant.getGender() == search) {
+                if(dc.toLowercase(tenant.getGender()) == search) {
                     temp.insertAtEnd(tenant);
                 }
             } else if(filterBy == "DOB") {
