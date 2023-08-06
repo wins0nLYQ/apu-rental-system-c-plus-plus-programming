@@ -291,13 +291,21 @@ public:
                         cout << endl;
 
                         if(confirm == "Y" || confirm == "y") {
-                            removeTenant(filteredList,stoi(choice)-1);
-                            cout << endl;
-                            cout << "[TENANT ACCOUNT DELETED]" << endl;
-                            cout << "Enter any key to continue surfing: ";
-                            string userInput;
-                            getline(cin >> ws, userInput);
-                            cout << endl;
+                            if(status == "Active"){
+                                cout << "Action Failed !! Tenant Accound is Active!! " << endl;
+                                cout << "Enter any key to continue surfing: ";
+                                string userInput;
+                                getline(cin >> ws, userInput);
+                                cout << endl;
+                            }else{
+                                removeTenant(filteredList,stoi(choice)-1);
+                                cout << endl;
+                                cout << "[TENANT ACCOUNT DELETED]" << endl;
+                                cout << "Enter any key to continue surfing: ";
+                                string userInput;
+                                getline(cin >> ws, userInput);
+                                cout << endl;
+                            }
 
                         } else if(confirm == "N" || confirm == "n") {
                             cout << "Enter any key to continue surfing: ";

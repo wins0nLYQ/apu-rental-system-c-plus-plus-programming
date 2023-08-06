@@ -166,7 +166,7 @@ public:
                 topFavourites.pop();
             }
             std::cout << "Options: (G)enerate Report, (Q)uit\n>>";
-            cout << ">>";
+            cout << "";
             string userInput;
             getline(cin >> ws, userInput);
             cout << endl;
