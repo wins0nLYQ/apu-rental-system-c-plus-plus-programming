@@ -925,7 +925,7 @@ public:
                     // Calculate the time spent for merge sort
                     mergeSortObj.calculateMergeSortTime(properties, compareFunction);
                     // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
-                    FilterProperty fp(user, tenant);
+                    FilterProperty fp(user, tenant, favouriteList);
                     fp.displayFilteredPropertyList(properties);
                 }else{
                     cout << "Invalid Input! Try Again! " << endl;
@@ -969,7 +969,7 @@ public:
                     mergeSortObj.calculateMergeSortTime(properties, compareFunction);
 
                     // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
-                    FilterProperty fp(user, tenant);
+                    FilterProperty fp(user, tenant, favouriteList);
                     fp.displayFilteredPropertyList(properties);
                 }else{
                     cout << "Invalid Input! Try Again! " << endl;
