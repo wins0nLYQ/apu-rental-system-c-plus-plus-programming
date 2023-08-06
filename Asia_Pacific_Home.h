@@ -547,11 +547,13 @@ public:
         while (!validInput)
         {
             cout << endl;
-            cout << "Please select an option (1-4):" << endl;
+            cout << "Please select an option (0-4):" << endl;
             cout << "1. View Property" << endl;
             cout << "2. Property Favourite List" << endl;
             cout << "3. Rent Request History" << endl;
             cout << "4. Logout" << endl;
+            cout << "------------------------------------" << endl;
+            cout << "0. Reset Password" << endl;
             cout << ">> ";
 
             string userInput;
@@ -586,6 +588,11 @@ public:
                 this->user = emptyUser;
                 homePage();
                 validInput = true;
+            }
+            else if (userInput == "0")
+            {
+                tenant.resetPassword(tenantList);
+                // validInput = true;
             }
             else
             {
@@ -1223,6 +1230,8 @@ public:
             std::cout << "2. Favorite Property List" << std::endl;
             std::cout << "3. View Property Information" << std::endl;
             std::cout << "4. Logout" << std::endl;
+            std::cout << "-----------------------------------------" << std::endl;
+            std::cout << "0. Reset Password" << std::endl;
             std::cout << ">> ";
 
             string userInput;
@@ -1256,6 +1265,11 @@ public:
                 {
                     validInput = true;
                     homePage();
+                }
+                else if (userInput == "0")
+                {
+                    manager.resetPassword(managerList);
+                    // validInput = true;
                 }
                 else
                 {
