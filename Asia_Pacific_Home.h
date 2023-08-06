@@ -36,10 +36,10 @@ public:
         Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2022-06-01");
         tenantList.insertAtEnd(newTenant);
 
-        Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-07-02");
+        Tenant newTenant2("Hello", "Wuuha@gmail.com", "0987654321", "123123123", "Female", "abc@123", "2022-05-01", "2023-08-02");
         tenantList.insertAtEnd(newTenant2);
 
-        Manager newManager("Jesus", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Active");
+        Manager newManager("Ben", "wong@gmail.com", "0987654321", "123123123", "Female", "2022-05-01", "Active");
         managerList.insertAtEnd(newManager);
 
         ReadCSV read;
@@ -764,9 +764,8 @@ public:
                     mergeSortObj.mergeSort(properties, 0, properties.getSize() - 1, compareFunction);
                     // Calculate the time spent for merge sort
                     mergeSortObj.calculateMergeSortTime(properties, compareFunction);
-
                     // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
-                    FilterProperty fp;
+                    FilterProperty fp(user, tenant);
                     fp.displayFilteredPropertyList(properties);
                 }else{
                     cout << "Invalid Input! Try Again! " << endl;
@@ -790,15 +789,15 @@ public:
                 }else if (sortTypeSelection == "2"){ //mergeSOrt
                     if(sortOption == "1"){ //monthy rent
                         cout << " " << endl;
-                        cout << "Sorting based on Monthly Rent in ascending order" << std::endl;
+                        cout << "Sorting based on Monthly Rent in descending order" << std::endl;
                         compareFunction = MergeSort::compareMonthlyRentDesc;
                     }else if (sortOption == "2"){ //location
                         cout << " " << endl;
-                        std::cout << "Sorting based on Location in ascending order" << std::endl;
+                        std::cout << "Sorting based on Location in descending order" << std::endl;
                         compareFunction = MergeSort::compareLocationDesc;
                     }else if(sortOption == "3"){ //size
                         cout << " " << endl;
-                        std::cout << "Sorting based on Size in ascending order" << std::endl;
+                        std::cout << "Sorting based on Size in descending order" << std::endl;
                         compareFunction = MergeSort::compareSizeDesc;
                     }else{
                         cout << "Invalid Input! Try Again! " << endl;
@@ -810,7 +809,7 @@ public:
                     mergeSortObj.calculateMergeSortTime(properties, compareFunction);
 
                     // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
-                    FilterProperty fp;
+                    FilterProperty fp(user, tenant);
                     fp.displayFilteredPropertyList(properties);
                 }else{
                     cout << "Invalid Input! Try Again! " << endl;
