@@ -26,9 +26,9 @@ class Tenant : public User {
   public:
     Tenant(){}
 
-    Tenant(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
-                const std::string& _identificationNo, const std::string& _gender, const std::string& _password,
-                const std::string& _dateOfBirth, const std::string& _lastLoginDate)
+    Tenant(const string& _name, const string& _email, const string& _phoneNo,
+                const string& _identificationNo, const string& _gender, const string& _password,
+                const string& _dateOfBirth, const string& _lastLoginDate)
             : User(_name, _email, _phoneNo, _identificationNo, _gender, _password, _dateOfBirth, "Tenant"),
               lastLoginDate(_lastLoginDate) {
         }
@@ -191,13 +191,13 @@ class Tenant : public User {
 
         cout << "User account created successfully!" << endl;
 
-        std::cout << "Name: " << newTenant.getName() << std::endl;
-        std::cout << "Email: " << newTenant.getEmail() << std::endl;
-        std::cout << "Phone Number: " << newTenant.getPhoneNo() << std::endl;
-        std::cout << "Identification No: " << newTenant.getIdentificationNo() << std::endl;
-        std::cout << "Gender: " << newTenant.getGender() << std::endl;
-        std::cout << "Date of Birth: " << newTenant.getDateOfBirth() << std::endl;
-        std::cout << "---------------------------\n";
+        cout << "Name: " << newTenant.getName() << endl;
+        cout << "Email: " << newTenant.getEmail() << endl;
+        cout << "Phone Number: " << newTenant.getPhoneNo() << endl;
+        cout << "Identification No: " << newTenant.getIdentificationNo() << endl;
+        cout << "Gender: " << newTenant.getGender() << endl;
+        cout << "Date of Birth: " << newTenant.getDateOfBirth() << endl;
+        cout << "---------------------------\n";
 
         cout << "You may proceed the login page and login with your account." << endl;
         cout << "Input any key to back >> ";
@@ -208,7 +208,7 @@ class Tenant : public User {
         return true;
     }
 
-    bool isEmailExists(DynamicArray<string>& existingEmail, const std::string& email) {
+    bool isEmailExists(DynamicArray<string>& existingEmail, const string& email) {
         // Admin admin; 
         DataConversion dc;
         if(dc.toLowercase(email) == "admin@gmail.com") {
@@ -262,7 +262,7 @@ class Tenant : public User {
     //             cout << "Options: (N)ext, (P)revious, (Q)uit, (U)nfavourite, (R)ent Request" << endl;
     //             cout << ">> ";
 
-    //             std::string choice;
+    //             string choice;
     //             getline(cin >> ws, choice);
 
     //             if (choice == "N" || choice == "n") {
@@ -295,7 +295,7 @@ class Tenant : public User {
     //                 cout << endl << "Are you sure to rent this property (Y/N)" << endl;
     //                 cout << ">>> ";
 
-    //                 std::string rentChoice;
+    //                 string rentChoice;
     //                 getline(cin >> ws, rentChoice);
                     
     //                 if (rentChoice == "Y" || rentChoice == "y") {
@@ -361,7 +361,7 @@ class Tenant : public User {
         }
 
         int propIndex = 1;
-        std::string statStr = getStatusInString(stat);
+        string statStr = getStatusInString(stat);
 
         while (true) {
             cout << endl << "[RENTAL REQUEST: " << statStr << "]" << endl;
@@ -390,7 +390,7 @@ class Tenant : public User {
             cout << "Options: (N)ext, (P)revious, (Q)uit" << endl;
             cout << ">> ";
 
-            std::string choice;
+            string choice;
             getline(cin >> ws, choice);
 
             if (choice == "N" || choice == "n") {
@@ -567,13 +567,13 @@ class Tenant : public User {
                                                 int cardYear = stoi(expiryYear);
 
                                                 if (expiryYear.size() == 4) {
-                                                    std::tm date = {0};
+                                                    tm date = {0};
 
                                                     date.tm_year = cardYear - 1900;
                                                     date.tm_mon = cardMonth - 1;
                                                     date.tm_mday = 1;
 
-                                                    std::time_t cardDate = std::mktime(&date);
+                                                    time_t cardDate = mktime(&date);
 
                                                     if (dc.comapreDate(cardDate, dc.todayDateInTimeT()) == 1) {
                                                         paymentStatus = true;
@@ -624,7 +624,7 @@ class Tenant : public User {
         return paymentStatus;
     }
 
-    std::string rentalRequestSummary(DoublyCircularLinkedList<Rental> &tenantRequestRental) {
+    string rentalRequestSummary(DoublyCircularLinkedList<Rental> &tenantRequestRental) {
         Status stat;
         int pending = 0, approved = 0, rejected = 0;
         // Implementation of rental request summary logic
@@ -671,21 +671,21 @@ class Tenant : public User {
     }
 
     void displaySingleProperty(const Property& property) {
-        std::cout << "Ads ID: " << property.getAdsID() << std::endl;
-        std::cout << "Property Name: " << property.getPropName() << std::endl;
-        std::cout << "Completion Year: " << property.getCompletionYear() << std::endl;
-        std::cout << "Monthly Rent: " << property.getMonthlyRent() << std::endl;
-        std::cout << "Location: " << property.getLocation() << std::endl;
-        std::cout << "Property Type: " << property.getPropertyType() << std::endl;
-        std::cout << "Rooms: " << property.getRooms() << std::endl;
-        std::cout << "Parking: " << property.getParking() << std::endl;
-        std::cout << "Bathroom: " << property.getBathroom() << std::endl;
-        std::cout << "Size: " << property.getSize() << std::endl;
-        std::cout << "Furnished: " << property.getFurnished() << std::endl;
-        std::cout << "Facilities: " << property.getFacilities() << std::endl;
-        std::cout << "Additional Facilities: " << property.getAdditionalFacilities() << std::endl;
-        std::cout << "Region: " << property.getRegion() << std::endl;
-        std::cout << "---------------------------------------\n";
+        cout << "Ads ID: " << property.getAdsID() << endl;
+        cout << "Property Name: " << property.getPropName() << endl;
+        cout << "Completion Year: " << property.getCompletionYear() << endl;
+        cout << "Monthly Rent: " << property.getMonthlyRent() << endl;
+        cout << "Location: " << property.getLocation() << endl;
+        cout << "Property Type: " << property.getPropertyType() << endl;
+        cout << "Rooms: " << property.getRooms() << endl;
+        cout << "Parking: " << property.getParking() << endl;
+        cout << "Bathroom: " << property.getBathroom() << endl;
+        cout << "Size: " << property.getSize() << endl;
+        cout << "Furnished: " << property.getFurnished() << endl;
+        cout << "Facilities: " << property.getFacilities() << endl;
+        cout << "Additional Facilities: " << property.getAdditionalFacilities() << endl;
+        cout << "Region: " << property.getRegion() << endl;
+        cout << "---------------------------------------\n";
     }
 
     DoublyCircularLinkedList<Property> getFavoriteProperty() const {
@@ -704,7 +704,7 @@ class Tenant : public User {
         // Implementation of displaying renting history logic
     }
 
-    Tenant login(const std::string& email, DynamicArray<Tenant>& tenantList) {
+    Tenant login(const string& email, DynamicArray<Tenant>& tenantList) {
         Tenant loginTenant; DataConversion dc;
         for(int i = 0; i < tenantList.getSize(); ++i) {
             Tenant tenant;
@@ -726,6 +726,74 @@ class Tenant : public User {
         } 
         
         return loginTenant;
+    }
+
+    void resetPassword(DynamicArray<Tenant>& tenantList) {
+        DataValidation dv;
+        string currentPassword = this->getPassword();
+        string newPassword;
+        string confirmPassword;
+
+        // Loop until the user enters correct current password or "-1" to exit
+        string enteredPassword;
+        while (true) {
+            cout << "Enter current password (Enter -1 to exit): ";
+            getline(cin >> ws, enteredPassword);
+            cout << endl;
+
+            if (enteredPassword == "-1") {
+                return;
+            }
+
+            if (enteredPassword == currentPassword) {
+                break;
+            } else {
+                cout << "Incorrect current password. Please try again." << endl << endl;
+            }
+        }
+
+        // Prompt user for new password and confirm
+         while (true) {
+            cout << "[ENTER NEW PASSWORD] (Enter -1 to exit)" << endl;
+            cout << "- Minimum length of 8 characters." << endl;
+            cout << "- At least one UPPERCASE." << endl;
+            cout << "- At least one lowercase." << endl;
+            cout << "- At least one digit." << endl;
+            cout << "- At least one special character." << endl;
+            cout << ">>> ";
+            getline(cin >> ws, newPassword);
+            cout << endl;
+
+            if (newPassword == "-1") {
+                return;
+            }
+
+            if(dv.isValidPassword(newPassword)) {
+                cout << "Re-enter new password to confirm: ";
+                getline(cin >> ws, confirmPassword);
+                cout << endl;
+
+                if (newPassword != confirmPassword) {
+                    cout << "Passwords do not match. Please try again." << endl << endl;
+                } else {
+                    break;
+                }
+            } else {
+                cout << "Invalid password! Please try again." << endl << endl;
+            }
+        }
+
+        // Update the password
+        for (int count = 0; count < tenantList.getSize(); count++) {
+            Tenant &tempTenant = tenantList.get(count);
+            if (tempTenant.getEmail() == this->getEmail()) {
+                tempTenant.setPassword(newPassword);
+                this->setPassword(newPassword);
+                tenantList.set(count, tempTenant);
+                break;
+            }
+        }
+        cout << "Password successfully changed." << endl;
     }
 
 };
