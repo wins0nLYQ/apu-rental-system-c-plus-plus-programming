@@ -232,9 +232,17 @@ public:
         {
             Tenant tenant = tenantList.get(count);
 
-            for (int count2 = 0; count2 < tenant.getRentalHistory().getSize(); count2++)
+            cout << "HELLO" << endl;
+
+            if (tenant.getRentalHistory().getSize() > 0)
             {
-                allRentHistory.insertAtEnd(tenant.getRentalHistory().get(count2));
+                for (int count2 = 0; count2 < tenant.getRentalHistory().getSize(); count2++)
+                {
+                    Rental rental = tenant.getRentalHistory().get(count2);
+                    cout << rental.getApplicationStatus() << endl;
+                    allRentHistory.insertAtEnd(rental);
+                    cout << "Test 1" << endl;
+                }
             }
         }
     }

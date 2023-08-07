@@ -1185,6 +1185,8 @@ public:
             }
             else if (userInput == "4")
             {
+                cout << tenantList.get(0).getRentalHistory().getSize() << endl;
+
                 DynamicArray<Rental> allRentHistory;
                 manager.getAllRentHistoryList(tenantList, allRentHistory);
                 manager_RentRequest(manager, allRentHistory);
