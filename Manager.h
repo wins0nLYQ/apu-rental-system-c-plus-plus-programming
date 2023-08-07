@@ -121,6 +121,7 @@ public:
         return loginManager;
     }
 
+<<<<<<< HEAD
     void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty)
     {
         for (int count = 0; count < tenantList.getSize(); count++)
@@ -129,6 +130,32 @@ public:
             for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++)
             {
                 allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
+=======
+    // void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
+    //         for (int count = 0; count < tenantList.getSize(); count++) {
+    //             Tenant tenant = tenantList.get(count);
+    //             for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
+    //                 allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));   
+    //             }
+    //         } 
+    // }
+
+
+
+    void printTopFavouriteProperties(DynamicArray<Property> allFavouriteList) {
+            // Create an unordered_map to store property names and their corresponding properties and counts
+            std::unordered_map<std::string, std::pair<Property, int>> propertyFrequency;
+
+            // Iterate through the list of favorite properties
+            for(int i = 0; i < allFavouriteList.getSize(); i++) {
+                // Get the current property
+                Property property = allFavouriteList.get(i);
+                // Get the name of the property
+                std::string propertyName = property.getPropName();
+                // Increment the count for this property in the map and store the property
+                propertyFrequency[propertyName].first = property;
+                propertyFrequency[propertyName].second++;
+>>>>>>> main
             }
         }
     }
@@ -194,7 +221,7 @@ public:
                 topFavourites.pop();
             }
             std::cout << "Options: (G)enerate Report, (Q)uit\n>>";
-            cout << ">>";
+            cout << "";
             string userInput;
             getline(cin >> ws, userInput);
             cout << endl;
@@ -247,6 +274,7 @@ public:
         }
     }
 
+<<<<<<< HEAD
     void printRentHistory(DynamicArray<Rental> &allRentHistory)
     {
         cout << "Rental History:" << endl;
@@ -262,6 +290,80 @@ public:
             cout << "-----------------------------------------" << endl;
         }
     }
+=======
+    void resetPassword(DynamicArray<Manager>& managerList) {
+        DataValidation dv;
+        string currentPassword = this->getPassword();
+        string newPassword;
+        string confirmPassword;
+
+        // Loop until the user enters correct current password or "-1" to exit
+        string enteredPassword;
+        while (true) {
+            cout << "Enter current password (Enter -1 to exit): ";
+            getline(cin >> ws, enteredPassword);
+            cout << endl;
+
+            if (enteredPassword == "-1") {
+                return;
+            }
+
+            if (enteredPassword == currentPassword) {
+                break;
+            } else {
+                cout << "Incorrect current password. Please try again." << endl << endl;
+            }
+        }
+
+        // Prompt user for new password and confirm
+         while (true) {
+            cout << "[ENTER NEW PASSWORD] (Enter -1 to exit)" << endl;
+            cout << "- Minimum length of 8 characters." << endl;
+            cout << "- At least one UPPERCASE." << endl;
+            cout << "- At least one lowercase." << endl;
+            cout << "- At least one digit." << endl;
+            cout << "- At least one special character." << endl;
+            cout << ">>> ";
+            getline(cin >> ws, newPassword);
+            cout << endl;
+
+            if (newPassword == "-1") {
+                return;
+            }
+
+            if(dv.isValidPassword(newPassword)) {
+                cout << "Re-enter new password to confirm: ";
+                getline(cin >> ws, confirmPassword);
+                cout << endl;
+
+                if (newPassword != confirmPassword) {
+                    cout << "Passwords do not match. Please try again." << endl << endl;
+                } else {
+                    break;
+                }
+            } else {
+                cout << "Invalid password! Please try again." << endl << endl;
+            }
+        }
+
+        // Update the password
+        for (int count = 0; count < managerList.getSize(); count++) {
+            Manager &tempManager = managerList.get(count);
+            if (tempManager.getEmail() == this->getEmail()) {
+                tempManager.setPassword(newPassword);
+                this->setPassword(newPassword);
+                managerList.set(count, tempManager);
+                break;
+            }
+        }
+        cout << "Password successfully changed." << endl;
+    }
+
+
+
+
+
+>>>>>>> main
 };
 
 #endif

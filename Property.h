@@ -343,6 +343,23 @@ public:
                this->additionalFacilities == "" &&
                this->region == "";
     }
+
+    void setEmpty() {
+        this->adsID = "";
+        this->propName = "";
+        this->completionYear = "";
+        this->monthlyRent = "";
+        this->location = "";
+        this->propertyType = "";
+        this->rooms = "";
+        this->parking = "";
+        this->bathroom = "";
+        this->size = "";
+        this->furnished = "";
+        this->facilities = "";
+        this->additionalFacilities = "";
+        this->region = "";
+    }
 };
 
 #endif

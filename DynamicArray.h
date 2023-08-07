@@ -135,9 +135,9 @@ public:
         removeAt(size - 1);
     }
 
-    void replace(const T &object, int index) {
-        objectArray[index] = object;
-    }
+    // void replace(const T &object, int index) {
+    //     objectArray[index] = object;
+    // }
 
     int getIndex(const T &object) {
         for (int i = 0; i < size; ++i) {
