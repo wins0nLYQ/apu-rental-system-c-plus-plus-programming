@@ -772,7 +772,7 @@ public:
         }
 
         cout << "[Summary of Rental History]" << endl;
-        cout << " 1. Requested: " << pending << endl;
+        cout << " 1. Pending: " << pending << endl;
         cout << " 2. Approved: " << approved << endl;
         cout << " 3. Rejected: " << rejected << endl;
         cout << "------------------------------" << endl
