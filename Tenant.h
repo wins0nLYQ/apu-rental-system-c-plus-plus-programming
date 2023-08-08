@@ -3,7 +3,7 @@
 
 /**
  * FILENAME: Tenant.h
-*/
+ */
 
 #include "string"
 #include "User.h"
@@ -17,27 +17,31 @@
 
 using namespace std;
 
-class Tenant : public User {
-  private:
+class Tenant : public User
+{
+private:
     string lastLoginDate;
     DoublyCircularLinkedList<Property> favouriteList;
     DoublyCircularLinkedList<Rental> *rentalHistory;
 
-  public:
-    Tenant(){}
+public:
+    Tenant() {}
 
-    Tenant(const string& _name, const string& _email, const string& _phoneNo,
-                const string& _identificationNo, const string& _gender, const string& _password,
-                const string& _dateOfBirth, const string& _lastLoginDate)
-            : User(_name, _email, _phoneNo, _identificationNo, _gender, _password, _dateOfBirth, "Tenant"),
-              lastLoginDate(_lastLoginDate) {
-        }
+    Tenant(const string &_name, const string &_email, const string &_phoneNo,
+           const string &_identificationNo, const string &_gender, const string &_password,
+           const string &_dateOfBirth, const string &_lastLoginDate)
+        : User(_name, _email, _phoneNo, _identificationNo, _gender, _password, _dateOfBirth, "Tenant"),
+          lastLoginDate(_lastLoginDate)
+    {
+    }
 
-    string getLastLoginDate() const {
+    string getLastLoginDate() const
+    {
         return lastLoginDate;
     }
 
-    void setLastLoginDate(const string& lastLoginDate) {
+    void setLastLoginDate(const string &lastLoginDate)
+    {
         this->lastLoginDate = lastLoginDate;
     }
 
@@ -45,7 +49,8 @@ class Tenant : public User {
     //     this->favouriteList.insertAtEnd(prop);
     // }
 
-    bool registration(DynamicArray<Tenant>& tenantList, DynamicArray<string>& existingEmail) {
+    bool registration(DynamicArray<Tenant> &tenantList, DynamicArray<string> &existingEmail)
+    {
         // Implementation of tenant registration logic
         DataValidation dv;
         string name, email, phoneNo, identificationNo, gender, password, dateOfBirth, lastLoginDate;
@@ -57,7 +62,8 @@ class Tenant : public User {
         getline(cin >> ws, name);
         cout << endl;
 
-        if(name == "-1") {
+        if (name == "-1")
+        {
             return false;
         }
 
@@ -65,24 +71,30 @@ class Tenant : public User {
         getline(cin >> ws, email);
         cout << endl;
 
-        if(email == "-1") {
+        if (email == "-1")
+        {
             return false;
         }
 
-        while(dv.isEmailValid(email) == false || isEmailExists(existingEmail, email) == true) {
-            if (dv.isEmailValid(email) == false) {
+        while (dv.isEmailValid(email) == false || isEmailExists(existingEmail, email) == true)
+        {
+            if (dv.isEmailValid(email) == false)
+            {
                 cout << "Invalid email! Please try again: ";
                 getline(cin >> ws, email);
                 cout << endl;
-                if(email == "-1") {
+                if (email == "-1")
+                {
                     return false;
                 }
-
-            } else if (isEmailExists(existingEmail, email) == true){
+            }
+            else if (isEmailExists(existingEmail, email) == true)
+            {
                 cout << "Email exist! Please try another one: ";
                 getline(cin >> ws, email);
                 cout << endl;
-                if(email == "-1") {
+                if (email == "-1")
+                {
                     return false;
                 }
             }
@@ -92,15 +104,18 @@ class Tenant : public User {
         getline(cin >> ws, phoneNo);
         cout << endl;
 
-        if(phoneNo == "-1") {
+        if (phoneNo == "-1")
+        {
             return false;
         }
 
-        while(dv.isValidPhoneNumber(phoneNo) == false) {
+        while (dv.isValidPhoneNumber(phoneNo) == false)
+        {
             cout << "Phone number should be 10-11 digits! Please try again: ";
             getline(cin >> ws, phoneNo);
             cout << endl;
-            if(phoneNo == "-1") {
+            if (phoneNo == "-1")
+            {
                 return false;
             }
         }
@@ -109,15 +124,18 @@ class Tenant : public User {
         getline(cin >> ws, identificationNo);
         cout << endl;
 
-        if(identificationNo == "-1") {
+        if (identificationNo == "-1")
+        {
             return false;
         }
 
-        while(dv.isValidID(identificationNo) == false) {
+        while (dv.isValidID(identificationNo) == false)
+        {
             cout << "ID number should be 6-15 characters! Please try again: ";
             getline(cin >> ws, identificationNo);
             cout << endl;
-            if(identificationNo == "-1") {
+            if (identificationNo == "-1")
+            {
                 return false;
             }
         }
@@ -126,21 +144,27 @@ class Tenant : public User {
         getline(cin >> ws, gender);
         cout << endl;
 
-        if(gender == "-1") {
+        if (gender == "-1")
+        {
             return false;
         }
 
-        while(gender!="1" && gender!="2") {
+        while (gender != "1" && gender != "2")
+        {
             cout << "Invalid input! Please try again (1 - MALE; 2 - FEMALE): ";
             getline(cin >> ws, gender);
             cout << endl;
-            if(gender == "-1") {
+            if (gender == "-1")
+            {
                 return false;
             }
         }
-        if(gender == "1") {
+        if (gender == "1")
+        {
             gender = "Male";
-        } else {
+        }
+        else
+        {
             gender = "Female";
         }
 
@@ -154,15 +178,18 @@ class Tenant : public User {
         getline(cin >> ws, password);
         cout << endl;
 
-        if(password == "-1") {
+        if (password == "-1")
+        {
             return false;
         }
 
-        while(dv.isValidPassword(password) == false) {
+        while (dv.isValidPassword(password) == false)
+        {
             cout << "Invalid password! Please try again: ";
             getline(cin >> ws, password);
             cout << endl;
-            if(password == "-1") {
+            if (password == "-1")
+            {
                 return false;
             }
         }
@@ -171,15 +198,18 @@ class Tenant : public User {
         getline(cin >> ws, dateOfBirth);
         cout << endl;
 
-        if(dateOfBirth == "-1") {
+        if (dateOfBirth == "-1")
+        {
             return false;
         }
 
-        while(dv.isValidDateOfBirth(dateOfBirth) == false) {
+        while (dv.isValidDateOfBirth(dateOfBirth) == false)
+        {
             cout << "Invalid date of birth! Please try again (YYYY-MM-DD): ";
             getline(cin >> ws, dateOfBirth);
             cout << endl;
-            if(dateOfBirth == "-1") {
+            if (dateOfBirth == "-1")
+            {
                 return false;
             }
         }
@@ -208,40 +238,49 @@ class Tenant : public User {
         return true;
     }
 
-    bool isEmailExists(DynamicArray<string>& existingEmail, const string& email) {
-        // Admin admin; 
+    bool isEmailExists(DynamicArray<string> &existingEmail, const string &email)
+    {
+        // Admin admin;
         DataConversion dc;
-        if(dc.toLowercase(email) == "admin@gmail.com") {
+        if (dc.toLowercase(email) == "admin@gmail.com")
+        {
             return true;
         }
 
         int userNum = existingEmail.getSize();
-        for (int i = 0; i < userNum; ++i) {
-            if (dc.toLowercase(existingEmail.get(i)) == dc.toLowercase(email)) {
+        for (int i = 0; i < userNum; ++i)
+        {
+            if (dc.toLowercase(existingEmail.get(i)) == dc.toLowercase(email))
+            {
                 return true;
             }
         }
         return false;
     }
 
-    void sortPropertyInformation() {
+    void sortPropertyInformation()
+    {
         // Implementation of sorting property information logic
     }
 
-    void searchProperty() {
+    void searchProperty()
+    {
         // Implementation of property search logic
     }
 
-    void displayPropertyInformation() {
+    void displayPropertyInformation()
+    {
         // Implementation of displaying property information logic
     }
 
-    void setFavoriteProperty(const Property& property) {
+    void setFavoriteProperty(const Property &property)
+    {
         // Implementation of saving favorite properties logic
         this->favouriteList.insertAtEnd(property);
     }
 
-    void removeFavouriteProperty(const int &remIndex) {
+    void removeFavouriteProperty(const int &remIndex)
+    {
         // Implementation of removing favorite properties logic
         this->favouriteList.removeAtIndex(remIndex);
     }
@@ -297,7 +336,7 @@ class Tenant : public User {
 
     //                 string rentChoice;
     //                 getline(cin >> ws, rentChoice);
-                    
+
     //                 if (rentChoice == "Y" || rentChoice == "y") {
     //                     // Add Rent Request Function
     //                     addRentalRequest(favouriteList.getCurrent());
@@ -323,10 +362,15 @@ class Tenant : public User {
     //     }
     // }
 
-    void addRentalRequest(Property &propertySelected, DoublyCircularLinkedList<Rental> &rentalHistory) {
-        for (int count = 0; count < rentalHistory.getSize(); count++) {
-            if (rentalHistory.get(count).getProperty() == propertySelected) {
-                cout << endl << "You have already sent a rental request for this property." << endl << endl;
+    void addRentalRequest(Property &propertySelected, DoublyCircularLinkedList<Rental> &rentalHistory)
+    {
+        for (int count = 0; count < rentalHistory.getSize(); count++)
+        {
+            if (rentalHistory.get(count).getProperty() == propertySelected)
+            {
+                cout << endl
+                     << "You have already sent a rental request for this property." << endl
+                     << endl;
                 return;
             }
         }
@@ -336,23 +380,30 @@ class Tenant : public User {
 
         rentalHistory.insertAtEnd(request);
 
-        cout << endl << "[RENT REQUEST HAS SENT]" << endl;
+        cout << endl
+             << "[RENT REQUEST HAS SENT]" << endl;
     }
 
-    void extractSpecificStatusRequest(Status stat, Status stat2, DoublyCircularLinkedList<Rental> &tenantRentalHistory) {
+    void extractSpecificStatusRequest(Status stat, Status stat2, DoublyCircularLinkedList<Rental> &tenantRentalHistory)
+    {
         int total = 0;
         Rental rental;
 
-        for (int count = 0; count < tenantRentalHistory.getSize(); count++) {
-            if (tenantRentalHistory.get(count).getApplicationStatus() == stat || 
-                tenantRentalHistory.get(count).getApplicationStatus() == stat2) {
+        for (int count = 0; count < tenantRentalHistory.getSize(); count++)
+        {
+            if (tenantRentalHistory.get(count).getApplicationStatus() == stat ||
+                tenantRentalHistory.get(count).getApplicationStatus() == stat2)
+            {
                 total++;
             }
         }
 
-        while (true) {
-            Rental eachReq = tenantRentalHistory.getFirst();
-            if (eachReq.getApplicationStatus() == stat || eachReq.getApplicationStatus() == stat2) {
+        Rental eachReq = tenantRentalHistory.getFirst();
+
+        while (true)
+        {
+            if (eachReq.getApplicationStatus() == stat || eachReq.getApplicationStatus() == stat2)
+            {
                 rental = eachReq;
                 break;
             }
@@ -363,8 +414,10 @@ class Tenant : public User {
         int propIndex = 1;
         string statStr = getStatusInString(stat);
 
-        while (true) {
-            cout << endl << "[RENTAL REQUEST: " << statStr << "]" << endl;
+        while (true)
+        {
+            cout << endl
+                 << "[RENTAL REQUEST: " << statStr << "]" << endl;
 
             cout << "NO: " << propIndex << " OUT OF " << total << endl;
 
@@ -393,12 +446,16 @@ class Tenant : public User {
             string choice;
             getline(cin >> ws, choice);
 
-            if (choice == "N" || choice == "n") {
-                if (propIndex < total) {
+            if (choice == "N" || choice == "n")
+            {
+                if (propIndex < total)
+                {
                     rental = tenantRentalHistory.nextItem();
 
-                    while (true) {
-                        if (rental.getApplicationStatus() == stat) {
+                    while (true)
+                    {
+                        if (rental.getApplicationStatus() == stat)
+                        {
                             propIndex++;
                             break;
                         }
@@ -406,16 +463,22 @@ class Tenant : public User {
                         rental = tenantRentalHistory.nextItem();
                     }
                 }
-                else {
-                    cout << "No more items. Reached the last rental history." << endl << endl;
+                else
+                {
+                    cout << "No more items. Reached the last rental history." << endl
+                         << endl;
                 }
             }
-            else if (choice == "P" || choice == "p") {
-                if (propIndex > 1) {
+            else if (choice == "P" || choice == "p")
+            {
+                if (propIndex > 1)
+                {
                     rental = tenantRentalHistory.prevItem();
 
-                    while (true) {
-                        if (rental.getApplicationStatus() == stat) {
+                    while (true)
+                    {
+                        if (rental.getApplicationStatus() == stat)
+                        {
                             propIndex--;
                             break;
                         }
@@ -423,8 +486,11 @@ class Tenant : public User {
                         rental = tenantRentalHistory.prevItem();
                     }
                 }
-                else {
-                    cout << endl << "This is the first rental history." << endl << endl;
+                else
+                {
+                    cout << endl
+                         << "This is the first rental history." << endl
+                         << endl;
                 }
             }
             // else if (choice == "D" || choice == "d") {
@@ -464,20 +530,25 @@ class Tenant : public User {
             //         cout << "This application is not approved..." << endl;
             //     }
             // }
-            else if (choice == "Q" || choice == "q") {
+            else if (choice == "Q" || choice == "q")
+            {
                 break;
             }
-            else {
-                cout << endl << "Invalid input! Please try again..." << endl;
+            else
+            {
+                cout << endl
+                     << "Invalid input! Please try again..." << endl;
             }
         }
     }
 
-    bool rentalPayment(Property &property) {
+    bool rentalPayment(Property &property)
+    {
         // Implementation of rental payment logic
         bool paidSuccessfully = false;
 
-        while (true) {
+        while (true)
+        {
             cout << endl;
             cout << endl;
             cout << "[PAYMENT PAGE]" << endl;
@@ -492,81 +563,111 @@ class Tenant : public User {
             string userInput;
             getline(cin >> ws, userInput);
 
-            if (userInput == "P" || userInput == "p") {
+            if (userInput == "P" || userInput == "p")
+            {
                 paidSuccessfully = paymentInterface();
                 break;
             }
-            else if (userInput == "0") {
-                cout << endl << "Payment Cancelled... Returning Back!" << endl << endl;
+            else if (userInput == "0")
+            {
+                cout << endl
+                     << "Payment Cancelled... Returning Back!" << endl
+                     << endl;
                 break;
             }
-            else {
-                cout << endl << "Invalid Option... Please try again!" << endl << endl;
+            else
+            {
+                cout << endl
+                     << "Invalid Option... Please try again!" << endl
+                     << endl;
             }
         }
-        
+
         return paidSuccessfully;
     }
 
-    bool paymentInterface() {
+    bool paymentInterface()
+    {
         // Implementation of payment interface logic
         DataConversion dc;
 
         bool paymentStatus = false;
 
-        while (true) {
-            cout  << endl << "Enter Card No. [16-Digits] (-1 to Cancel): ";
+        while (true)
+        {
+            cout << endl
+                 << "Enter Card No. [16-Digits] (-1 to Cancel): ";
             string cardNo;
             getline(cin >> ws, cardNo);
 
-            if (cardNo == "-1") {
+            if (cardNo == "-1")
+            {
                 break;
             }
-            else if (cardNo.size() == 16 && dc.isInteger(cardNo)) {
-                cout << endl << "Enter Card Holder Name (-1 to Cancel): ";
+            else if (cardNo.size() == 16 && dc.isInteger(cardNo))
+            {
+                cout << endl
+                     << "Enter Card Holder Name (-1 to Cancel): ";
                 string holderName;
                 getline(cin >> ws, holderName);
 
-                if (holderName == "-1") {
+                if (holderName == "-1")
+                {
                     break;
                 }
-                else {
-                    while (true) {
-                        cout << endl << "Enter CVV [3-Digits] (-1 to Cancel): ";
+                else
+                {
+                    while (true)
+                    {
+                        cout << endl
+                             << "Enter CVV [3-Digits] (-1 to Cancel): ";
                         string cvv;
                         getline(cin >> ws, cvv);
 
-                        if (cvv == "-1") {
+                        if (cvv == "-1")
+                        {
                             break;
                         }
-                        else if (cvv.size() == 3 && dc.isInteger(cvv)) {
-                            while (true) {
-                                cout << endl << "Card Expiry Date: " << endl;
+                        else if (cvv.size() == 3 && dc.isInteger(cvv))
+                        {
+                            while (true)
+                            {
+                                cout << endl
+                                     << "Card Expiry Date: " << endl;
                                 cout << ">> Month [1-12] (-1 to Cancel): ";
                                 string expiryMonth;
                                 getline(cin >> ws, expiryMonth);
-                                
-                                if (expiryMonth == "-1") {
+
+                                if (expiryMonth == "-1")
+                                {
                                     break;
                                 }
-                                else if (dc.isInteger(expiryMonth)) {
+                                else if (dc.isInteger(expiryMonth))
+                                {
                                     int cardMonth = stoi(expiryMonth);
-                                    
-                                    if (cardMonth > 0 && cardMonth < 13) {
-                                        while (true) {
-                                            cout << endl << ">> Year [2023 - 2028] (-1 to Cancel): ";
+
+                                    if (cardMonth > 0 && cardMonth < 13)
+                                    {
+                                        while (true)
+                                        {
+                                            cout << endl
+                                                 << ">> Year [2023 - 2028] (-1 to Cancel): ";
                                             string expiryYear;
                                             getline(cin >> ws, expiryYear);
 
-                                            if (expiryYear == "-1") {
-                                                cout << endl << "Payment Cancelled... Returning Back!" << endl;
+                                            if (expiryYear == "-1")
+                                            {
+                                                cout << endl
+                                                     << "Payment Cancelled... Returning Back!" << endl;
                                                 paymentStatus = true;
                                                 break;
                                             }
-                                            else if (dc.isInteger(expiryYear)) {
+                                            else if (dc.isInteger(expiryYear))
+                                            {
                                                 int cardYear = stoi(expiryYear);
 
-                                                if (expiryYear.size() == 4) {
+                                                if (expiryYear.size() == 4)
+                                                {
                                                     tm date = {0};
 
                                                     date.tm_year = cardYear - 1900;
@@ -575,39 +676,52 @@ class Tenant : public User {
 
                                                     time_t cardDate = mktime(&date);
 
-                                                    if (dc.comapreDate(cardDate, dc.todayDateInTimeT()) == 1) {
+                                                    if (dc.comapreDate(cardDate, dc.todayDateInTimeT()) == 1)
+                                                    {
                                                         paymentStatus = true;
                                                     }
-                                                    else {
-                                                        cout << endl << "The card is expired... Please user another card" << endl;
+                                                    else
+                                                    {
+                                                        cout << endl
+                                                             << "The card is expired... Please user another card" << endl;
                                                     }
 
                                                     break;
                                                 }
-                                                else {
-                                                    cout << endl << "Invalid Expiry Year... Please Try Again!" << endl;
+                                                else
+                                                {
+                                                    cout << endl
+                                                         << "Invalid Expiry Year... Please Try Again!" << endl;
                                                 }
                                             }
-                                            else {
-                                                cout << endl << "Invalid Year... Please Try Again!" << endl;
+                                            else
+                                            {
+                                                cout << endl
+                                                     << "Invalid Year... Please Try Again!" << endl;
                                             }
                                         }
 
                                         break;
                                     }
-                                    else {
-                                        cout << endl << "Invalid Expiry Date... Please Try Again!" << endl;
+                                    else
+                                    {
+                                        cout << endl
+                                             << "Invalid Expiry Date... Please Try Again!" << endl;
                                     }
                                 }
-                                else {
-                                    cout << endl << "Invalid Expiry Date... Please Try Again!" << endl;
+                                else
+                                {
+                                    cout << endl
+                                         << "Invalid Expiry Date... Please Try Again!" << endl;
                                 }
                             }
 
                             break;
                         }
-                        else {
-                            cout << endl << "Invalid CVV... Please Try Again!" << endl;
+                        else
+                        {
+                            cout << endl
+                                 << "Invalid CVV... Please Try Again!" << endl;
                         }
                     }
 
@@ -616,61 +730,69 @@ class Tenant : public User {
 
                 break;
             }
-            else {
-                cout << endl << "Invalid Card...Please Try Again!" << endl;
+            else
+            {
+                cout << endl
+                     << "Invalid Card...Please Try Again!" << endl;
             }
         }
-        
+
         return paymentStatus;
     }
 
-    string rentalRequestSummary(DoublyCircularLinkedList<Rental> &tenantRequestRental) {
+    string rentalRequestSummary(DoublyCircularLinkedList<Rental> &tenantRequestRental)
+    {
         Status stat;
         int pending = 0, approved = 0, rejected = 0;
         // Implementation of rental request summary logic
-        for (int count = 0; count < tenantRequestRental.getSize(); count++) {
+        for (int count = 0; count < tenantRequestRental.getSize(); count++)
+        {
             stat = tenantRequestRental.get(count).getApplicationStatus();
 
-            switch (stat) {
-                case Pending:
-                    pending++;
-                    break;
-                case Approved:
-                    approved++;
-                    break;
-                case Rejected:
-                    rejected++;
-                    break;
-                case Active:
-                    approved++;
-                    break;
-                case Refunded:
-                    rejected++;
-                    break;
-                default:
-                    break;
-            }    
+            switch (stat)
+            {
+            case Pending:
+                pending++;
+                break;
+            case Approved:
+                approved++;
+                break;
+            case Rejected:
+                rejected++;
+                break;
+            case Active:
+                approved++;
+                break;
+            case Refunded:
+                rejected++;
+                break;
+            default:
+                break;
+            }
         }
 
         cout << "[Summary of Rental History]" << endl;
-        cout << " 1. Requested: " << pending << endl;
+        cout << " 1. Pending: " << pending << endl;
         cout << " 2. Approved: " << approved << endl;
         cout << " 3. Rejected: " << rejected << endl;
-        cout << "------------------------------" << endl << endl;
+        cout << "------------------------------" << endl
+             << endl;
         cout << "Please select an option (-1 to Back): " << endl;
         cout << ">> ";
 
         string userInput;
         getline(cin >> ws, userInput);
-        
+
         return userInput;
     }
 
-    void removeRentalRequest() {
+    void removeRentalRequest()
+    {
         // Implementation of removing rental request logic
     }
 
-    void displaySingleProperty(const Property& property) {
+    void displaySingleProperty(const Property &property)
+    {
         cout << "Ads ID: " << property.getAdsID() << endl;
         cout << "Property Name: " << property.getPropName() << endl;
         cout << "Completion Year: " << property.getCompletionYear() << endl;
@@ -688,7 +810,8 @@ class Tenant : public User {
         cout << "---------------------------------------\n";
     }
 
-    DoublyCircularLinkedList<Property> getFavoriteProperty() const {
+    DoublyCircularLinkedList<Property> getFavoriteProperty() const
+    {
         return favouriteList;
     }
 
@@ -696,20 +819,26 @@ class Tenant : public User {
     //     return &rentalHistory;
     // }
 
-    void placeRentRequest() {
+    void placeRentRequest()
+    {
         // Implementation of placing a rent request logic
     }
 
-    void displayRentingHistory() {
+    void displayRentingHistory()
+    {
         // Implementation of displaying renting history logic
     }
 
-    Tenant login(const string& email, DynamicArray<Tenant>& tenantList) {
-        Tenant loginTenant; DataConversion dc;
-        for(int i = 0; i < tenantList.getSize(); ++i) {
+    Tenant login(const string &email, DynamicArray<Tenant> &tenantList)
+    {
+        Tenant loginTenant;
+        DataConversion dc;
+        for (int i = 0; i < tenantList.getSize(); ++i)
+        {
             Tenant tenant;
             tenant = tenantList.get(i);
-            if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(email)) {
+            if (dc.toLowercase(tenant.getEmail()) == dc.toLowercase(email))
+            {
                 loginTenant.setName(tenant.getName());
                 loginTenant.setEmail(tenant.getEmail());
                 loginTenant.setPhoneNo(tenant.getPhoneNo());
@@ -723,12 +852,13 @@ class Tenant : public User {
 
                 tenantList.set(i, loginTenant);
             }
-        } 
-        
+        }
+
         return loginTenant;
     }
 
-    void resetPassword(DynamicArray<Tenant>& tenantList) {
+    void resetPassword(DynamicArray<Tenant> &tenantList)
+    {
         DataValidation dv;
         string currentPassword = this->getPassword();
         string newPassword;
@@ -736,24 +866,31 @@ class Tenant : public User {
 
         // Loop until the user enters correct current password or "-1" to exit
         string enteredPassword;
-        while (true) {
+        while (true)
+        {
             cout << "Enter current password (Enter -1 to exit): ";
             getline(cin >> ws, enteredPassword);
             cout << endl;
 
-            if (enteredPassword == "-1") {
+            if (enteredPassword == "-1")
+            {
                 return;
             }
 
-            if (enteredPassword == currentPassword) {
+            if (enteredPassword == currentPassword)
+            {
                 break;
-            } else {
-                cout << "Incorrect current password. Please try again." << endl << endl;
+            }
+            else
+            {
+                cout << "Incorrect current password. Please try again." << endl
+                     << endl;
             }
         }
 
         // Prompt user for new password and confirm
-         while (true) {
+        while (true)
+        {
             cout << "[ENTER NEW PASSWORD] (Enter -1 to exit)" << endl;
             cout << "- Minimum length of 8 characters." << endl;
             cout << "- At least one UPPERCASE." << endl;
@@ -764,29 +901,40 @@ class Tenant : public User {
             getline(cin >> ws, newPassword);
             cout << endl;
 
-            if (newPassword == "-1") {
+            if (newPassword == "-1")
+            {
                 return;
             }
 
-            if(dv.isValidPassword(newPassword)) {
+            if (dv.isValidPassword(newPassword))
+            {
                 cout << "Re-enter new password to confirm: ";
                 getline(cin >> ws, confirmPassword);
                 cout << endl;
 
-                if (newPassword != confirmPassword) {
-                    cout << "Passwords do not match. Please try again." << endl << endl;
-                } else {
+                if (newPassword != confirmPassword)
+                {
+                    cout << "Passwords do not match. Please try again." << endl
+                         << endl;
+                }
+                else
+                {
                     break;
                 }
-            } else {
-                cout << "Invalid password! Please try again." << endl << endl;
+            }
+            else
+            {
+                cout << "Invalid password! Please try again." << endl
+                     << endl;
             }
         }
 
         // Update the password
-        for (int count = 0; count < tenantList.getSize(); count++) {
+        for (int count = 0; count < tenantList.getSize(); count++)
+        {
             Tenant &tempTenant = tenantList.get(count);
-            if (tempTenant.getEmail() == this->getEmail()) {
+            if (tempTenant.getEmail() == this->getEmail())
+            {
                 tempTenant.setPassword(newPassword);
                 this->setPassword(newPassword);
                 tenantList.set(count, tempTenant);
@@ -795,7 +943,6 @@ class Tenant : public User {
         }
         cout << "Password successfully changed." << endl;
     }
-
 };
 
 #endif
