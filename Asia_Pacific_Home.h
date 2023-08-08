@@ -12,6 +12,7 @@
 #include "Admin.h"
 #include "FilterTenant.h"
 #include "FilterProperty.h"
+#include "BubbleSort.h"
 #include "ReadCSV.h"
 #include "Property.h"
 #include "DataValidation.h"
@@ -38,7 +39,8 @@ private:
     User user;
 
 public:
-    Asia_Pacific_Home() {
+    Asia_Pacific_Home()
+    {
         Tenant newTenant("Wong Hau", "hello@gmail.com", "01234567890", "123123123", "Male", "abc@123", "2022-09-01", "2022-06-01");
         tenantList.insertAtEnd(newTenant);
 
@@ -76,7 +78,8 @@ public:
         if (userInput == "1")
         {
             FilterProperty fp(user);
-            if(fp.filterProperty(properties) == false) {
+            if (fp.filterProperty(properties) == false)
+            {
                 homePage();
             }
             homePage();
@@ -89,8 +92,10 @@ public:
         {
             signUpPage();
         }
-        else if (userInput == "X") {
-            cout << endl << "Exiting... Bye!" << endl;
+        else if (userInput == "X")
+        {
+            cout << endl
+                 << "Exiting... Bye!" << endl;
             exit(0);
         }
         else
@@ -189,7 +194,7 @@ public:
             cout << "Please enter the email address (-1 to back): ";
             getline(cin >> ws, email);
             cout << endl;
-            if(email == "-1")
+            if (email == "-1")
             {
                 loginPage();
                 return;
@@ -297,7 +302,8 @@ public:
         return false;
     }
 
-    void signUpPage() {
+    void signUpPage()
+    {
         cout << "-------------------------------------------------------------" << endl;
         cout << "-------------------------------------------------------------" << endl;
         cout << "                  NEW ACCOUNT SIGN UP PAGE                   " << endl;
@@ -310,9 +316,12 @@ public:
         DynamicArray<string> existingEmail = getExistingEmail();
         bool tenantRegistration = tenant.registration(tenantList, existingEmail);
 
-        if(tenantRegistration == false) {
+        if (tenantRegistration == false)
+        {
             homePage();
-        } else {
+        }
+        else
+        {
             loginPage();
         }
     }
@@ -524,10 +533,13 @@ public:
      * --------------------------------------------------------------------------------------------
      */
 
-    void updateTenantList(Tenant &tenant) {
-        for (int count = 0; count < tenantList.getSize(); count++) {
+    void updateTenantList(Tenant &tenant)
+    {
+        for (int count = 0; count < tenantList.getSize(); count++)
+        {
             Tenant &tempTenant = tenantList.get(count);
-            if (tempTenant.getEmail() == tenant.getEmail()) {
+            if (tempTenant.getEmail() == tenant.getEmail())
+            {
                 tenantList.set(count, tenant);
             }
         }
@@ -570,7 +582,7 @@ public:
             {
                 /**
                  * TODO: Call tenant favourite property list
-                */
+                 */
                 viewFavouriteProperty(tenant);
                 // validInput = true;
             }
@@ -578,7 +590,7 @@ public:
             {
                 /**
                  * TODO: Call tenant rent request function
-                */
+                 */
                 tenant_rentRequest(tenant);
             }
             else if (userInput == "4")
@@ -597,7 +609,7 @@ public:
             else
             {
                 cout << endl
-                     << "Invalid input! Please try again." 
+                     << "Invalid input! Please try again."
                      << endl
                      << endl;
             }
@@ -609,7 +621,7 @@ public:
         bool validInput = false;
         /**
          * TODO: Call the function that display all property list
-        */
+         */
         while (!validInput)
         {
             std::cout << "[VIEW PROPERTY PAGE]" << endl;
@@ -654,40 +666,34 @@ public:
             else
             {
                 cout << endl
-                     << "Invalid input! Please try again." 
+                     << "Invalid input! Please try again."
                      << endl
                      << endl;
             }
         }
     }
 
-
-
-
-
-
-    
-
-
-
-
-
-    void viewFavouriteProperty(Tenant &tenant) {
+    void viewFavouriteProperty(Tenant &tenant)
+    {
         DataConversion dc;
-        DoublyCircularLinkedList <Property> selectedFavP;
-        for(int i = 0; i < favouriteList.getSize(); ++i) {
+        DoublyCircularLinkedList<Property> selectedFavP;
+        for (int i = 0; i < favouriteList.getSize(); ++i)
+        {
             cout << favouriteList.get(i).getTenantEmail() << endl;
-            if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(favouriteList.get(i).getTenantEmail())) {
+            if (dc.toLowercase(tenant.getEmail()) == dc.toLowercase(favouriteList.get(i).getTenantEmail()))
+            {
                 selectedFavP.insertAtEnd(favouriteList.get(i).getProperty());
             }
         }
 
-        if (selectedFavP.getSize() > 0) {
+        if (selectedFavP.getSize() > 0)
+        {
             int propIndex = 1;
 
             Property property = selectedFavP.getFirst();
 
-            while (true) {
+            while (true)
+            {
                 cout << endl;
                 cout << "[FAVOURITE PROPERTY LIST]" << endl;
                 cout << "NO: " << propIndex << " OUT OF " << selectedFavP.getSize() << endl;
@@ -702,25 +708,35 @@ public:
                 std::string choice;
                 getline(cin >> ws, choice);
 
-                if (choice == "N" || choice == "n") {
-                    if (propIndex < selectedFavP.getSize()) {
+                if (choice == "N" || choice == "n")
+                {
+                    if (propIndex < selectedFavP.getSize())
+                    {
                         property = selectedFavP.nextItem();
                         propIndex++;
                     }
-                    else {
-                        cout << "No more items. Reached the last favourite property." << endl << endl;
+                    else
+                    {
+                        cout << "No more items. Reached the last favourite property." << endl
+                             << endl;
                     }
                 }
-                else if (choice == "P" || choice == "p") {
-                    if (propIndex > 1) {
+                else if (choice == "P" || choice == "p")
+                {
+                    if (propIndex > 1)
+                    {
                         property = selectedFavP.prevItem();
                         propIndex--;
                     }
-                    else {
-                        cout << endl << "This is the first favourite property." << endl << endl;
+                    else
+                    {
+                        cout << endl
+                             << "This is the first favourite property." << endl
+                             << endl;
                     }
                 }
-                else if (choice == "Q" || choice == "q") {
+                else if (choice == "Q" || choice == "q")
+                {
                     break;
                 }
                 // else if (choice == "U" || choice == "u") {
@@ -733,31 +749,42 @@ public:
                 //     if(selectedFavP.getSize() == 0) {
                 //         break;
                 //     }
-                    
+
                 // }
-                else if (choice == "R" || choice == "r") {
+                else if (choice == "R" || choice == "r")
+                {
                     // call rent request function
                     bool requested = false;
 
-                    for (int count = 0; count < rentalHistory.getSize(); count++) {
+                    for (int count = 0; count < rentalHistory.getSize(); count++)
+                    {
                         Rental rentObj = rentalHistory.get(count);
-                        if (property == rentObj.getProperty() && tenant.getEmail() == rentObj.getTenantEmail()) {
-                            cout << endl << "You have already sent rent request for this property." << endl << endl;
+                        if (property == rentObj.getProperty() && tenant.getEmail() == rentObj.getTenantEmail())
+                        {
+                            cout << endl
+                                 << "You have already sent rent request for this property." << endl
+                                 << endl;
                             requested = true;
                         }
                     }
 
-                    if (!requested) {
-                        cout << endl << "Are you sure to rent this property (Y/N)" << endl;
+                    if (!requested)
+                    {
+                        cout << endl
+                             << "Are you sure to rent this property (Y/N)" << endl;
                         cout << ">>> ";
 
                         std::string rentChoice;
                         getline(cin >> ws, rentChoice);
-                        
-                        if (rentChoice == "Y" || rentChoice == "y") {
+
+                        if (rentChoice == "Y" || rentChoice == "y")
+                        {
                             // Add Rent Request Function
-                            if(tenant.rentalPayment(property)) {
-                                cout << endl << "PAYMENT SUCCESSFUL!" << endl << endl;
+                            if (tenant.rentalPayment(property))
+                            {
+                                cout << endl
+                                     << "PAYMENT SUCCESSFUL!" << endl
+                                     << endl;
                                 tenant.addRentalRequest(property, rentalHistory);
                                 break;
                             }
@@ -767,21 +794,31 @@ public:
                             getline(cin >> ws, userInput);
                             cout << endl;
                         }
-                        else if (rentChoice == "N" || rentChoice == "n") {
-                            cout << endl << "[RENT REQUEST CANCELLED]" << endl << endl;
+                        else if (rentChoice == "N" || rentChoice == "n")
+                        {
+                            cout << endl
+                                 << "[RENT REQUEST CANCELLED]" << endl
+                                 << endl;
                         }
-                        else {
-                            cout << endl << "Invalid input! Please try again..." << endl;
+                        else
+                        {
+                            cout << endl
+                                 << "Invalid input! Please try again..." << endl;
                         }
                     }
                 }
-                else {
-                    cout << endl << "Invalid input! Please try again..." << endl;
+                else
+                {
+                    cout << endl
+                         << "Invalid input! Please try again..." << endl;
                 }
-            } 
+            }
         }
-        else {
-            cout << endl << "You have no favourite property..." << endl << endl;
+        else
+        {
+            cout << endl
+                 << "You have no favourite property..." << endl
+                 << endl;
         }
 
         tenant_HomePage(tenant);
@@ -806,22 +843,10 @@ public:
     //     }
     // }
 
-
-
-
-
-
-
-
-
-
-
-
-
     void tenant_sortSelectionPage(Tenant &tenant)
     {
         bool validInput = false;
-        
+
         while (!validInput)
         {
             std::cout << "[Sorting Algorithm Selection]" << endl;
@@ -875,9 +900,10 @@ public:
             {
                 tenant_sortSelectionPage(tenant);
             }
-            else {
+            else
+            {
                 cout << endl
-                     << "Invalid input! Please try again." 
+                     << "Invalid input! Please try again."
                      << endl
                      << endl;
             }
@@ -886,7 +912,7 @@ public:
 
     void tenant_sortItemOrder(Tenant &tenant, const string &sortTypeSelection, const string &sortOption)
     {
-        std::function<bool(const Property&, const Property&)> compareFunction;
+        std::function<bool(const Property &, const Property &)> compareFunction;
         MergeSort mergeSortObj;
         bool validInput = false;
         while (!validInput)
@@ -904,31 +930,45 @@ public:
 
             if (userInput == "1") // ascending order
             {
-                if(sortTypeSelection == "1"){ // bubbleSort
-                    if(sortOption == "1"){ //monthy rent
-
-                    }else if (sortOption == "2"){ //location
-
-                    }else if(sortOption == "3"){ //size
-
-                    }else{
+                if (sortTypeSelection == "1")
+                { // bubbleSort
+                    if (sortOption == "1")
+                    { // monthy rent
+                    }
+                    else if (sortOption == "2")
+                    { // location
+                    }
+                    else if (sortOption == "3")
+                    { // size
+                    }
+                    else
+                    {
                         cout << "Invalid Input! Try Again! " << endl;
                         tenant_sortSelectionPage(tenant);
                     }
-                }else if (sortTypeSelection == "2"){ //mergeSOrt
-                    if(sortOption == "1"){ //monthy rent
+                }
+                else if (sortTypeSelection == "2")
+                { // mergeSOrt
+                    if (sortOption == "1")
+                    { // monthy rent
                         cout << " " << endl;
                         cout << "Sorting based on Monthly Rent in ascending order" << std::endl;
                         compareFunction = MergeSort::compareMonthlyRentAsc;
-                    }else if (sortOption == "2"){ //location
+                    }
+                    else if (sortOption == "2")
+                    { // location
                         cout << " " << endl;
                         std::cout << "Sorting based on Location in ascending order" << std::endl;
                         compareFunction = MergeSort::compareLocationAsc;
-                    }else if(sortOption == "3"){ //size
+                    }
+                    else if (sortOption == "3")
+                    { // size
                         cout << " " << endl;
                         std::cout << "Sorting based on Size in ascending order" << std::endl;
                         compareFunction = MergeSort::compareSizeAsc;
-                    }else{
+                    }
+                    else
+                    {
                         cout << "Invalid Input! Try Again! " << endl;
                         tenant_sortSelectionPage(tenant);
                     }
@@ -939,7 +979,9 @@ public:
                     // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
                     FilterProperty fp(user, tenant, favouriteList);
                     fp.displayFilteredPropertyList(properties);
-                }else{
+                }
+                else
+                {
                     cout << "Invalid Input! Try Again! " << endl;
                     tenant_sortSelectionPage(tenant);
                 }
@@ -947,31 +989,45 @@ public:
             }
             else if (userInput == "2") // descending order
             {
-                if(sortTypeSelection == "1"){ // bubbleSort
-                    if(sortOption == "1"){ //monthy rent
-
-                    }else if (sortOption == "2"){ //location
-
-                    }else if(sortOption == "3"){ //size
-
-                    }else{
+                if (sortTypeSelection == "1")
+                { // bubbleSort
+                    if (sortOption == "1")
+                    { // monthy rent
+                    }
+                    else if (sortOption == "2")
+                    { // location
+                    }
+                    else if (sortOption == "3")
+                    { // size
+                    }
+                    else
+                    {
                         cout << "Invalid Input! Try Again! " << endl;
                         tenant_sortSelectionPage(tenant);
                     }
-                }else if (sortTypeSelection == "2"){ //mergeSOrt
-                    if(sortOption == "1"){ //monthy rent
+                }
+                else if (sortTypeSelection == "2")
+                { // mergeSOrt
+                    if (sortOption == "1")
+                    { // monthy rent
                         cout << " " << endl;
                         cout << "Sorting based on Monthly Rent in descending order" << std::endl;
                         compareFunction = MergeSort::compareMonthlyRentDesc;
-                    }else if (sortOption == "2"){ //location
+                    }
+                    else if (sortOption == "2")
+                    { // location
                         cout << " " << endl;
                         std::cout << "Sorting based on Location in descending order" << std::endl;
                         compareFunction = MergeSort::compareLocationDesc;
-                    }else if(sortOption == "3"){ //size
+                    }
+                    else if (sortOption == "3")
+                    { // size
                         cout << " " << endl;
                         std::cout << "Sorting based on Size in descending order" << std::endl;
                         compareFunction = MergeSort::compareSizeDesc;
-                    }else{
+                    }
+                    else
+                    {
                         cout << "Invalid Input! Try Again! " << endl;
                         tenant_sortSelectionPage(tenant);
                     }
@@ -983,7 +1039,9 @@ public:
                     // Display the sorted properties using the displayFilteredPropertyList() function from Property.h
                     FilterProperty fp(user, tenant, favouriteList);
                     fp.displayFilteredPropertyList(properties);
-                }else{
+                }
+                else
+                {
                     cout << "Invalid Input! Try Again! " << endl;
                     tenant_sortSelectionPage(tenant);
                 }
@@ -993,9 +1051,10 @@ public:
             {
                 tenant_sortItemOptions(tenant, sortTypeSelection);
             }
-            else {
+            else
+            {
                 cout << endl
-                     << "Invalid input! Please try again." 
+                     << "Invalid input! Please try again."
                      << endl
                      << endl;
             }
@@ -1005,7 +1064,7 @@ public:
     void tenant_searchSelectionPage(Tenant &tenant)
     {
         bool validInput = false;
-        
+
         while (!validInput)
         {
             std::cout << "[Searching Algorithm Selection]" << endl;
@@ -1025,17 +1084,19 @@ public:
             {
                 /**
                  * TODO: Call linear search function
-                */
+                 */
                 tenant_searchItemOptions(tenant, userInput);
                 validInput = true;
             }
-            else if (userInput == "-1") {
+            else if (userInput == "-1")
+            {
                 validInput = true;
                 tenant_viewProperty(tenant);
             }
-            else {
+            else
+            {
                 cout << endl
-                     << "Invalid input! Please try again." 
+                     << "Invalid input! Please try again."
                      << endl
                      << endl;
             }
@@ -1065,20 +1126,22 @@ public:
                 tenant_search(tenant, searchTypeSelection, userInput);
                 validInput = true;
             }
-            else if (userInput == "-1") {
+            else if (userInput == "-1")
+            {
                 validInput = true;
                 tenant_searchSelectionPage(tenant);
             }
-            else {
+            else
+            {
                 cout << endl
-                     << "Invalid input! Please try again." 
+                     << "Invalid input! Please try again."
                      << endl
                      << endl;
             }
         }
     }
 
-    void tenant_search(Tenant &tenant, const string &searchType, const string &searchItem) 
+    void tenant_search(Tenant &tenant, const string &searchType, const string &searchItem)
     {
         FilterProperty filterProperty(user, tenant, favouriteList);
 
@@ -1087,19 +1150,24 @@ public:
         int searchTypeInt = std::stoi(searchType);
         int searchItemInt = std::stoi(searchItem);
 
-        if (searchType == "1") {
+        if (searchType == "1")
+        {
             LinearSearch ls;
 
-            if (searchItem == "1") {
+            if (searchItem == "1")
+            {
                 // call linear search for ads ID
                 cout << "Enter Ads ID: ";
                 getline(cin >> ws, search);
                 cout << endl;
 
                 DynamicArray<Property> result = ls.searchByAdsID(properties, search);
-                if(result.getSize() > 0) {
+                if (result.getSize() > 0)
+                {
                     filterProperty.displayFilteredPropertyList(result);
-                } else {
+                }
+                else
+                {
                     cout << "Sorry, no record found..." << endl;
                     cout << "Please try again." << endl;
                     cout << endl;
@@ -1107,36 +1175,45 @@ public:
 
                 tenant_searchSelectionPage(tenant);
             }
-            else if (searchItem == "2") {
+            else if (searchItem == "2")
+            {
                 cout << "Enter relavant keyword (Property Name): ";
                 getline(cin >> ws, search);
                 cout << endl;
 
                 DynamicArray<Property> result = ls.searchByPropertyName(properties, search);
-                if(result.getSize() > 0) {
+                if (result.getSize() > 0)
+                {
                     filterProperty.displayFilteredPropertyList(result);
-                } else {
+                }
+                else
+                {
                     cout << "Sorry, no record found..." << endl;
                     cout << "Please try again." << endl;
                     cout << endl;
                 }
                 tenant_searchSelectionPage(tenant);
             }
-        } 
-        else if (searchType == "2") {
+        }
+        else if (searchType == "2")
+        {
             BinarySearch binSearch(properties);
 
-            if (searchItem == "1") {
+            if (searchItem == "1")
+            {
                 // call binary search for ads ID
                 cout << "Enter Ads ID: ";
                 getline(cin >> ws, search);
                 cout << endl;
 
                 DynamicArray<Property> result = binSearch.binarySearch_AdsId(search);
-                
-                if(result.getSize() > 0) {
+
+                if (result.getSize() > 0)
+                {
                     filterProperty.displayFilteredPropertyList(result);
-                } else {
+                }
+                else
+                {
                     cout << "Sorry, no record found..." << endl;
                     cout << "Please try again." << endl;
                     cout << endl;
@@ -1144,16 +1221,20 @@ public:
 
                 tenant_searchSelectionPage(tenant);
             }
-            else if (searchItem == "2") {
+            else if (searchItem == "2")
+            {
                 cout << "Enter relavant keyword (Property Name): ";
                 getline(cin >> ws, search);
                 cout << endl;
 
                 DynamicArray<Property> result = binSearch.binarySearch_PropertyName(search);
 
-                if(result.getSize() > 0) {
+                if (result.getSize() > 0)
+                {
                     filterProperty.displayFilteredPropertyList(result);
-                } else {
+                }
+                else
+                {
                     cout << "Sorry, no record found..." << endl;
                     cout << "Please try again." << endl;
                     cout << endl;
@@ -1168,52 +1249,67 @@ public:
         bool validInput = false;
         /**
          * TODO: Display tenant favourite list
-        */
-    } 
+         */
+    }
 
     void tenant_rentRequest(Tenant &tenant)
     {
         /**
          * TODO: Display tenant rent request list
-        */
+         */
         DataConversion dc;
-        DoublyCircularLinkedList <Rental> tenantRequestRental;
-        for(int i = 0; i < rentalHistory.getSize(); ++i) {
+        DoublyCircularLinkedList<Rental> tenantRequestRental;
+        for (int i = 0; i < rentalHistory.getSize(); ++i)
+        {
             cout << rentalHistory.get(i).getTenantEmail() << endl;
-            if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(rentalHistory.get(i).getTenantEmail())) {
+            if (dc.toLowercase(tenant.getEmail()) == dc.toLowercase(rentalHistory.get(i).getTenantEmail()))
+            {
                 tenantRequestRental.insertAtEnd(rentalHistory.get(i));
             }
         }
 
-        if (rentalHistory.getSize() > 0) {
+        if (rentalHistory.getSize() > 0)
+        {
             int propIndex = 1;
 
-            while (true) {
+            while (true)
+            {
                 cout << endl;
                 cout << "[RENTAL HISTORY]" << endl;
 
                 std::string option = tenant.rentalRequestSummary(tenantRequestRental);
 
-                if (option == "1") {
+                if (option == "1")
+                {
                     tenant.extractSpecificStatusRequest(Pending, Pending, tenantRequestRental);
                 }
-                else if (option == "2") {
+                else if (option == "2")
+                {
                     tenant.extractSpecificStatusRequest(Approved, Active, tenantRequestRental);
                 }
-                else if (option == "3") {
+                else if (option == "3")
+                {
                     tenant.extractSpecificStatusRequest(Rejected, Refunded, tenantRequestRental);
                 }
-                else if (option == "-1") {
-                    cout << endl << "Returning back..." << endl << endl;
+                else if (option == "-1")
+                {
+                    cout << endl
+                         << "Returning back..." << endl
+                         << endl;
                     break;
                 }
-                else {
-                    cout << endl << "Invalid input! Please try again..." << endl;
+                else
+                {
+                    cout << endl
+                         << "Invalid input! Please try again..." << endl;
                 }
             }
         }
-        else {
-            cout << endl << "You have no rental history..." << endl << endl;
+        else
+        {
+            cout << endl
+                 << "You have no rental history..." << endl
+                 << endl;
         }
     }
 
@@ -1225,7 +1321,7 @@ public:
     {
         bool validInput = false;
         Tenant tenant;
-        
+
         while (!validInput)
         {
             std::cout << "-------------------------------------------------------------" << endl;
@@ -1239,60 +1335,73 @@ public:
             std::cout << "Please select an option (1-3):" << std::endl;
             std::cout << "1. Display All Registered Tenant Details" << std::endl;
             std::cout << "2. Favorite Property List" << std::endl;
-            std::cout << "3. View Property Information" << std::endl;
-            std::cout << "4. Logout" << std::endl;
+            std::cout << "3. Manage Tenant Rent Request" << std::endl;
+            std::cout << "4. Manage Payment" << std::endl;
+            std::cout << "5. Logout" << std::endl;
             std::cout << "-----------------------------------------" << std::endl;
             std::cout << "0. Reset Password" << std::endl;
             std::cout << ">> ";
 
             string userInput;
-                getline(cin >> ws, userInput);
-                cout << endl;
+            getline(cin >> ws, userInput);
+            cout << endl;
 
-                if (userInput == "1")
+            if (userInput == "1")
+            {
+                manager_ViewTenantInfoPage(manager);
+                validInput = true;
+            }
+            else if (userInput == "2")
+            {
+                DynamicArray<Property> allFavouriteList;
+                // manager.getAllFavouriteList(tenantList, allFavouriteList);
+                for (int i = 0; i < favouriteList.getSize(); ++i)
                 {
-                    manager_ViewTenantInfoPage(manager);
-                    validInput = true;
+                    Property prop = favouriteList.get(i).getProperty();
+                    allFavouriteList.insertAtEnd(prop);
                 }
-                else if (userInput == "2")
+                manager_FavProperty(manager, allFavouriteList);
+                validInput = true;
+            }
+            else if (userInput == "3")
+            {
+                DoublyCircularLinkedList<Rental> allRentalHistory;
+                // manager.getAllFavouriteList(tenantList, allFavouriteList);
+                for (int i = 0; i < rentalHistory.getSize(); ++i)
                 {
-                    DynamicArray<Property> allFavouriteList;
-                    // manager.getAllFavouriteList(tenantList, allFavouriteList);
-                    for(int i = 0; i < favouriteList.getSize(); ++i) {
-                        Property prop = favouriteList.get(i).getProperty();
-                        allFavouriteList.insertAtEnd(prop);
-                    }
-                    manager_FavProperty(manager, allFavouriteList);
-                    validInput = true;
+                    Rental prop = rentalHistory.get(i);
+                    allRentalHistory.insertAtEnd(prop);
                 }
-                else if (userInput == "3")
-                {
-                    /**
-                     * TODO:  property info
-                    */
-                    validInput = true;
-                }
-                else if (userInput == "4")
-                {
-                    validInput = true;
-                    homePage();
-                }
-                else if (userInput == "0")
-                {
-                    manager.resetPassword(managerList);
-                    // validInput = true;
-                }
-                else
-                {
-                    cout << endl
-                        << "Invalid input! Please try again." 
-                        << endl
-                        << endl;
-                }
+                manager_RentRequest(manager, allRentalHistory);
+                validInput = true;
+            }
+            else if (userInput == "4")
+            {
+                validInput = true;
+                homePage();
+            }
+            else if (userInput == "5")
+            {
+                validInput = true;
+                homePage();
+            }
+
+            else if (userInput == "0")
+            {
+                manager.resetPassword(managerList);
+                // validInput = true;
+            }
+            else
+            {
+                cout << endl
+                     << "Invalid input! Please try again."
+                     << endl
+                     << endl;
+            }
         }
     }
 
-    void manager_ViewTenantInfoPage(Manager& manager)
+    void manager_ViewTenantInfoPage(Manager &manager)
     {
         cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
         cout << "Available Tenant: " << tenantList.getSize() << endl;
@@ -1318,7 +1427,7 @@ public:
         }
     }
 
-    void manager_RemoveTenant(Manager& manager)
+    void manager_RemoveTenant(Manager &manager)
     {
         cout << "[VIEW TENANT INFORMATION PAGE]" << endl;
         cout << "Available Tenant: " << tenantList.getSize() << endl;
@@ -1344,7 +1453,8 @@ public:
         }
     }
 
-    void manager_FavProperty(Manager& manager, DynamicArray<Property> allFavouriteList) {
+    void manager_FavProperty(Manager &manager, DynamicArray<Property> allFavouriteList)
+    {
         if (allFavouriteList.getSize() == 0)
         {
             cout << "Favourite Property not available...." << endl;
@@ -1361,8 +1471,24 @@ public:
         }
     }
 
-
-    
+    void manager_RentRequest(Manager &manager, DoublyCircularLinkedList<Rental> allRentalHistory)
+    {
+        if (allRentalHistory.getSize() == 0)
+        {
+            cout << "Renting Request not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            manager.printAllRentHistory(allRentalHistory);
+            rentalHistory = allRentalHistory;
+            manager_HomePage(manager);
+        }
+    }
 
     /**
      * --------------------------------------------------------------------------------------------
