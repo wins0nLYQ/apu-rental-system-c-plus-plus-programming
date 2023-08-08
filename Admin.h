@@ -17,18 +17,6 @@ public:
 
     Admin() : User("Admin", "admin@gmail.com", "Admin", "Admin", "Admin", "Admin@1234", "Admin", "Admin") {}
 
-    // string getEmail() const {
-    //     return email;
-    // }
-
-    // string getPassword() const {
-    //     return password;
-    // }
-
-    // string getRole() const {
-    //     return role;
-    // }
-
     void addManager(DynamicArray<Manager> &managerList, DynamicArray<string> &existingEmail)
     {
         // Implementation for adding a manager
