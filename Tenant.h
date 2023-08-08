@@ -473,7 +473,7 @@ class Tenant : public User {
         }
     }
 
-    bool rentalPayment(Property &property, const int &oriItemIndex) {
+    bool rentalPayment(Property &property) {
         // Implementation of rental payment logic
         bool paidSuccessfully = false;
 
