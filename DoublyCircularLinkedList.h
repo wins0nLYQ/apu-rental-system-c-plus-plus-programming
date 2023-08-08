@@ -28,6 +28,7 @@ public:
     this->size = 0;
     this->head = nullptr;
     this->tail = nullptr;
+    this->current = nullptr;
   };
 
   ~DoublyCircularLinkedList(){
@@ -129,7 +130,7 @@ public:
             currentNode->prev = node;
             size++;
           }
-
+          
           currentNode = currentNode->next;
         }
       }
@@ -257,18 +258,6 @@ public:
     current = current->prev;
     return current->data;
   }
-
-  void display()
-  {
-    DCLListNode<T> *currentNode = head;
-    DCLListNode<T> *firstItem;
-    while (currentNode != nullptr && currentNode != firstItem)
-    {
-      std::cout << currentNode->data << std::endl;
-      currentNode = currentNode->next;
-      firstItem = head;
-    }
-  };
 
   int getSize()
   {
