@@ -1318,8 +1318,9 @@ public:
             std::cout << "Please select an option (1-3):" << std::endl;
             std::cout << "1. Display All Registered Tenant Details" << std::endl;
             std::cout << "2. Favorite Property List" << std::endl;
-            std::cout << "3. View Property Information" << std::endl;
-            std::cout << "4. Logout" << std::endl;
+            std::cout << "3. Manage Tenant Rent Request" << std::endl;
+            std::cout << "4. Manage Payment" << std::endl;
+            std::cout << "5. Logout" << std::endl;
             std::cout << "-----------------------------------------" << std::endl;
             std::cout << "0. Reset Password" << std::endl;
             std::cout << ">> ";
@@ -1347,9 +1348,14 @@ public:
             }
             else if (userInput == "3")
             {
-                /**
-                 * TODO:  property info
-                 */
+                DoublyCircularLinkedList<Rental> allRentalHistory;
+                // manager.getAllFavouriteList(tenantList, allFavouriteList);
+                for (int i = 0; i < rentalHistory.getSize(); ++i)
+                {
+                    Rental prop = rentalHistory.get(i);
+                    allRentalHistory.insertAtEnd(prop);
+                }
+                manager_RentRequest(manager, allRentalHistory);
                 validInput = true;
             }
             else if (userInput == "4")
@@ -1357,6 +1363,12 @@ public:
                 validInput = true;
                 homePage();
             }
+            else if (userInput == "5")
+            {
+                validInput = true;
+                homePage();
+            }
+
             else if (userInput == "0")
             {
                 manager.resetPassword(managerList);
@@ -1442,9 +1454,9 @@ public:
         }
     }
 
-    void manager_RentRequest(Manager &manager, DynamicArray<Rental> allRentHistory)
+    void manager_RentRequest(Manager &manager, DoublyCircularLinkedList<Rental> allRentalHistory)
     {
-        if (allRentHistory.getSize() == 0)
+        if (allRentalHistory.getSize() == 0)
         {
             cout << "Renting Request not available...." << endl;
             cout << "Input any key to back >> ";
@@ -1455,7 +1467,9 @@ public:
         }
         else
         {
-            manager.printRentHistory(allRentHistory);
+            manager.printAllRentHistory(allRentalHistory);
+            rentalHistory = allRentalHistory;
+            manager_HomePage(manager);
         }
     }
 

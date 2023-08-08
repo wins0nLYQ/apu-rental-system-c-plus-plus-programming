@@ -121,17 +121,17 @@ public:
         return loginManager;
     }
 
-    void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty)
-    {
-        for (int count = 0; count < tenantList.getSize(); count++)
-        {
-            Tenant tenant = tenantList.get(count);
-            for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++)
-            {
-                allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
-            }
-        }
-    }
+    // void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty)
+    // {
+    //     for (int count = 0; count < tenantList.getSize(); count++)
+    //     {
+    //         Tenant tenant = tenantList.get(count);
+    //         for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++)
+    //         {
+    //             allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
+    //         }
+    //     }
+    // }
     // void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
     //         for (int count = 0; count < tenantList.getSize(); count++) {
     //             Tenant tenant = tenantList.get(count);
@@ -234,127 +234,160 @@ public:
         cout << "Testing3" << endl;
     }
 
-    void getAllRentHistoryList(DynamicArray<Tenant> tenantList, DynamicArray<Rental> &allRentHistory)
+    // Call DoublyCircularLinkedList<Rental> rentalHistory from Asia Pacific Home and print all;
+    void printAllRentHistory(DoublyCircularLinkedList<Rental> &allRentHistory)
     {
-        for (int count = 0; count < tenantList.getSize(); count++)
+        while (true)
         {
-            Tenant tenant = tenantList.get(count);
-            void resetPassword(DynamicArray<Manager> & managerList)
+            cout << "[ALL RENTAL HISTORY PAGE]" << endl;
+            for (int count = 0; count < allRentHistory.getSize(); count++)
             {
-                DataValidation dv;
-                string currentPassword = this->getPassword();
-                string newPassword;
-                string confirmPassword;
-
-                // Loop until the user enters correct current password or "-1" to exit
-                string enteredPassword;
-                while (true)
-                {
-                    cout << "Enter current password (Enter -1 to exit): ";
-                    getline(cin >> ws, enteredPassword);
-                    cout << endl;
-
-                    if (enteredPassword == "-1")
-                    {
-                        return;
-                    }
-
-                    if (enteredPassword == currentPassword)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        cout << "Incorrect current password. Please try again." << endl
-                             << endl;
-                    }
-                }
-
-                // Prompt user for new password and confirm
-                while (true)
-                {
-                    cout << "[ENTER NEW PASSWORD] (Enter -1 to exit)" << endl;
-                    cout << "- Minimum length of 8 characters." << endl;
-                    cout << "- At least one UPPERCASE." << endl;
-                    cout << "- At least one lowercase." << endl;
-                    cout << "- At least one digit." << endl;
-                    cout << "- At least one special character." << endl;
-                    cout << ">>> ";
-                    getline(cin >> ws, newPassword);
-                    cout << endl;
-
-                    if (newPassword == "-1")
-                    {
-                        return;
-                    }
-
-                    if (dv.isValidPassword(newPassword))
-                    {
-                        cout << "Re-enter new password to confirm: ";
-                        getline(cin >> ws, confirmPassword);
-                        cout << endl;
-
-                        if (newPassword != confirmPassword)
-                        {
-                            cout << "Passwords do not match. Please try again." << endl
-                                 << endl;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        cout << "Invalid password! Please try again." << endl
-                             << endl;
-                    }
-                }
-
-                cout << "HELLO" << endl;
-                // Update the password
-                for (int count = 0; count < managerList.getSize(); count++)
-                {
-                    Manager &tempManager = managerList.get(count);
-                    if (tempManager.getEmail() == this->getEmail())
-                    {
-                        tempManager.setPassword(newPassword);
-                        this->setPassword(newPassword);
-                        managerList.set(count, tempManager);
-                        break;
-                    }
-                }
-                cout << "Password successfully changed." << endl;
+                Rental rental = allRentHistory.get(count);
+                cout << "-----------------------------------------\n";
+                cout << "NO: " << count + 1 << "\n";
+                cout << "Property Name : " << rental.getProperty().getPropName() << "\n";
+                cout << "Tenant Email : " << rental.getTenantEmail() << "\n";
+                cout << "Request Date : " << rental.getRequestDateTime() << "\n";
+                cout << "Application Status : " << getStatusInString(rental.getApplicationStatus()) << "\n"; // Assuming getStatusInString converts enum to string
+                cout << "-----------------------------------------\n";
             }
+            cout << "Options: (A)pprove, (R)eject, (Q)uit\n>>";
+            string userInput;
+            getline(cin >> ws, userInput);
 
-            if (tenant.getRentalHistory().getSize() > 0)
+            if (userInput == "A" || userInput == "a")
             {
-                for (int count2 = 0; count2 < tenant.getRentalHistory().getSize(); count2++)
+                cout << "Enter the number of the rental to approve: ";
+                int rentalNumber;
+                cin >> rentalNumber;
+                cin.ignore(); // Clear newline character from input buffer
+
+                if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
                 {
-                    Rental rental = tenant.getRentalHistory().get(count2);
-                    cout << "Hello" << endl;
-                    cout << rental.getApplicationStatus() << endl;
-                    allRentHistory.insertAtEnd(rental);
-                    cout << "Test 1" << endl;
+                    Rental &rentalToApprove = allRentHistory.get(rentalNumber - 1);
+                    rentalToApprove.setApplicationStatus(Status::Approved); // Set enum value
+                    cout << "Rental " << rentalNumber << " has been approved.\n";
                 }
+                else
+                {
+                    cout << "Invalid rental number. Please try again.\n";
+                }
+            }
+            else if (userInput == "R" || userInput == "r")
+            {
+                cout << "Enter the number of the rental to reject: ";
+                int rentalNumber;
+                cin >> rentalNumber;
+                cin.ignore(); // Clear newline character from input buffer
+
+                if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
+                {
+                    Rental &rentalToReject = allRentHistory.get(rentalNumber - 1);
+                    rentalToReject.setApplicationStatus(Status::Rejected); // Set enum value
+                    cout << "Rental " << rentalNumber << " has been rejected.\n";
+                }
+                else
+                {
+                    cout << "Invalid rental number. Please try again.\n";
+                }
+            }
+            else if (userInput == "Q" || userInput == "q")
+            {
+                break; // Exit the loop and return from the function
+            }
+            else
+            {
+                cout << "Invalid input. Please try again.\n";
             }
         }
     }
 
-    void printRentHistory(DynamicArray<Rental> &allRentHistory)
+    void resetPassword(DynamicArray<Manager> &managerList)
     {
-        cout << "Rental History:" << endl;
-        for (int i = 0; i < allRentHistory.getSize(); i++)
+        DataValidation dv;
+        string currentPassword = this->getPassword();
+        string newPassword;
+        string confirmPassword;
+
+        // Loop until the user enters correct current password or "-1" to exit
+        string enteredPassword;
+        while (true)
         {
-            Rental rental = allRentHistory.get(i);
-            // Print the details of the rental
-            cout << "Property: " << rental.getProperty().getPropName() << endl; // Assuming Property has a getPropName() method
-            cout << "Tenant Email: " << rental.getTenantEmail() << endl;
-            cout << "Request Date/Time: " << rental.getRequestDateTime() << endl;
-            cout << "Application Status: " << getStatusInString(rental.getApplicationStatus()) << endl;
-            cout << "Remarks: " << rental.getRemarks() << endl;
-            cout << "-----------------------------------------" << endl;
+            cout << "Enter current password (Enter -1 to exit): ";
+            getline(cin >> ws, enteredPassword);
+            cout << endl;
+
+            if (enteredPassword == "-1")
+            {
+                return;
+            }
+
+            if (enteredPassword == currentPassword)
+            {
+                break;
+            }
+            else
+            {
+                cout << "Incorrect current password. Please try again." << endl
+                     << endl;
+            }
         }
+
+        // Prompt user for new password and confirm
+        while (true)
+        {
+            cout << "[ENTER NEW PASSWORD] (Enter -1 to exit)" << endl;
+            cout << "- Minimum length of 8 characters." << endl;
+            cout << "- At least one UPPERCASE." << endl;
+            cout << "- At least one lowercase." << endl;
+            cout << "- At least one digit." << endl;
+            cout << "- At least one special character." << endl;
+            cout << ">>> ";
+            getline(cin >> ws, newPassword);
+            cout << endl;
+
+            if (newPassword == "-1")
+            {
+                return;
+            }
+
+            if (dv.isValidPassword(newPassword))
+            {
+                cout << "Re-enter new password to confirm: ";
+                getline(cin >> ws, confirmPassword);
+                cout << endl;
+
+                if (newPassword != confirmPassword)
+                {
+                    cout << "Passwords do not match. Please try again." << endl
+                         << endl;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                cout << "Invalid password! Please try again." << endl
+                     << endl;
+            }
+        }
+
+        cout << "HELLO" << endl;
+        // Update the password
+        for (int count = 0; count < managerList.getSize(); count++)
+        {
+            Manager &tempManager = managerList.get(count);
+            if (tempManager.getEmail() == this->getEmail())
+            {
+                tempManager.setPassword(newPassword);
+                this->setPassword(newPassword);
+                managerList.set(count, tempManager);
+                break;
+            }
+        }
+        cout << "Password successfully changed." << endl;
     }
 };
 
