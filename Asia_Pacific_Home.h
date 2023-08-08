@@ -1357,6 +1357,7 @@ public:
         else
         {
             manager.printTopFavouriteProperties(allFavouriteList);
+            manager_HomePage(manager);
         }
     }
 

@@ -245,7 +245,7 @@ public:
         getline(cin >> ws, userInput);
         cout << endl;
 
-        while ((userInput != "Y" || userInput != "y") && (userInput != "N" || userInput != "n"))
+        while ((userInput != "Y" && userInput != "y") && (userInput != "N" && userInput != "n"))
         {
             cout << "-1 to Back" << endl;
             cout << "Invalid input! Please try again >> ";
@@ -270,7 +270,7 @@ public:
             {
                 Manager &manager = managerList.get(i);
                 cout << setw(5) << right << i + 1 << ". ";
-                cout << setw(15) << left << manager.getName();
+                cout << setw(15) << left << manager.getEmail();
                 cout << " - " << manager.getStatus() << endl;
             }
             cout << endl;
