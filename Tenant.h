@@ -398,9 +398,10 @@ public:
             }
         }
 
+        Rental eachReq = tenantRentalHistory.getFirst();
+
         while (true)
         {
-            Rental eachReq = tenantRentalHistory.getFirst();
             if (eachReq.getApplicationStatus() == stat || eachReq.getApplicationStatus() == stat2)
             {
                 rental = eachReq;
