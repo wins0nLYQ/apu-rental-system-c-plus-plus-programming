@@ -754,40 +754,57 @@ public:
                 else if (choice == "R" || choice == "r")
                 {
                     // call rent request function
-                    cout << endl
-                         << "Are you sure to rent this property (Y/N)" << endl;
-                    cout << ">>> ";
+                    bool requested = false;
 
-                    std::string rentChoice;
-                    getline(cin >> ws, rentChoice);
-
-                    if (rentChoice == "Y" || rentChoice == "y")
+                    for (int count = 0; count < rentalHistory.getSize(); count++)
                     {
-                        // Add Rent Request Function
-                        if (tenant.rentalPayment(property, rentalHistory.getIndex()))
+                        Rental rentObj = rentalHistory.get(count);
+                        if (property == rentObj.getProperty() && tenant.getEmail() == rentObj.getTenantEmail())
                         {
                             cout << endl
-                                 << "PAYMENT SUCCESSFUL!" << endl
+                                 << "You have already sent rent request for this property." << endl
                                  << endl;
-                            tenant.addRentalRequest(property, rentalHistory);
-                            break;
+                            requested = true;
                         }
+                    }
 
-                        cout << "Enter any key to continue: ";
-                        string userInput;
-                        getline(cin >> ws, userInput);
-                        cout << endl;
-                    }
-                    else if (rentChoice == "N" || rentChoice == "n")
+                    if (!requested)
                     {
                         cout << endl
-                             << "[RENT REQUEST CANCELLED]" << endl
-                             << endl;
-                    }
-                    else
-                    {
-                        cout << endl
-                             << "Invalid input! Please try again..." << endl;
+                             << "Are you sure to rent this property (Y/N)" << endl;
+                        cout << ">>> ";
+
+                        std::string rentChoice;
+                        getline(cin >> ws, rentChoice);
+
+                        if (rentChoice == "Y" || rentChoice == "y")
+                        {
+                            // Add Rent Request Function
+                            if (tenant.rentalPayment(property))
+                            {
+                                cout << endl
+                                     << "PAYMENT SUCCESSFUL!" << endl
+                                     << endl;
+                                tenant.addRentalRequest(property, rentalHistory);
+                                break;
+                            }
+
+                            cout << "Enter any key to continue: ";
+                            string userInput;
+                            getline(cin >> ws, userInput);
+                            cout << endl;
+                        }
+                        else if (rentChoice == "N" || rentChoice == "n")
+                        {
+                            cout << endl
+                                 << "[RENT REQUEST CANCELLED]" << endl
+                                 << endl;
+                        }
+                        else
+                        {
+                            cout << endl
+                                 << "Invalid input! Please try again..." << endl;
+                        }
                     }
                 }
                 else
