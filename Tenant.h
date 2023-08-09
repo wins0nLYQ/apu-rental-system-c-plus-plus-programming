@@ -21,7 +21,6 @@ class Tenant : public User
 {
 private:
     string lastLoginDate;
-    DoublyCircularLinkedList<Property> favouriteList;
     DoublyCircularLinkedList<Rental> *rentalHistory;
 
 public:
@@ -31,9 +30,7 @@ public:
            const string &_identificationNo, const string &_gender, const string &_password,
            const string &_dateOfBirth, const string &_lastLoginDate)
         : User(_name, _email, _phoneNo, _identificationNo, _gender, _password, _dateOfBirth, "Tenant"),
-          lastLoginDate(_lastLoginDate)
-    {
-    }
+          lastLoginDate(_lastLoginDate) {}
 
     string getLastLoginDate() const
     {
@@ -44,10 +41,6 @@ public:
     {
         this->lastLoginDate = lastLoginDate;
     }
-
-    // void addFavList(Property &prop) {
-    //     this->favouriteList.insertAtEnd(prop);
-    // }
 
     bool registration(DynamicArray<Tenant> &tenantList, DynamicArray<string> &existingEmail)
     {
@@ -257,110 +250,6 @@ public:
         }
         return false;
     }
-
-    void sortPropertyInformation()
-    {
-        // Implementation of sorting property information logic
-    }
-
-    void searchProperty()
-    {
-        // Implementation of property search logic
-    }
-
-    void displayPropertyInformation()
-    {
-        // Implementation of displaying property information logic
-    }
-
-    void setFavoriteProperty(const Property &property)
-    {
-        // Implementation of saving favorite properties logic
-        this->favouriteList.insertAtEnd(property);
-    }
-
-    void removeFavouriteProperty(const int &remIndex)
-    {
-        // Implementation of removing favorite properties logic
-        this->favouriteList.removeAtIndex(remIndex);
-    }
-
-    // void viewFavouriteProperty() {
-    //     if (favouriteList.getSize() > 0) {
-    //         int propIndex = 1;
-
-    //         Property property = favouriteList.getFirst();
-
-    //         while (true) {
-    //             cout << endl;
-    //             cout << "[FAVOURITE PROPERTY LIST]" << endl;
-    //             cout << "NO: " << propIndex << " OUT OF " << favouriteList.getSize() << endl;
-
-    //             displaySingleProperty(property);
-
-    //             cout << "Options: (N)ext, (P)revious, (Q)uit, (U)nfavourite, (R)ent Request" << endl;
-    //             cout << ">> ";
-
-    //             string choice;
-    //             getline(cin >> ws, choice);
-
-    //             if (choice == "N" || choice == "n") {
-    //                 if (propIndex < favouriteList.getSize()) {
-    //                     property = favouriteList.nextItem();
-    //                     propIndex++;
-    //                 }
-    //                 else {
-    //                     cout << "No more items. Reached the last favourite property." << endl << endl;
-    //                 }
-    //             }
-    //             else if (choice == "P" || choice == "p") {
-    //                 if (propIndex > 1) {
-    //                     property = favouriteList.prevItem();
-    //                     propIndex--;
-    //                 }
-    //                 else {
-    //                     cout << endl << "This is the first favourite property." << endl << endl;
-    //                 }
-    //             }
-    //             else if (choice == "Q" || choice == "q") {
-    //                 break;
-    //             }
-    //             else if (choice == "U" || choice == "u") {
-    //                 property = favouriteList.removeCurrent();
-    //                 cout << endl << "Property has been removed from favourite list." << endl << endl;
-    //             }
-    //             else if (choice == "R" || choice == "r") {
-    //                 // call rent request function
-    //                 cout << endl << "Are you sure to rent this property (Y/N)" << endl;
-    //                 cout << ">>> ";
-
-    //                 string rentChoice;
-    //                 getline(cin >> ws, rentChoice);
-
-    //                 if (rentChoice == "Y" || rentChoice == "y") {
-    //                     // Add Rent Request Function
-    //                     addRentalRequest(favouriteList.getCurrent());
-    //                     cout << "Enter any key to continue: ";
-    //                     string userInput;
-    //                     getline(cin >> ws, userInput);
-    //                     cout << endl;
-    //                 }
-    //                 else if (rentChoice == "N" || rentChoice == "n") {
-    //                     cout << endl << "[RENT REQUEST CANCELLED]" << endl << endl;
-    //                 }
-    //                 else {
-    //                     cout << endl << "Invalid input! Please try again..." << endl;
-    //                 }
-    //             }
-    //             else {
-    //                 cout << endl << "Invalid input! Please try again..." << endl;
-    //             }
-    //         }
-    //     }
-    //     else {
-    //         cout << endl << "You have no favourite property..." << endl << endl;
-    //     }
-    // }
 
     void addRentalRequest(Property &propertySelected, DoublyCircularLinkedList<Rental> &rentalHistory)
     {
@@ -786,11 +675,6 @@ public:
         return userInput;
     }
 
-    void removeRentalRequest()
-    {
-        // Implementation of removing rental request logic
-    }
-
     void displaySingleProperty(const Property &property)
     {
         cout << "Ads ID: " << property.getAdsID() << endl;
@@ -808,25 +692,6 @@ public:
         cout << "Additional Facilities: " << property.getAdditionalFacilities() << endl;
         cout << "Region: " << property.getRegion() << endl;
         cout << "---------------------------------------\n";
-    }
-
-    DoublyCircularLinkedList<Property> getFavoriteProperty() const
-    {
-        return favouriteList;
-    }
-
-    // DoublyCircularLinkedList<Rental> getRentalHistory() const {
-    //     return &rentalHistory;
-    // }
-
-    void placeRentRequest()
-    {
-        // Implementation of placing a rent request logic
-    }
-
-    void displayRentingHistory()
-    {
-        // Implementation of displaying renting history logic
     }
 
     Tenant login(const string &email, DynamicArray<Tenant> &tenantList)
