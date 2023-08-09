@@ -5,11 +5,7 @@
  * FILENAME: Property.h
  */
 
-// #include <string>
 #include <vector>
-// #include <iostream>
-// #include <algorithm>
-// #include <cmath>
 #include "DataConversion.h"
 
 using namespace std;
