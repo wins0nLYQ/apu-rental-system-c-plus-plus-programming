@@ -639,7 +639,7 @@ class FilterProperty {
                             FavouriteProperty favP(filteredList.get(stoi(choice) - 1), tenant->getEmail());
                             favouriteList->insertAtEnd(favP);
 
-                            tenant->setFavoriteProperty(filteredList.get(stoi(choice) - 1));
+                            // tenant->setFavoriteProperty(filteredList.get(stoi(choice) - 1));
 
                             cout << endl;
                             cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;
