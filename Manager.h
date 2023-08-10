@@ -45,56 +45,6 @@ public:
         this->status = status;
     }
 
-    void displayRegisteredTenant()
-    {
-        // Implementation of displaying registered tenants logic
-    }
-
-    void searchTenant()
-    {
-        // Implementation of tenant search logic
-    }
-
-    void displayTenantStatus()
-    {
-        // Implementation of displaying tenant status logic
-    }
-
-    void deleteTenant()
-    {
-        // Implementation of tenant deletion logic
-    }
-
-    void displayFavoriteProperty()
-    {
-        // Implementation of displaying favorite properties logic
-    }
-
-    void generate_TopFavProp_Report()
-    {
-        // Implementation of generating top favorite properties report logic
-    }
-
-    void displayRentingRequest()
-    {
-        // Implementation of displaying renting requests logic
-    }
-
-    void acceptTenancy()
-    {
-        // Implementation of accepting tenancy logic
-    }
-
-    void rejectTenancy()
-    {
-        // Implementation of rejecting tenancy logic
-    }
-
-    void displayPaymentStatus()
-    {
-        // Implementation of displaying payment status logic
-    }
-
     Manager login(const std::string &email, DynamicArray<Manager> &managerList)
     {
         Manager loginManager;
@@ -296,9 +246,10 @@ public:
 
     void printAllPayment(DoublyCircularLinkedList<Rental> &allRentHistory)
     {
-        bool paymentFound = false;
         while (true)
         {
+            bool paymentFound = false;
+
             cout << "[ALL PAYMENT HISTORY PAGE]" << endl;
             for (int count = 0; count < allRentHistory.getSize(); count++)
             {
@@ -321,10 +272,11 @@ public:
             }
             if (!paymentFound)
             {
-                cout << "No payment found.\n";
+                cout << "No payment found.\n\n";
+                break;
             }
-
-            cout << "Options: (U)pdate, (Q)uit\n>>";
+    
+            cout << "Options: (U)pdate, (Q)uit\n>> ";
             string userInput;
             getline(cin >> ws, userInput);
 
@@ -348,8 +300,6 @@ public:
                         cout << "Invalid input. Please try again.\n";
                     }
                 }
-
-                // cin.ignore(); // Clear newline character from input buffer
 
                 if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
                 {
