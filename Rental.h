@@ -94,30 +94,6 @@ class Rental {
         return this->property == other.getProperty() &&
                this->tenantEmail == other.getTenantEmail();
     }
-
-    // string getPaymentStatus() const {
-    //     return paymentStatus;
-    // }
-
-    // void setPaymentStatus(const string& newPaymentStatus) {
-    //     paymentStatus = newPaymentStatus;
-    // }
-
-    // string getMoveInDate() const {
-    //     return moveInDate;
-    // }
-    
-    // void setMoveInDate(const string& newMoveInDate) {
-    //     moveInDate = newMoveInDate;
-    // }
-
-    // string getMoveOutDate() const {
-    //     return moveOutDate;
-    // }
-
-    // void setMoveOutDate(const string& newMoveOutDate) {
-    //     this->moveOutDate = newMoveOutDate;
-    // }
 };
 
 #endif

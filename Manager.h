@@ -11,8 +11,6 @@
 #include "User.h"
 #include "DynamicArray.h"
 #include "DataConversion.h"
-// #include <vector>
-// #include "DataConversion.h"
 #include "Tenant.h"
 #include "FilterProperty.h"
 #include <unordered_map> //is a container that stores elements formed by a combination of key value and a mapped value.
@@ -120,26 +118,6 @@ public:
         }
         return loginManager;
     }
-
-    // void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty)
-    // {
-    //     for (int count = 0; count < tenantList.getSize(); count++)
-    //     {
-    //         Tenant tenant = tenantList.get(count);
-    //         for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++)
-    //         {
-    //             allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
-    //         }
-    //     }
-    // }
-    // void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
-    //         for (int count = 0; count < tenantList.getSize(); count++) {
-    //             Tenant tenant = tenantList.get(count);
-    //             for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
-    //                 allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));
-    //             }
-    //         }
-    // }
 
     void printTopFavouriteProperties(DynamicArray<Property> allFavouriteList)
     {
