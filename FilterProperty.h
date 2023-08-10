@@ -635,18 +635,9 @@ class FilterProperty {
                         cout << endl;
 
                         if(confirm == "Y" || confirm == "y") {
-                            // tenant->addFavList(filteredList.get(stoi(choice) - 1));
+                            
                             FavouriteProperty favP(filteredList.get(stoi(choice) - 1), tenant->getEmail());
-                            favouriteList->insertAtEnd(favP);
-
-                            // tenant->setFavoriteProperty(filteredList.get(stoi(choice) - 1));
-
-                            cout << endl;
-                            cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;
-                            cout << "Enter any key to continue surfing: ";
-                            string userInput;
-                            getline(cin >> ws, userInput);
-                            cout << endl;
+                            tenant->addFavouriteProperty(*favouriteList, favP);
 
                         } else if(confirm == "N" || confirm == "n") {
                             cout << "Enter any key to continue surfing: ";

@@ -679,7 +679,6 @@ public:
         DoublyCircularLinkedList<Property> selectedFavP;
         for (int i = 0; i < favouriteList.getSize(); ++i)
         {
-            cout << favouriteList.get(i).getTenantEmail() << endl;
             if (dc.toLowercase(tenant.getEmail()) == dc.toLowercase(favouriteList.get(i).getTenantEmail()))
             {
                 selectedFavP.insertAtEnd(favouriteList.get(i).getProperty());
@@ -700,8 +699,6 @@ public:
 
                 FilterProperty fp;
                 fp.displaySingleProperty(property);
-
-                // cout << "Options: (N)ext, (P)revious, (Q)uit, (U)nfavourite, (R)ent Request" << endl;
                 cout << "Options: (N)ext, (P)revious, (Q)uit, (R)ent Request" << endl;
                 cout << ">> ";
 
@@ -739,18 +736,6 @@ public:
                 {
                     break;
                 }
-                // else if (choice == "U" || choice == "u") {
-                //     property = selectedFavP.removeCurrent();
-                //     cout << selectedFavP.getSize() << endl;
-                //     unfavouriteProperty(tenant, selectedFavP);
-                //     cout << endl << "Property has been removed from favourite list." << endl << endl;
-                //     // unfavouriteProperty(tenant, selectedFavP);
-                //     // break;
-                //     if(selectedFavP.getSize() == 0) {
-                //         break;
-                //     }
-
-                // }
                 else if (choice == "R" || choice == "r")
                 {
                     // call rent request function

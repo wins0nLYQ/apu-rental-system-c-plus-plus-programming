@@ -14,6 +14,7 @@
 #include "DataValidation.h"
 #include "DataConversion.h"
 #include <ctime>
+#include "FavouriteProperty.h"
 
 using namespace std;
 
@@ -21,7 +22,6 @@ class Tenant : public User
 {
 private:
     string lastLoginDate;
-    DoublyCircularLinkedList<Rental> *rentalHistory;
 
 public:
     Tenant() {}
@@ -251,6 +251,18 @@ public:
         return false;
     }
 
+    void addFavouriteProperty(DoublyCircularLinkedList<FavouriteProperty> &favouriteList, FavouriteProperty &favP)
+    {
+        cout << favP.getTenantEmail() << endl;
+        favouriteList.insertAtEnd(favP);
+        cout << endl;
+        cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;
+        cout << "Enter any key to continue surfing: ";
+        string userInput;
+        getline(cin >> ws, userInput);
+        cout << endl;
+    }
+
     void addRentalRequest(Property &propertySelected, DoublyCircularLinkedList<Rental> &rentalHistory)
     {
         for (int count = 0; count < rentalHistory.getSize(); count++)
@@ -318,17 +330,6 @@ public:
 
             cout << "---------------------------------------" << endl;
 
-            // switch (stat) {
-            //     case Approved:
-            //         cout << "Options: (N)ext, (P)revious, (D)elete, (Q)uit, (T)ransaction" << endl;
-            //         cout << ">> ";
-            //         break;
-            //     default:
-            //         cout << "Options: (N)ext, (P)revious, (D)elete, (Q)uit" << endl;
-            //         cout << ">> ";
-            //         break;
-            // }
-
             cout << "Options: (N)ext, (P)revious, (Q)uit" << endl;
             cout << ">> ";
 
@@ -382,43 +383,6 @@ public:
                          << endl;
                 }
             }
-            // else if (choice == "D" || choice == "d") {
-            //     while (true) {
-            //         cout << "Are you sure to remove the current rental history from the list? (Y/N)" << endl;
-            //         cout << ">> ";
-            //         string option;
-            //         getline(cin >> ws, option);
-
-            //         if (option == "Y" || option == "y") {
-            //             rental = tenantRentalHistory.removeCurrent();
-            //             cout << endl << "Rental history has been removed." << endl << endl;
-            //             break;
-            //         }
-            //         else if (option == "N" || option == "n") {
-            //             cout << endl << "Rental request remove unsuccessful" << endl << endl;
-            //             break;
-            //         }
-            //         else {
-            //             cout << endl << "Invalid Option. Please Try Again..." << endl << endl;
-            //         }
-            //     }
-            // }
-            // else if (choice == "T" || choice == "t") {
-            //     if (rental.getApplicationStatus() == 1) {
-            //         cout << endl << "Going to payment page..." << endl << endl;
-
-            //         if(rentalPayment(rental, rentalHistory.getIndex())) {
-            //             cout << "Payment successful!" << endl << endl;
-            //             break;
-            //         }
-            //         else {
-            //             cout << "Payment Unsuccess!" << endl << endl;
-            //         }
-            //     }
-            //     else {
-            //         cout << "This application is not approved..." << endl;
-            //     }
-            // }
             else if (choice == "Q" || choice == "q")
             {
                 break;
