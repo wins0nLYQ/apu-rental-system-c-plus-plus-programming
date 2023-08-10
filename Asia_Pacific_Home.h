@@ -914,6 +914,7 @@ public:
     {
         std::function<bool(const Property &, const Property &)> compareFunction;
         MergeSort mergeSortObj;
+        BubbleSort bubbleSortObj; // Create an instance of the BubbleSort class
         bool validInput = false;
         while (!validInput)
         {
@@ -934,18 +935,29 @@ public:
                 { // bubbleSort
                     if (sortOption == "1")
                     { // monthy rent
+                        cout << "Sorting based on Monthly Rent in ascending order" << std::endl;
+                        bubbleSortObj.bubbleSortByMonthlyRentAscending(properties);
+                        bubbleSortObj.calculateBubbleSortTime(properties, &BubbleSort::bubbleSortByMonthlyRentAscending);
                     }
                     else if (sortOption == "2")
                     { // location
+                        cout << "Sorting based on Location in ascending order" << std::endl;
+                        bubbleSortObj.bubbleSortByLocationAscending(properties);
+                        bubbleSortObj.calculateBubbleSortTime(properties, &BubbleSort::bubbleSortByLocationAscending);
                     }
                     else if (sortOption == "3")
                     { // size
+                        cout << "Sorting based on Size in ascending order" << std::endl;
+                        bubbleSortObj.bubbleSortBySizeAscending(properties);
+                        bubbleSortObj.calculateBubbleSortTime(properties, &BubbleSort::bubbleSortBySizeAscending);
                     }
                     else
                     {
                         cout << "Invalid Input! Try Again! " << endl;
                         tenant_sortSelectionPage(tenant);
                     }
+                    FilterProperty fp(user, tenant, favouriteList);
+                    fp.displayFilteredPropertyList(properties);
                 }
                 else if (sortTypeSelection == "2")
                 { // mergeSOrt
@@ -993,18 +1005,29 @@ public:
                 { // bubbleSort
                     if (sortOption == "1")
                     { // monthy rent
+                        cout << "Sorting based on Monthly Rent in descending order" << std::endl;
+                        bubbleSortObj.bubbleSortByMonthlyRentDecending(properties);
+                        bubbleSortObj.calculateBubbleSortTime(properties, &BubbleSort::bubbleSortByMonthlyRentDecending);
                     }
                     else if (sortOption == "2")
                     { // location
+                        cout << "Sorting based on Location in descending order" << std::endl;
+                        bubbleSortObj.bubbleSortByLocationDecending(properties);
+                        bubbleSortObj.calculateBubbleSortTime(properties, &BubbleSort::bubbleSortByLocationDecending);
                     }
                     else if (sortOption == "3")
                     { // size
+                        cout << "Sorting based on Size in descending order" << std::endl;
+                        bubbleSortObj.bubbleSortBySizeDecending(properties);
+                        bubbleSortObj.calculateBubbleSortTime(properties, &BubbleSort::bubbleSortBySizeDecending);
                     }
                     else
                     {
                         cout << "Invalid Input! Try Again! " << endl;
                         tenant_sortSelectionPage(tenant);
                     }
+                    FilterProperty fp(user, tenant, favouriteList);
+                    fp.displayFilteredPropertyList(properties);
                 }
                 else if (sortTypeSelection == "2")
                 { // mergeSOrt
@@ -1366,7 +1389,6 @@ public:
             else if (userInput == "3")
             {
                 DoublyCircularLinkedList<Rental> allRentalHistory;
-                // manager.getAllFavouriteList(tenantList, allFavouriteList);
                 for (int i = 0; i < rentalHistory.getSize(); ++i)
                 {
                     Rental prop = rentalHistory.get(i);
@@ -1377,8 +1399,14 @@ public:
             }
             else if (userInput == "4")
             {
+                DoublyCircularLinkedList<Rental> allRentalHistory;
+                for (int i = 0; i < rentalHistory.getSize(); ++i)
+                {
+                    Rental prop = rentalHistory.get(i);
+                    allRentalHistory.insertAtEnd(prop);
+                }
+                manager_Payment(manager, allRentalHistory);
                 validInput = true;
-                homePage();
             }
             else if (userInput == "5")
             {
@@ -1485,6 +1513,25 @@ public:
         else
         {
             manager.printAllRentHistory(allRentalHistory);
+            rentalHistory = allRentalHistory;
+            manager_HomePage(manager);
+        }
+    }
+
+    void manager_Payment(Manager &manager, DoublyCircularLinkedList<Rental> allRentalHistory)
+    {
+        if (allRentalHistory.getSize() == 0)
+        {
+            cout << "Payment not available...." << endl;
+            cout << "Input any key to back >> ";
+            string userInput;
+            getline(cin >> ws, userInput);
+            cout << endl;
+            manager_HomePage(manager);
+        }
+        else
+        {
+            manager.printAllPayment(allRentalHistory);
             rentalHistory = allRentalHistory;
             manager_HomePage(manager);
         }

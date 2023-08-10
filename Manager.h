@@ -240,16 +240,28 @@ public:
         while (true)
         {
             cout << "[ALL RENTAL HISTORY PAGE]" << endl;
+            bool hasPending = false; // Flag to check if there are any pending requests
             for (int count = 0; count < allRentHistory.getSize(); count++)
             {
                 Rental rental = allRentHistory.get(count);
-                cout << "-----------------------------------------\n";
-                cout << "NO: " << count + 1 << "\n";
-                cout << "Property Name : " << rental.getProperty().getPropName() << "\n";
-                cout << "Tenant Email : " << rental.getTenantEmail() << "\n";
-                cout << "Request Date : " << rental.getRequestDateTime() << "\n";
-                cout << "Application Status : " << getStatusInString(rental.getApplicationStatus()) << "\n"; // Assuming getStatusInString converts enum to string
-                cout << "-----------------------------------------\n";
+                if (rental.getApplicationStatus() == Status::Pending)
+                {
+                    hasPending = true; // Found a pending request
+                    cout << "-----------------------------------------\n";
+                    cout << "NO: " << count + 1 << "\n";
+                    cout << "Property ID : " << rental.getProperty().getAdsID() << "\n";
+                    cout << "Property Name : " << rental.getProperty().getPropName() << "\n";
+                    cout << "Tenant Email : " << rental.getTenantEmail() << "\n";
+                    cout << "Request Date : " << rental.getRequestDateTime() << "\n";
+                    cout << "Application Status : " << getStatusInString(rental.getApplicationStatus()) << "\n";
+                    cout << "-----------------------------------------\n";
+                }
+            }
+            if (!hasPending) // If no pending requests were found
+            {
+                cout << "No pending requests.\n";
+                cout << endl;
+                break; // Exit the loop and return from the function
             }
             cout << "Options: (A)pprove, (R)eject, (Q)uit\n>>";
             string userInput;
@@ -267,6 +279,7 @@ public:
                     Rental &rentalToApprove = allRentHistory.get(rentalNumber - 1);
                     rentalToApprove.setApplicationStatus(Status::Approved); // Set enum value
                     cout << "Rental " << rentalNumber << " has been approved.\n";
+                    cout << endl;
                 }
                 else
                 {
@@ -285,6 +298,111 @@ public:
                     Rental &rentalToReject = allRentHistory.get(rentalNumber - 1);
                     rentalToReject.setApplicationStatus(Status::Rejected); // Set enum value
                     cout << "Rental " << rentalNumber << " has been rejected.\n";
+                    cout << endl;
+                }
+                else
+                {
+                    cout << "Invalid rental number. Please try again.\n";
+                }
+            }
+            else if (userInput == "Q" || userInput == "q")
+            {
+                break; // Exit the loop and return from the function
+            }
+            else
+            {
+                cout << "Invalid input. Please try again.\n";
+            }
+        }
+    }
+
+    void printAllPayment(DoublyCircularLinkedList<Rental> &allRentHistory)
+    {
+        bool paymentFound = false;
+        while (true)
+        {
+            cout << "[ALL PAYMENT HISTORY PAGE]" << endl;
+            for (int count = 0; count < allRentHistory.getSize(); count++)
+            {
+                Rental rental = allRentHistory.get(count);
+                if (rental.getApplicationStatus() == Status::Approved || rental.getApplicationStatus() == Status::Pending)
+                {
+                    paymentFound = true;
+                    cout << "-----------------------------------------\n";
+                    cout << "NO: " << count + 1 << "\n";
+                    cout << "Property ID : " << rental.getProperty().getAdsID() << "\n";
+                    cout << "Property Name : " << rental.getProperty().getPropName() << "\n";
+                    cout << "Tenant Email : " << rental.getTenantEmail() << "\n";
+                    cout << "Request/Payment Date : " << rental.getRequestDateTime() << "\n";
+                    cout << "Application Status : " << getStatusInString(rental.getApplicationStatus()) << "\n";
+                    DataConversion dataConversion;
+                    long long paymentAmount = dataConversion.extractDigit(rental.getProperty().getMonthlyRent());
+                    cout << "Payment Amount : RM " << paymentAmount * 3.5 << "\n"; // Calculated payment amount
+                    cout << "-----------------------------------------\n";
+                }
+            }
+            if (!paymentFound)
+            {
+                cout << "No payment found.\n";
+            }
+
+            cout << "Options: (U)pdate, (Q)uit\n>>";
+            string userInput;
+            getline(cin >> ws, userInput);
+
+            if (userInput == "U" || userInput == "u")
+            {
+                string rentalNumber_S;
+                DataConversion dc;
+                int rentalNumber;
+                while (true)
+                {
+                    cout << "Enter the number of the rental to update: ";
+                    getline(cin >> ws, rentalNumber_S);
+
+                    if (dc.isInteger(rentalNumber_S))
+                    {
+                        rentalNumber = stoi(rentalNumber_S);
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Invalid input. Please try again.\n";
+                    }
+                }
+
+                // cin.ignore(); // Clear newline character from input buffer
+
+                if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
+                {
+                    Rental &rentalToUpdate = allRentHistory.get(rentalNumber - 1);
+                    if (rentalToUpdate.getApplicationStatus() == Status::Active || rentalToUpdate.getApplicationStatus() == Status::Refunded)
+                    {
+                        cout << "No action required for rental " << rentalNumber << ".\n\n";
+                    }
+                    else if (rentalToUpdate.getApplicationStatus() == Status::Approved)
+                    {
+                        cout << "Do you want to verify? (y/n): ";
+                        string verifyChoice;
+                        getline(cin >> ws, verifyChoice);
+                        if (verifyChoice == "y" || verifyChoice == "Y")
+                        {
+                            rentalToUpdate.setApplicationStatus(Status::Active); // Set enum value to Verified
+                            cout << "Rental " << rentalNumber << " has been verified.\n\n";
+                        }
+                    }
+                    else if (rentalToUpdate.getApplicationStatus() == Status::Rejected)
+                    {
+                        cout << "Do you want to refund? (y/n): ";
+                        string refundChoice;
+                        getline(cin >> ws, refundChoice);
+                        // cin.ignore();
+                        if (refundChoice == "y" || refundChoice == "Y")
+                        {
+                            rentalToUpdate.setApplicationStatus(Status::Refunded); // Set enum value to Refunded
+                            cout << "Rental " << rentalNumber << " has been refunded.\n\n";
+                        }
+                    }
                 }
                 else
                 {
