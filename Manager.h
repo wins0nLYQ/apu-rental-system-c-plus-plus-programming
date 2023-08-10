@@ -3,7 +3,7 @@
 
 /**
  * FILENAME: Manager.h
-*/
+ */
 
 #include "string"
 #include <iostream>
@@ -11,85 +11,100 @@
 #include "User.h"
 #include "DynamicArray.h"
 #include "DataConversion.h"
-// #include <vector>
-// #include "DataConversion.h"
 #include "Tenant.h"
 #include "FilterProperty.h"
-#include <unordered_map> //is a container that stores elements formed by a combination of key value and a mapped value. 
-                        //It uses a hash table internally for its implementation, and searching for elements in it is very efficient.
-#include <queue> // is a container adapter that provides constant time lookup of the largest (by default) element.
-
+#include <unordered_map> //is a container that stores elements formed by a combination of key value and a mapped value.
+                         // It uses a hash table internally for its implementation, and searching for elements in it is very efficient.
+#include <queue>         // is a container adapter that provides constant time lookup of the largest (by default) element.
 
 using namespace std;
 
-class Manager : public User {
+class Manager : public User
+{
 private:
     string status;
 
 public:
-    Manager(){}
+    Manager() {}
 
-    Manager(const std::string& _name, const std::string& _email, const std::string& _phoneNo,
-                const std::string& _identificationNo, const std::string& _gender,
-                const std::string& _dateOfBirth, const std::string& _status)
-            : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth, "Manager"),
-            status(_status) {
+    Manager(const std::string &_name, const std::string &_email, const std::string &_phoneNo,
+            const std::string &_identificationNo, const std::string &_gender,
+            const std::string &_dateOfBirth, const std::string &_status)
+        : User(_name, _email, _phoneNo, _identificationNo, _gender, "abc@123", _dateOfBirth, "Manager"),
+          status(_status)
+    {
     }
 
-    string getStatus() const {
+    string getStatus() const
+    {
         return status;
     }
 
-    void setStatus(const string& status) {
+    void setStatus(const string &status)
+    {
         this->status = status;
     }
 
-    void displayRegisteredTenant() {
+    void displayRegisteredTenant()
+    {
         // Implementation of displaying registered tenants logic
     }
 
-    void searchTenant() {
+    void searchTenant()
+    {
         // Implementation of tenant search logic
     }
 
-    void displayTenantStatus() {
+    void displayTenantStatus()
+    {
         // Implementation of displaying tenant status logic
     }
 
-    void deleteTenant() {
+    void deleteTenant()
+    {
         // Implementation of tenant deletion logic
     }
 
-    void displayFavoriteProperty() {
+    void displayFavoriteProperty()
+    {
         // Implementation of displaying favorite properties logic
     }
 
-    void generate_TopFavProp_Report() {
+    void generate_TopFavProp_Report()
+    {
         // Implementation of generating top favorite properties report logic
     }
 
-    void displayRentingRequest() {
+    void displayRentingRequest()
+    {
         // Implementation of displaying renting requests logic
     }
 
-    void acceptTenancy() {
+    void acceptTenancy()
+    {
         // Implementation of accepting tenancy logic
     }
 
-    void rejectTenancy() {
+    void rejectTenancy()
+    {
         // Implementation of rejecting tenancy logic
     }
 
-    void displayPaymentStatus() {
+    void displayPaymentStatus()
+    {
         // Implementation of displaying payment status logic
     }
 
-    Manager login(const std::string& email, DynamicArray<Manager>& managerList) {
-        Manager loginManager; DataConversion dc;
-        for(int i = 0; i < managerList.getSize(); ++i) {
+    Manager login(const std::string &email, DynamicArray<Manager> &managerList)
+    {
+        Manager loginManager;
+        DataConversion dc;
+        for (int i = 0; i < managerList.getSize(); ++i)
+        {
             Manager manager;
             manager = managerList.get(i);
-            if(dc.toLowercase(manager.getEmail()) == dc.toLowercase(email)) {
+            if (dc.toLowercase(manager.getEmail()) == dc.toLowercase(email))
+            {
                 loginManager.setName(manager.getName());
                 loginManager.setEmail(manager.getEmail());
                 loginManager.setPhoneNo(manager.getPhoneNo());
@@ -100,64 +115,63 @@ public:
                 loginManager.setStatus(manager.getStatus());
                 loginManager.setRole(manager.getRole());
             }
-        } return loginManager;
+        }
+        return loginManager;
     }
 
-    // void getAllFavouriteList(DynamicArray<Tenant> tenantList, DynamicArray<Property> &allFavouriteProperty) {
-    //         for (int count = 0; count < tenantList.getSize(); count++) {
-    //             Tenant tenant = tenantList.get(count);
-    //             for (int count2 = 0; count2 < tenant.getFavoriteProperty().getSize(); count2++) {
-    //                 allFavouriteProperty.insertAtEnd(tenant.getFavoriteProperty().get(count2));   
-    //             }
-    //         } 
-    // }
+    void printTopFavouriteProperties(DynamicArray<Property> allFavouriteList)
+    {
+        // Create an unordered_map to store property names and their corresponding properties and counts
+        std::unordered_map<std::string, std::pair<Property, int>> propertyFrequency;
 
+        // Iterate through the list of favorite properties
+        for (int i = 0; i < allFavouriteList.getSize(); i++)
+        {
+            // Get the current property
+            Property property = allFavouriteList.get(i);
+            // Get the name of the property
+            std::string propertyName = property.getPropName();
+            // Increment the count for this property in the map and store the property
+            propertyFrequency[propertyName].first = property;
+            propertyFrequency[propertyName].second++;
+        }
 
+        // Define a comparison function for the priority queue
+        // It compares pairs of property name and count
+        auto compare = [](const std::pair<std::string, std::pair<Property, int>> &a, const std::pair<std::string, std::pair<Property, int>> &b)
+        {
+            // Properties with higher counts are considered smaller
+            // If counts are equal, properties with lexicographically smaller names are considered smaller
+            return a.second.second < b.second.second || (a.second.second == b.second.second && a.first < b.first);
+        };
 
-    void printTopFavouriteProperties(DynamicArray<Property> allFavouriteList) {
-            // Create an unordered_map to store property names and their corresponding properties and counts
-            std::unordered_map<std::string, std::pair<Property, int>> propertyFrequency;
+        // Create a priority queue to store the top 10 properties
+        // The queue contains pairs of property name and a pair of Property and count
+        // The property with the highest count (and smallest name if counts are equal) is always at the top
+        std::priority_queue<std::pair<std::string, std::pair<Property, int>>, std::vector<std::pair<std::string, std::pair<Property, int>>>, decltype(compare)> topFavourites(compare);
 
-            // Iterate through the list of favorite properties
-            for(int i = 0; i < allFavouriteList.getSize(); i++) {
-                // Get the current property
-                Property property = allFavouriteList.get(i);
-                // Get the name of the property
-                std::string propertyName = property.getPropName();
-                // Increment the count for this property in the map and store the property
-                propertyFrequency[propertyName].first = property;
-                propertyFrequency[propertyName].second++;
-            }
-
-            // Define a comparison function for the priority queue
-            // It compares pairs of property name and count
-            auto compare = [](const std::pair<std::string, std::pair<Property, int>>& a, const std::pair<std::string, std::pair<Property, int>>& b) {
-                // Properties with higher counts are considered smaller
-                // If counts are equal, properties with lexicographically smaller names are considered smaller
-                return a.second.second < b.second.second || (a.second.second == b.second.second && a.first < b.first);
-            };
-
-            // Create a priority queue to store the top 10 properties
-            // The queue contains pairs of property name and a pair of Property and count
-            // The property with the highest count (and smallest name if counts are equal) is always at the top
-            std::priority_queue<std::pair<std::string, std::pair<Property, int>>, std::vector<std::pair<std::string, std::pair<Property, int>>>, decltype(compare)> topFavourites(compare);
-
-        while (true) {
+        while (true)
+        {
             // Iterate through the map of property counts
-            for (const auto& pair : propertyFrequency) {
+            for (const auto &pair : propertyFrequency)
+            {
                 // Add each property to the priority queue
                 topFavourites.push(pair);
                 // If the queue has more than 10 properties, remove the one with the lowest count (and largest name if counts are equal)
-                if (topFavourites.size() > 10) {
+                if (topFavourites.size() > 10)
+                {
                     topFavourites.pop();
                 }
             }
             cout << "[TOP 10 FAVOURITE PROPERTY PAGE]" << endl;
-            for (int rank = 10; !topFavourites.empty(); --rank) {
+            for (int rank = 10; !topFavourites.empty(); --rank)
+            {
                 // Get the property at the top of the queue
                 auto top = topFavourites.top();
                 // Print the property's rank, name, and count
-                std::cout << "\t" << "\t" << "[TOP " << 11 - rank << "]\n";
+                std::cout << "\t"
+                          << "\t"
+                          << "[TOP " << 11 - rank << "]\n";
                 std::cout << "-----------------------------------------\n";
                 std::cout << "Property Name : " << top.first << "\n";
                 std::cout << "Favorited Amount : " << top.second.second << "\n";
@@ -171,27 +185,103 @@ public:
             getline(cin >> ws, userInput);
             cout << endl;
 
-            if (userInput == "G" || userInput == "g") {
+            if (userInput == "G" || userInput == "g")
+            {
                 FilterProperty property;
                 cout << "[TOP 10 FAVOURITE PROPERTY REPORT PAGE]" << endl;
-                for (const auto& pair : propertyFrequency) {
+                for (const auto &pair : propertyFrequency)
+                {
                     std::cout << "---------------------------\n";
                     property.displaySingleProperty(pair.second.first);
-                }   
+                }
                 cout << "Enter any key to continue to go back: ";
                 string userInput;
                 getline(cin >> ws, userInput);
                 cout << endl;
-            } else if (userInput == "Q" || userInput == "q"){
+            }
+            else if (userInput == "Q" || userInput == "q")
+            {
 
                 break;
-            }else {
+            }
+            else
+            {
                 cout << "Invalid input. Please try again." << endl;
+            }
+        }
+        cout << "Testing3" << endl;
+    }
+
+    // Call DoublyCircularLinkedList<Rental> rentalHistory from Asia Pacific Home and print all;
+    void printAllRentHistory(DoublyCircularLinkedList<Rental> &allRentHistory)
+    {
+        while (true)
+        {
+            cout << "[ALL RENTAL HISTORY PAGE]" << endl;
+            for (int count = 0; count < allRentHistory.getSize(); count++)
+            {
+                Rental rental = allRentHistory.get(count);
+                cout << "-----------------------------------------\n";
+                cout << "NO: " << count + 1 << "\n";
+                cout << "Property Name : " << rental.getProperty().getPropName() << "\n";
+                cout << "Tenant Email : " << rental.getTenantEmail() << "\n";
+                cout << "Request Date : " << rental.getRequestDateTime() << "\n";
+                cout << "Application Status : " << getStatusInString(rental.getApplicationStatus()) << "\n"; // Assuming getStatusInString converts enum to string
+                cout << "-----------------------------------------\n";
+            }
+            cout << "Options: (A)pprove, (R)eject, (Q)uit\n>>";
+            string userInput;
+            getline(cin >> ws, userInput);
+
+            if (userInput == "A" || userInput == "a")
+            {
+                cout << "Enter the number of the rental to approve: ";
+                int rentalNumber;
+                cin >> rentalNumber;
+                cin.ignore(); // Clear newline character from input buffer
+
+                if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
+                {
+                    Rental &rentalToApprove = allRentHistory.get(rentalNumber - 1);
+                    rentalToApprove.setApplicationStatus(Status::Approved); // Set enum value
+                    cout << "Rental " << rentalNumber << " has been approved.\n";
+                }
+                else
+                {
+                    cout << "Invalid rental number. Please try again.\n";
+                }
+            }
+            else if (userInput == "R" || userInput == "r")
+            {
+                cout << "Enter the number of the rental to reject: ";
+                int rentalNumber;
+                cin >> rentalNumber;
+                cin.ignore(); // Clear newline character from input buffer
+
+                if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
+                {
+                    Rental &rentalToReject = allRentHistory.get(rentalNumber - 1);
+                    rentalToReject.setApplicationStatus(Status::Rejected); // Set enum value
+                    cout << "Rental " << rentalNumber << " has been rejected.\n";
+                }
+                else
+                {
+                    cout << "Invalid rental number. Please try again.\n";
+                }
+            }
+            else if (userInput == "Q" || userInput == "q")
+            {
+                break; // Exit the loop and return from the function
+            }
+            else
+            {
+                cout << "Invalid input. Please try again.\n";
             }
         }
     }
 
-    void resetPassword(DynamicArray<Manager>& managerList) {
+    void resetPassword(DynamicArray<Manager> &managerList)
+    {
         DataValidation dv;
         string currentPassword = this->getPassword();
         string newPassword;
@@ -199,24 +289,31 @@ public:
 
         // Loop until the user enters correct current password or "-1" to exit
         string enteredPassword;
-        while (true) {
+        while (true)
+        {
             cout << "Enter current password (Enter -1 to exit): ";
             getline(cin >> ws, enteredPassword);
             cout << endl;
 
-            if (enteredPassword == "-1") {
+            if (enteredPassword == "-1")
+            {
                 return;
             }
 
-            if (enteredPassword == currentPassword) {
+            if (enteredPassword == currentPassword)
+            {
                 break;
-            } else {
-                cout << "Incorrect current password. Please try again." << endl << endl;
+            }
+            else
+            {
+                cout << "Incorrect current password. Please try again." << endl
+                     << endl;
             }
         }
 
         // Prompt user for new password and confirm
-         while (true) {
+        while (true)
+        {
             cout << "[ENTER NEW PASSWORD] (Enter -1 to exit)" << endl;
             cout << "- Minimum length of 8 characters." << endl;
             cout << "- At least one UPPERCASE." << endl;
@@ -227,29 +324,41 @@ public:
             getline(cin >> ws, newPassword);
             cout << endl;
 
-            if (newPassword == "-1") {
+            if (newPassword == "-1")
+            {
                 return;
             }
 
-            if(dv.isValidPassword(newPassword)) {
+            if (dv.isValidPassword(newPassword))
+            {
                 cout << "Re-enter new password to confirm: ";
                 getline(cin >> ws, confirmPassword);
                 cout << endl;
 
-                if (newPassword != confirmPassword) {
-                    cout << "Passwords do not match. Please try again." << endl << endl;
-                } else {
+                if (newPassword != confirmPassword)
+                {
+                    cout << "Passwords do not match. Please try again." << endl
+                         << endl;
+                }
+                else
+                {
                     break;
                 }
-            } else {
-                cout << "Invalid password! Please try again." << endl << endl;
+            }
+            else
+            {
+                cout << "Invalid password! Please try again." << endl
+                     << endl;
             }
         }
 
+        cout << "HELLO" << endl;
         // Update the password
-        for (int count = 0; count < managerList.getSize(); count++) {
+        for (int count = 0; count < managerList.getSize(); count++)
+        {
             Manager &tempManager = managerList.get(count);
-            if (tempManager.getEmail() == this->getEmail()) {
+            if (tempManager.getEmail() == this->getEmail())
+            {
                 tempManager.setPassword(newPassword);
                 this->setPassword(newPassword);
                 managerList.set(count, tempManager);
@@ -258,11 +367,6 @@ public:
         }
         cout << "Password successfully changed." << endl;
     }
-
-
-
-
-
 };
 
 #endif

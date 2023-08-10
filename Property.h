@@ -5,12 +5,8 @@
  * FILENAME: Property.h
  */
 
-// #include <string>
 #include <vector>
-// #include <iostream>
-// #include <algorithm>
-// #include <cmath>
-// #include "DataConversion.h"
+#include "DataConversion.h"
 
 using namespace std;
 
@@ -266,7 +262,7 @@ public:
                 }
             }
 
-            if (!flag && furnishedType!="")
+            if (!flag && furnishedType != "")
             {
                 furnishedTypeList.insertAtEnd(furnishedType);
             }
@@ -308,8 +304,9 @@ public:
     }
 
     // Equality comparison operator
-    bool operator==(const Property& other) const {
-        return this->adsID == other.adsID && 
+    bool operator==(const Property &other) const
+    {
+        return this->adsID == other.adsID &&
                this->propName == other.propName &&
                this->completionYear == other.completionYear &&
                this->monthlyRent == other.monthlyRent &&
@@ -325,8 +322,9 @@ public:
                this->region == other.region;
     }
 
-    bool isEmpty() {
-        return this->adsID == "" && 
+    bool isEmpty()
+    {
+        return this->adsID == "" &&
                this->propName == "" &&
                this->completionYear == "" &&
                this->monthlyRent == "" &&
