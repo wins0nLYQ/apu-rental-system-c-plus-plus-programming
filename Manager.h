@@ -13,9 +13,8 @@
 #include "DataConversion.h"
 #include "Tenant.h"
 #include "FilterProperty.h"
-#include <unordered_map> //is a container that stores elements formed by a combination of key value and a mapped value.
-                         // It uses a hash table internally for its implementation, and searching for elements in it is very efficient.
-#include <queue>         // is a container adapter that provides constant time lookup of the largest (by default) element.
+#include <unordered_map>    
+#include <queue>         
 
 using namespace std;
 
@@ -162,84 +161,122 @@ public:
         cout << "Testing3" << endl;
     }
 
-    // Call DoublyCircularLinkedList<Rental> rentalHistory from Asia Pacific Home and print all;
+    // Call DoublyCircularLinkedList<Rental> rentalHistory from Asia Pacific Home and print all
     void printAllRentHistory(DoublyCircularLinkedList<Rental> &allRentHistory)
     {
-        while (true)
+
+        if (allRentHistory.getSize() == 0) // If no pending requests were found
         {
-            cout << "[ALL RENTAL HISTORY PAGE]" << endl;
-            bool hasPending = false; // Flag to check if there are any pending requests
-            for (int count = 0; count < allRentHistory.getSize(); count++)
+            cout << "No pending requests.\n";
+            cout << endl;
+        } 
+        else { 
+            while (true)
             {
-                Rental rental = allRentHistory.get(count);
-                if (rental.getApplicationStatus() == Status::Pending)
+                cout << "[ALL RENTAL HISTORY PAGE]" << endl;
+                bool hasPending = false; // Flag to check if there are any pending requests
+                for (int count = 0; count < allRentHistory.getSize(); count++)
                 {
-                    hasPending = true; // Found a pending request
-                    cout << "-----------------------------------------\n";
-                    cout << "NO: " << count + 1 << "\n";
-                    cout << "Property ID : " << rental.getProperty().getAdsID() << "\n";
-                    cout << "Property Name : " << rental.getProperty().getPropName() << "\n";
-                    cout << "Tenant Email : " << rental.getTenantEmail() << "\n";
-                    cout << "Request Date : " << rental.getRequestDateTime() << "\n";
-                    cout << "Application Status : " << getStatusInString(rental.getApplicationStatus()) << "\n";
-                    cout << "-----------------------------------------\n";
+                    Rental rental = allRentHistory.get(count);
+                        cout << "-----------------------------------------\n";
+                        cout << "NO: " << count + 1 << "\n";
+                        cout << "Property ID : " << rental.getProperty().getAdsID() << "\n";
+                        cout << "Property Name : " << rental.getProperty().getPropName() << "\n";
+                        cout << "Tenant Email : " << rental.getTenantEmail() << "\n";
+                        cout << "Request Date : " << rental.getRequestDateTime() << "\n";
+                        cout << "Application Status : " << getStatusInString(rental.getApplicationStatus()) << "\n";
+                        cout << "-----------------------------------------\n";
                 }
-            }
-            if (!hasPending) // If no pending requests were found
-            {
-                cout << "No pending requests.\n";
+
+                cout << "Options: (A)pprove, (R)eject, (Q)uit\n>> ";
+                string userInput;
+                getline(cin >> ws, userInput);
                 cout << endl;
-                break; // Exit the loop and return from the function
-            }
-            cout << "Options: (A)pprove, (R)eject, (Q)uit\n>>";
-            string userInput;
-            getline(cin >> ws, userInput);
 
-            if (userInput == "A" || userInput == "a")
-            {
-                cout << "Enter the number of the rental to approve: ";
-                int rentalNumber;
-                cin >> rentalNumber;
-                cin.ignore(); // Clear newline character from input buffer
-
-                if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
+                if (userInput == "A" || userInput == "a")
                 {
-                    Rental &rentalToApprove = allRentHistory.get(rentalNumber - 1);
-                    rentalToApprove.setApplicationStatus(Status::Approved); // Set enum value
-                    cout << "Rental " << rentalNumber << " has been approved.\n";
-                    cout << endl;
+                    DataConversion dc;
+                    string rentalNumber_S; int rentalNumber;
+                    while(true)
+                    {
+                        cout << "Enter the number of the rental to approve: ";
+                        getline(cin >> ws, rentalNumber_S);
+                        cout << endl;
+
+                        if (dc.isInteger(rentalNumber_S))
+                        {
+                            rentalNumber = stoi(rentalNumber_S);
+                            break;
+                        }
+                        else
+                        {
+                            cout << "Invalid input. Please try again.\n";
+                        }
+                    }
+                    
+
+                    if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
+                    {
+                        Rental &rentalToApprove = allRentHistory.get(rentalNumber - 1);
+                        if(rentalToApprove.getApplicationStatus() != Status::Active && rentalToApprove.getApplicationStatus() != Status::Refunded)
+                        {
+                            rentalToApprove.setApplicationStatus(Status::Approved); // Set enum value
+                            cout << "Rental " << rentalNumber << " has been approved.\n";
+                            cout << endl;
+                        }
+                        else
+                        {
+                            cout << "Action aborded! The rental request has already been " << getStatusInString(rentalToApprove.getApplicationStatus()) << "." << endl;
+                            cout << endl;
+                        }
+                        
+                    }
+                    else
+                    {
+                        cout << "Invalid rental number. Please try again.\n";
+                    }
+                }
+                else if (userInput == "R" || userInput == "r")
+                {
+                    DataConversion dc;
+                    string rentalNumber_S; int rentalNumber;
+                    while(true)
+                    {
+                        cout << "Enter the number of the rental to reject: ";
+                        getline(cin >> ws, rentalNumber_S);
+                        cout << endl;
+
+                        if (dc.isInteger(rentalNumber_S))
+                        {
+                            rentalNumber = stoi(rentalNumber_S);
+                            break;
+                        }
+                        else
+                        {
+                            cout << "Invalid input. Please try again.\n";
+                        }
+                    }
+
+                    if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
+                    {
+                        Rental &rentalToReject = allRentHistory.get(rentalNumber - 1);
+                        rentalToReject.setApplicationStatus(Status::Rejected); // Set enum value
+                        cout << "Rental " << rentalNumber << " has been rejected.\n";
+                        cout << endl;
+                    }
+                    else
+                    {
+                        cout << "Invalid rental number. Please try again.\n";
+                    }
+                }
+                else if (userInput == "Q" || userInput == "q")
+                {
+                    break; // Exit the loop and return from the function
                 }
                 else
                 {
-                    cout << "Invalid rental number. Please try again.\n";
+                    cout << "Invalid input. Please try again.\n";
                 }
-            }
-            else if (userInput == "R" || userInput == "r")
-            {
-                cout << "Enter the number of the rental to reject: ";
-                int rentalNumber;
-                cin >> rentalNumber;
-                cin.ignore(); // Clear newline character from input buffer
-
-                if (rentalNumber > 0 && rentalNumber <= allRentHistory.getSize())
-                {
-                    Rental &rentalToReject = allRentHistory.get(rentalNumber - 1);
-                    rentalToReject.setApplicationStatus(Status::Rejected); // Set enum value
-                    cout << "Rental " << rentalNumber << " has been rejected.\n";
-                    cout << endl;
-                }
-                else
-                {
-                    cout << "Invalid rental number. Please try again.\n";
-                }
-            }
-            else if (userInput == "Q" || userInput == "q")
-            {
-                break; // Exit the loop and return from the function
-            }
-            else
-            {
-                cout << "Invalid input. Please try again.\n";
             }
         }
     }
@@ -254,7 +291,7 @@ public:
             for (int count = 0; count < allRentHistory.getSize(); count++)
             {
                 Rental rental = allRentHistory.get(count);
-                if (rental.getApplicationStatus() == Status::Approved || rental.getApplicationStatus() == Status::Pending)
+                if (rental.getApplicationStatus() == Status::Approved || rental.getApplicationStatus() == Status::Rejected)
                 {
                     paymentFound = true;
                     cout << "-----------------------------------------\n";
@@ -279,6 +316,7 @@ public:
             cout << "Options: (U)pdate, (Q)uit\n>> ";
             string userInput;
             getline(cin >> ws, userInput);
+            cout << endl;
 
             if (userInput == "U" || userInput == "u")
             {
@@ -289,6 +327,7 @@ public:
                 {
                     cout << "Enter the number of the rental to update: ";
                     getline(cin >> ws, rentalNumber_S);
+                    cout << endl;
 
                     if (dc.isInteger(rentalNumber_S))
                     {
@@ -306,7 +345,7 @@ public:
                     Rental &rentalToUpdate = allRentHistory.get(rentalNumber - 1);
                     if (rentalToUpdate.getApplicationStatus() == Status::Active || rentalToUpdate.getApplicationStatus() == Status::Refunded)
                     {
-                        cout << "No action required for rental " << rentalNumber << ".\n\n";
+                        cout << "Invalid input! please try again." << endl << endl;
                     }
                     else if (rentalToUpdate.getApplicationStatus() == Status::Approved)
                     {
@@ -315,7 +354,7 @@ public:
                         getline(cin >> ws, verifyChoice);
                         if (verifyChoice == "y" || verifyChoice == "Y")
                         {
-                            rentalToUpdate.setApplicationStatus(Status::Active); // Set enum value to Verified
+                            rentalToUpdate.setApplicationStatus(Status::Active); // Set enum value to Active
                             cout << "Rental " << rentalNumber << " has been verified.\n\n";
                         }
                     }

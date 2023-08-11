@@ -86,12 +86,9 @@ class ReadCSV {
       }
 
       file.close();
-      // return properties;
   }
 
   void printProperties(DynamicArray<Property> properties) {
-      // int count = 0;
-      // for (Property property : properties) {
       Property property;
       for (int i = 0; i < properties.getSize(); ++i) {
         cout << "Hello" << endl;
@@ -112,11 +109,6 @@ class ReadCSV {
         cout << "region: " << property.getRegion() << endl;
 
         cout << "-----------------------------------" << endl;
-        
-        // count++;
-        // if (count >= 5) {
-        //     break;
-        // }
       }
   }
 };

@@ -231,9 +231,9 @@ public:
         return true;
     }
 
+    // Check if the given email exists in the existing email list.
     bool isEmailExists(DynamicArray<string> &existingEmail, const string &email)
     {
-        // Admin admin;
         DataConversion dc;
         if (dc.toLowercase(email) == "admin@gmail.com")
         {
@@ -253,7 +253,6 @@ public:
 
     void addFavouriteProperty(DoublyCircularLinkedList<FavouriteProperty> &favouriteList, FavouriteProperty &favP)
     {
-        cout << favP.getTenantEmail() << endl;
         favouriteList.insertAtEnd(favP);
         cout << endl;
         cout << "[PROPERTY SAVED AS FAVOURITE SUCCESSFULLY]" << endl;

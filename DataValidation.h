@@ -5,11 +5,7 @@
  * FILENAME: DataValidation.h
 */
 
-// #include <string>
-// #include "DynamicArray.h"
-// #include <iostream>
 #include <regex>
-// #include "Admin.h"
 
 using namespace std;
 
@@ -92,14 +88,6 @@ public:
 
     bool isValidPassword(const std::string& password) {
         // Check the password against the criteria for validity
-
-        // Criteria:
-        // - Minimum length of 8 characters
-        // - Contains at least one uppercase letter
-        // - Contains at least one lowercase letter
-        // - Contains at least one digit
-        // - Contains at least one special character
-
         if (password.length() < 8) {
             return false;  // Password is too short
         }

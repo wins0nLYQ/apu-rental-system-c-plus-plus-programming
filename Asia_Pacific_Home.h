@@ -92,10 +92,10 @@ public:
         {
             signUpPage();
         }
-        else if (userInput == "X")
+        else if (userInput == "X" || userInput == "x")
         {
             cout << endl
-                 << "Exiting... Bye!" << endl;
+                 << "Thank you for choosing Asia Pacific Home Accomodation Rent System! Good Bye..." << endl << endl;
             exit(0);
         }
         else
@@ -495,10 +495,6 @@ public:
             {
                 admin_HomePage(admin);
             }
-            // cout << "Input any key to back >> ";
-            // string userInput;
-            // getline(cin >> ws, userInput);
-            // cout << endl;
             admin_HomePage(admin);
         }
     }
@@ -580,17 +576,10 @@ public:
             }
             else if (userInput == "2")
             {
-                /**
-                 * TODO: Call tenant favourite property list
-                 */
                 viewFavouriteProperty(tenant);
-                // validInput = true;
             }
             else if (userInput == "3")
             {
-                /**
-                 * TODO: Call tenant rent request function
-                 */
                 tenant_rentRequest(tenant);
             }
             else if (userInput == "4")
@@ -604,7 +593,6 @@ public:
             else if (userInput == "0")
             {
                 tenant.resetPassword(tenantList);
-                // validInput = true;
             }
             else
             {
@@ -619,9 +607,7 @@ public:
     void tenant_viewProperty(Tenant &tenant)
     {
         bool validInput = false;
-        /**
-         * TODO: Call the function that display all property list
-         */
+
         while (!validInput)
         {
             std::cout << "[VIEW PROPERTY PAGE]" << endl;
@@ -808,25 +794,6 @@ public:
 
         tenant_HomePage(tenant);
     }
-
-    // void unfavouriteProperty(Tenant &tenant, DoublyCircularLinkedList<Property> &selectedFavP) {
-    //     DataConversion dc;
-    //     cout << "Outside: " << tenant.getEmail() << endl;
-    //     for (int j = 0; j < favouriteList.getSize(); ++j) {
-    //         cout << "Middle: " << favouriteList.get(j).getTenantEmail() << endl;
-    //         if(dc.toLowercase(tenant.getEmail()) == dc.toLowercase(favouriteList.get(j).getTenantEmail())){
-    //             favouriteList.removeAtIndex(j);
-    //             --j;
-    //         }
-
-    //     }
-    //     cout << favouriteList.getSize() << endl;
-
-    //     for(int i = 0; i < selectedFavP.getSize(); ++i) {
-    //         FavouriteProperty favProp(selectedFavP.get(i), tenant.getEmail());
-    //         favouriteList.insertAtEnd(favProp);
-    //     }
-    // }
 
     void tenant_sortSelectionPage(Tenant &tenant)
     {
@@ -1090,9 +1057,6 @@ public:
 
             if (userInput == "1" || userInput == "2")
             {
-                /**
-                 * TODO: Call linear search function
-                 */
                 tenant_searchItemOptions(tenant, userInput);
                 validInput = true;
             }
@@ -1252,19 +1216,8 @@ public:
         }
     }
 
-    void tenant_favouriteList(Tenant &tenant)
-    {
-        bool validInput = false;
-        /**
-         * TODO: Display tenant favourite list
-         */
-    }
-
     void tenant_rentRequest(Tenant &tenant)
     {
-        /**
-         * TODO: Display tenant rent request list
-         */
         DataConversion dc;
         DoublyCircularLinkedList<Rental> tenantRequestRental;
         for (int i = 0; i < rentalHistory.getSize(); ++i)
@@ -1362,7 +1315,6 @@ public:
             else if (userInput == "2")
             {
                 DynamicArray<Property> allFavouriteList;
-                // manager.getAllFavouriteList(tenantList, allFavouriteList);
                 for (int i = 0; i < favouriteList.getSize(); ++i)
                 {
                     Property prop = favouriteList.get(i).getProperty();
@@ -1402,7 +1354,6 @@ public:
             else if (userInput == "0")
             {
                 manager.resetPassword(managerList);
-                // validInput = true;
             }
             else
             {

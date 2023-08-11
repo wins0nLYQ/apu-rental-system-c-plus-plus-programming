@@ -189,6 +189,7 @@ public:
         this->region = region;
     }
 
+    // get all unique Locations available in the Property List
     DynamicArray<string> getAvailableLocation(DynamicArray<Property> &properties)
     {
         DynamicArray<string> locationList;
@@ -216,6 +217,7 @@ public:
         return locationList;
     }
 
+    // get all unique Property Type available in the Property List
     DynamicArray<string> getAvailablePropertyType(DynamicArray<Property> &properties)
     {
         DynamicArray<string> propertyTypeList;
@@ -244,6 +246,7 @@ public:
         return propertyTypeList;
     }
 
+    // get all unique Furnished Type available in the Property List
     DynamicArray<string> getAvailableFurnishedType(DynamicArray<Property> &properties)
     {
         DynamicArray<string> furnishedTypeList;
@@ -273,6 +276,7 @@ public:
         return furnishedTypeList;
     }
 
+    // get all unique Region available in the Property List
     DynamicArray<string> getAvailableRegion(DynamicArray<Property> &properties)
     {
         DynamicArray<string> regionList;
@@ -297,7 +301,6 @@ public:
                 regionList.insertAtEnd(region);
             }
         }
-        // sort(regionList.begin(), regionList.end());
         DataConversion dc;
         dc.sort(regionList);
         return regionList;

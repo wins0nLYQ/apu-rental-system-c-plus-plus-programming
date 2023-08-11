@@ -11,16 +11,15 @@ using namespace std;
 
 class Admin : public User
 {
-private:
-
 public:
 
+    // Default constructor initializes an Admin user.
     Admin() : User("Admin", "admin@gmail.com", "Admin", "Admin", "Admin", "Admin@1234", "Admin", "Admin") {}
 
     void addManager(DynamicArray<Manager> &managerList, DynamicArray<string> &existingEmail)
     {
-        // Implementation for adding a manager
-
+        // Function to add a new manager account.
+        // User input for manager details and validation.
         DataValidation dv;
         string name, email, phoneNo, identificationNo, gender, dateOfBirth, status;
         cout << "[ADD NEW MANAGER ACCOUNT]" << endl;
@@ -120,6 +119,7 @@ public:
 
         cout << "User account created successfully!" << endl;
 
+        // Display the newly created manager's details.
         std::cout << "[MANAGER " << managerList.getSize() << "]\n";
         std::cout << "Name: " << newManager.getName() << std::endl;
         std::cout << "Email: " << newManager.getEmail() << std::endl;
@@ -139,6 +139,7 @@ public:
         cout << endl;
     }
 
+    // Check if the given email exists in the existing email list.
     bool isEmailExists(DynamicArray<string> &existingEmail, const std::string &email)
     {
         Admin admin;
@@ -161,7 +162,8 @@ public:
 
     bool updateManagerStatus(DynamicArray<Manager> &managerList)
     {
-        // Implementation for updating manager details
+        // Function to update the status of a manager account.
+        // Display existing manager accounts and prompt user for input.
         cout << "Existing Manager Account Status:" << endl;
         cout << endl;
         int size = managerList.getSize();
@@ -227,6 +229,7 @@ public:
         }
         if (userInput == "Y" || userInput == "y")
         {
+            // Update the manager's status and display updated list.
             Manager &manager = managerList.get(inputNum);
             string status = manager.getStatus();
             if (status == "Inactive")
@@ -254,11 +257,6 @@ public:
         {
             return false;
         }
-    }
-
-    void deleteManager()
-    {
-        // Implementation for deleting a manager
     }
 };
 

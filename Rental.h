@@ -92,7 +92,7 @@ class Rental {
     // Equality comparison operator
     bool operator==(const Rental& other) const {
         return this->property == other.getProperty() &&
-               this->tenantEmail == other.getTenantEmail();
+            this->tenantEmail == other.getTenantEmail();
     }
 };
 

@@ -14,11 +14,14 @@ class FilterTenant {
 private:
     User user;
     DynamicArray<Tenant> tenantList;
+
 public:
     FilterTenant() {}
+
     FilterTenant(User &user) {
         this->user = user;
     }
+
     bool filterTenants(DynamicArray<Tenant>& tenantList) {
         // Implementation for displaying all tenants
         DataValidation dv;
@@ -49,7 +52,6 @@ public:
             cout << endl;
 
             if(userInput == "-1") {
-                // APH->admin_HomePage();
                 return false;
 
             } else if (userInput == "1") {
@@ -193,21 +195,6 @@ public:
             displayFilteredTenantList(temp);
         }
     }
-
-    // void displayFilteredTenantList(DynamicArray<Tenant>& filteredList) {
-    //     cout << "[RESULT]" << endl;
-    //     for(int i=0; i<filteredList.getSize(); ++i) {
-    //         Tenant tenant = filteredList.get(i);
-    //         std::cout << "Name: " << tenant.getName() << std::endl;
-    //         std::cout << "Email: " << tenant.getEmail() << std::endl;
-    //         std::cout << "Phone Number: " << tenant.getPhoneNo() << std::endl;
-    //         std::cout << "Identification No: " << tenant.getIdentificationNo() << std::endl;
-    //         std::cout << "Gender: " << tenant.getGender() << std::endl;
-    //         std::cout << "Date of Birth: " << tenant.getDateOfBirth() << std::endl;
-    //         // std::cout << "Status: " << tenant.getActivityStatus() << std::endl;
-    //         std::cout << "---------------------------\n";
-    //     }
-    // }
 
     void displayFilteredTenantList(DynamicArray<Tenant>& filteredList) {
         int pageSize = 5;  // Number of items to display per page
@@ -379,13 +366,12 @@ public:
     }
 
     void removeTenant(DynamicArray<Tenant>& tenantList, int index) {
-    if (index >= 0 && index < tenantList.getSize()) {
-        tenantList.removeAt(index);
-    } else {
-        // Handle invalid index error
-        throw std::out_of_range("Invalid index");
+        if (index >= 0 && index < tenantList.getSize()) {
+            tenantList.removeAt(index);
+        } else {
+            throw std::out_of_range("Invalid index");
+        }
     }
-}
 
 };
 

@@ -54,7 +54,6 @@ public:
         }
         catch (const std::invalid_argument &)
         {
-            // Handle invalid string gracefully
             return 0;
         }
     }

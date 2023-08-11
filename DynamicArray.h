@@ -9,16 +9,18 @@ template <class T>
 class DynamicArray
 {
 private:
-    T *objectArray;
-    int size;
-    int capacity;
+    T *objectArray; // Pointer to the dynamic array
+    int size;       // Current number of elements in the array
+    int capacity;   // Current capacity of the array
 
 public:
+    // Constructor initializes the dynamic array with a default capacity
     DynamicArray() : size(0), capacity(5)
     {
         objectArray = new T[capacity];
     }
 
+    // Destructor releases memory occupied by the dynamic array
     ~DynamicArray()
     {
         delete[] objectArray;
@@ -69,15 +71,6 @@ public:
         }
     }
 
-    // bool isEmailExists(const std::string& email) {
-    //     for (int i = 0; i < size; ++i) {
-    //         if (objectArray[i].getEmail() == email) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
     int getSize() const
     {
         return size;
@@ -91,7 +84,6 @@ public:
         }
         else
         {
-            // Handle index out of bounds error
             throw std::out_of_range("Invalid index");
         }
     }
@@ -120,7 +112,6 @@ public:
         }
         else
         {
-            // Handle index out of bounds error
             throw std::out_of_range("Invalid index");
         }
     }
@@ -134,10 +125,6 @@ public:
     {
         removeAt(size - 1);
     }
-
-    // void replace(const T &object, int index) {
-    //     objectArray[index] = object;
-    // }
 
     int getIndex(const T &object) {
         for (int i = 0; i < size; ++i) {

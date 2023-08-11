@@ -356,6 +356,7 @@ class FilterProperty {
         return true;
     }
 
+    // get all Property Object that match the keyword (Property Name)
     void filterByName(DynamicArray<Property>& properties, const string& search) {
         DynamicArray<Property> temp;
 
@@ -368,6 +369,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that range between the given Monthly Rent
     void filterByMonthlyRent(DynamicArray<Property>& properties, const long long& minimum, const long long& maximum) {
         DynamicArray<Property> temp;
 
@@ -389,6 +391,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that match the selected Location
     void filterByLocations(DynamicArray<Property>& properties, string search) {
         DynamicArray<Property> temp;
 
@@ -401,6 +404,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that match the selected Property Type
     void filterByPropertyType(DynamicArray<Property>& properties, string search) {
         DynamicArray<Property> temp;
 
@@ -413,6 +417,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that match the selected Number of Rooms
     void filterByRooms(DynamicArray<Property>& properties, string search) {
         DynamicArray<Property> temp;
 
@@ -431,6 +436,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that match the selected Number of Parking
     void filterByParking(DynamicArray<Property>& properties, string search) {
         DynamicArray<Property> temp;
 
@@ -449,6 +455,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that match the selected Number of Bathroom
     void filterByBathroom(DynamicArray<Property>& properties, string search) {
         DynamicArray<Property> temp;
 
@@ -467,6 +474,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that range between the given Size
     void filterBySize(DynamicArray<Property>& properties, const long long& minimum, const long long& maximum) {
         DynamicArray<Property> temp;
 
@@ -488,6 +496,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that match the selected Furnished Type
     void filterByFurnishedType(DynamicArray<Property>& properties, string search) {
         DynamicArray<Property> temp;
 
@@ -500,6 +509,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // get all Property Object that match the selected Region
     void filterByRegion(DynamicArray<Property>& properties, string search) {
         DynamicArray<Property> temp;
 
@@ -512,6 +522,7 @@ class FilterProperty {
         } proceedMessage(properties, temp);
     }
 
+    // ask user whether to add more search and filter options
     void proceedMessage(DynamicArray<Property>& properties, DynamicArray<Property>& temp) {
         if(temp.getSize() == 0) {
             cout << "Sorry, no record found..." << endl;
@@ -674,6 +685,7 @@ class FilterProperty {
         }
     }
 
+    // validate whether selected property is already in tenant favourite list
     bool isFavPropExist(string &email, Property &property) {
           
         DataConversion dc;
@@ -703,10 +715,6 @@ class FilterProperty {
         std::cout << "Region: " << property.getRegion() << std::endl;
         std::cout << "---------------------------\n";
     }
-
-    // DoublyCircularLinkedList<Property> getProperty() {
-    //     return this->propertyList;
-    // }
 };
 
 #endif
