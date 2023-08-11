@@ -812,6 +812,11 @@ public:
             getline(cin >> ws, userInput);
             cout << endl;
 
+            if(userInput == "3") {
+                tenant_viewProperty(tenant);
+                break;
+            }
+
             tenant_sortItemOptions(tenant, userInput);
         }
     }
