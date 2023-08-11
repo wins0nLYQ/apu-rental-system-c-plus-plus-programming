@@ -100,7 +100,7 @@ public:
             {
                 long long rent1 = dataConversion.extractDigit(properties.get(j).getMonthlyRent());
                 long long rent2 = dataConversion.extractDigit(properties.get(j + 1).getMonthlyRent());
-                if (rent1 > rent2) // Change the comparison to '<'
+                if (rent1 > rent2)
                 {
                     std::swap(properties.get(j), properties.get(j + 1));
                 }
@@ -116,7 +116,7 @@ public:
         {
             for (int j = 0; j < length - i - 1; ++j)
             {
-                if (properties.get(j).getLocation() > properties.get(j + 1).getLocation()) // Change the comparison to '<'
+                if (properties.get(j).getLocation() > properties.get(j + 1).getLocation())
                 {
                     std::swap(properties.get(j), properties.get(j + 1));
                 }
@@ -135,7 +135,7 @@ public:
             {
                 long long size1 = dataConversion.extractDigit(properties.get(j).getSize());
                 long long size2 = dataConversion.extractDigit(properties.get(j + 1).getSize());
-                if (size1 > size2) // Change the comparison to '<'
+                if (size1 > size2)
                 {
                     std::swap(properties.get(j), properties.get(j + 1));
                 }
